@@ -413,3 +413,18 @@ body {
 .footer-secondary {
   color: var(--text-muted);
 }
+
+/* Fix for picture elements inside ratio containers */
+.ratio > picture {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.ratio > picture > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
