@@ -1,22 +1,26 @@
 {
   "name": "uphillskico",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Complete guide to uphill skiing policies at Colorado ski resorts",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "test": "echo \"Error: no test specified\" && exit 1",
     "fmt": "prettier --write \".\""
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "uphill skiing",
+    "skinning",
+    "Colorado",
+    "ski resorts",
+    "backcountry",
+    "ski touring"
+  ],
+  "author": "Uphill Ski Colorado",
   "license": "ISC",
-  "type": "commonjs",
+  "type": "module",
   "devDependencies": {
     "bootstrap": "^5.3.8",
-    "pdf-poppler": "^0.2.3",
     "prettier": "^3.8.1",
     "sharp": "^0.34.5",
     "svgo": "^4.0.0",

@@ -1,11 +1,17 @@
 import { defineConfig } from "vite";
+import { resolve } from "path";
 import purgecss from "vite-plugin-purgecss";
 import { ViteImageOptimizer } from "vite-plugin-image-optimizer";
 
 export default defineConfig({
   plugins: [
     purgecss({
-      content: ["./index.html", "./main.js"],
+      content: [
+        "./index.html",
+        "./trailmaps.html",
+        "./main.js",
+        "./src/**/*.js",
+      ],
       // Safelist Bootstrap classes that might be dynamically generated
       safelist: {
         standard: [
@@ -76,8 +82,12 @@ export default defineConfig({
     // Generate source maps for debugging
     sourcemap: false,
 
-    // Asset file naming with hash for cache busting
+    // Multi-page build configuration
     rollupOptions: {
+      input: {
+        main: resolve(__dirname, "index.html"),
+        trailmaps: resolve(__dirname, "trailmaps.html"),
+      },
       output: {
         assetFileNames: "assets/[name]-[hash][extname]",
         chunkFileNames: "assets/[name]-[hash].js",

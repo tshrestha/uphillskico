@@ -1,67 +1,23 @@
 import "bootstrap/dist/css/bootstrap.min.css";
+import "./src/styles/shared.css";
+import "./src/styles/index.css";
 import resorts from "./resorts.json";
+import {
+  initTheme,
+  toggleTheme,
+  setupThemeListener,
+  getRankBadge,
+  highlightMatch,
+  debounce,
+  createAutocomplete,
+} from "./src/utils.js";
 
-// Theme management
-function initTheme() {
-  const savedTheme = localStorage.getItem("theme");
-  const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-
-  if (savedTheme) {
-    document.documentElement.setAttribute("data-theme", savedTheme);
-  } else if (prefersDark) {
-    document.documentElement.setAttribute("data-theme", "dark");
-  }
-}
-
-function toggleTheme() {
-  const currentTheme = document.documentElement.getAttribute("data-theme");
-  const newTheme = currentTheme === "dark" ? "light" : "dark";
-
-  document.documentElement.setAttribute("data-theme", newTheme);
-  localStorage.setItem("theme", newTheme);
-
-  // Update theme-color meta tag for browsers
-  updateThemeColorMeta(newTheme);
-}
-
-function updateThemeColorMeta(theme) {
-  const lightColor = "#f8fafc";
-  const darkColor = "#0f172a";
-  const themeColorMetas = document.querySelectorAll('meta[name="theme-color"]');
-  themeColorMetas.forEach((meta) => {
-    meta.setAttribute("content", theme === "dark" ? darkColor : lightColor);
-  });
-}
-
-// Initialize theme on load
+// Initialize theme
 initTheme();
-
-// Listen for system theme changes
-window
-  .matchMedia("(prefers-color-scheme: dark)")
-  .addEventListener("change", (e) => {
-    if (!localStorage.getItem("theme")) {
-      const newTheme = e.matches ? "dark" : "light";
-      document.documentElement.setAttribute("data-theme", newTheme);
-      updateThemeColorMeta(newTheme);
-    }
-  });
+setupThemeListener();
 
 // Theme toggle button
 document.getElementById("themeToggle").addEventListener("click", toggleTheme);
-
-// Debounce utility for search input
-function debounce(func, wait) {
-  let timeout;
-  return function executedFunction(...args) {
-    const later = () => {
-      clearTimeout(timeout);
-      func(...args);
-    };
-    clearTimeout(timeout);
-    timeout = setTimeout(later, wait);
-  };
-}
 
 // Safe URL hostname extraction
 function getHostname(url) {
@@ -99,13 +55,6 @@ function getAccessBadge(hasAccess, forCard = false) {
       : `<span class="badge badge-access badge-no">No</span>`;
   }
   return `<span class="text-muted">-</span>`;
-}
-
-function getRankBadge(rank) {
-  if (!rank) return "";
-  const tier =
-    rank <= 5 ? "gold" : rank <= 10 ? "silver" : rank <= 15 ? "bronze" : "base";
-  return `<span class="rank-badge rank-${tier}" title="Uphill Policy Rank #${rank}">#${rank}</span>`;
 }
 
 function renderCards(filteredResorts) {
@@ -269,138 +218,27 @@ function filterResorts() {
 // Debounced search for better performance
 const debouncedFilter = debounce(filterResorts, 150);
 
-// Autocomplete functionality
+// Autocomplete setup
 const searchInput = document.getElementById("searchInput");
 const autocompleteList = document.getElementById("autocomplete-list");
-let activeIndex = -1;
 
-function highlightMatch(text, query) {
-  if (!query) return text;
-  const regex = new RegExp(
-    `(${query.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")})`,
-    "gi",
-  );
-  return text.replace(regex, "<mark>$1</mark>");
-}
-
-function showAutocomplete(query) {
-  if (!query || query.length < 1) {
-    hideAutocomplete();
-    return;
-  }
-
-  const matches = resorts
-    .filter((r) => r.name.toLowerCase().includes(query.toLowerCase()))
-    .slice(0, 8);
-
-  if (matches.length === 0) {
-    autocompleteList.innerHTML = `<li class="autocomplete-empty">No resorts found</li>`;
-    autocompleteList.classList.add("show");
-    searchInput.setAttribute("aria-expanded", "true");
-    return;
-  }
-
-  autocompleteList.innerHTML = matches
-    .map(
-      (resort, idx) => `
-      <li class="autocomplete-item" role="option" id="autocomplete-option-${idx}" data-index="${idx}" data-name="${resort.name}">
-        <span class="autocomplete-item-rank">#${resort.uphillPolicy?.rank || "-"}</span>
-        <span class="autocomplete-item-name">${highlightMatch(resort.name, query)}</span>
-        <span class="autocomplete-item-pass">${resort.pass}</span>
-      </li>
-    `,
-    )
-    .join("");
-
-  autocompleteList.classList.add("show");
-  searchInput.setAttribute("aria-expanded", "true");
-  activeIndex = -1;
-}
-
-function hideAutocomplete() {
-  autocompleteList.classList.remove("show");
-  searchInput.setAttribute("aria-expanded", "false");
-  searchInput.removeAttribute("aria-activedescendant");
-  activeIndex = -1;
-}
-
-function selectItem(name) {
-  searchInput.value = name;
-  hideAutocomplete();
-  filterResorts();
-}
-
-function updateActiveItem(newIndex) {
-  const items = autocompleteList.querySelectorAll(".autocomplete-item");
-  if (items.length === 0) return;
-
-  items.forEach((item) => item.classList.remove("active"));
-
-  if (newIndex >= 0 && newIndex < items.length) {
-    activeIndex = newIndex;
-    items[activeIndex].classList.add("active");
-    items[activeIndex].scrollIntoView({ block: "nearest" });
-    searchInput.setAttribute(
-      "aria-activedescendant",
-      `autocomplete-option-${newIndex}`,
-    );
-  } else {
-    activeIndex = -1;
-    searchInput.removeAttribute("aria-activedescendant");
-  }
-}
+const autocomplete = createAutocomplete(searchInput, autocompleteList, {
+  getData: (query) =>
+    resorts.filter((r) => r.name.toLowerCase().includes(query.toLowerCase())),
+  renderItem: (resort, idx) => `
+    <li class="autocomplete-item" role="option" id="autocomplete-option-${idx}" data-index="${idx}" data-name="${resort.name}">
+      <span class="autocomplete-item-rank">#${resort.uphillPolicy?.rank || "-"}</span>
+      <span class="autocomplete-item-name">${highlightMatch(resort.name, searchInput.value)}</span>
+      <span class="autocomplete-item-pass">${resort.pass}</span>
+    </li>
+  `,
+  onSelect: filterResorts,
+  emptyMessage: "No resorts found",
+});
 
 searchInput.addEventListener("input", (e) => {
-  showAutocomplete(e.target.value);
+  autocomplete.show(e.target.value);
   debouncedFilter();
-});
-
-searchInput.addEventListener("keydown", (e) => {
-  const items = autocompleteList.querySelectorAll(".autocomplete-item");
-
-  switch (e.key) {
-    case "ArrowDown":
-      e.preventDefault();
-      if (!autocompleteList.classList.contains("show")) {
-        showAutocomplete(searchInput.value);
-      } else {
-        updateActiveItem(activeIndex < items.length - 1 ? activeIndex + 1 : 0);
-      }
-      break;
-    case "ArrowUp":
-      e.preventDefault();
-      updateActiveItem(activeIndex > 0 ? activeIndex - 1 : items.length - 1);
-      break;
-    case "Enter":
-      if (activeIndex >= 0 && items[activeIndex]) {
-        e.preventDefault();
-        selectItem(items[activeIndex].dataset.name);
-      }
-      break;
-    case "Escape":
-      hideAutocomplete();
-      break;
-  }
-});
-
-searchInput.addEventListener("focus", () => {
-  if (searchInput.value) {
-    showAutocomplete(searchInput.value);
-  }
-});
-
-autocompleteList.addEventListener("click", (e) => {
-  const item = e.target.closest(".autocomplete-item");
-  if (item) {
-    selectItem(item.dataset.name);
-  }
-});
-
-// Close autocomplete when clicking outside
-document.addEventListener("click", (e) => {
-  if (!e.target.closest(".autocomplete-container")) {
-    hideAutocomplete();
-  }
 });
 
 document.getElementById("passFilter").addEventListener("change", filterResorts);
