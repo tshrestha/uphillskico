@@ -1,0 +1,415 @@
+/* ==========================================================================
+   Theme Variables - Uphill Ski Colorado
+   Only CSS custom properties for light/dark theme support
+   ========================================================================== */
+
+:root {
+  /* Light mode (default) */
+  --bg-primary: #f8fafc;
+  --bg-secondary: #ffffff;
+  --bg-input: #ffffff;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #64748b;
+  --border-color: #e2e8f0;
+  --card-shadow: 0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.04);
+  --card-hover-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+  --primary-color: #1d4ed8;
+  --primary-hover: #1e40af;
+  --success-bg: #dcfce7;
+  --success-text: #166534;
+  --warning-bg: #fef3c7;
+  --warning-text: #92400e;
+
+  --table-stripe: #f8fafc;
+  --table-hover: #f1f5f9;
+  --table-header-bg: #1e293b;
+  --sticky-shadow: inset -4px 0 4px -4px rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="dark"] {
+  /* Dark mode */
+  --bg-primary: #0f172a;
+  --bg-secondary: #1e293b;
+  --bg-input: #1e293b;
+  --text-primary: #f1f5f9;
+  --text-secondary: #cbd5e1;
+  --text-muted: #94a3b8;
+  --border-color: #334155;
+  --card-shadow: 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2);
+  --card-hover-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+  --primary-color: #93c5fd;
+  --primary-hover: #60a5fa;
+  --success-bg: #064e3b;
+  --success-text: #6ee7b7;
+  --warning-bg: #78350f;
+  --warning-text: #fcd34d;
+
+  --table-stripe: #1e293b;
+  --table-hover: #334155;
+  --table-header-bg: #1e293b;
+  --sticky-shadow: inset -4px 0 4px -4px rgba(0, 0, 0, 0.3);
+}
+
+/* Apply theme variables to Bootstrap */
+[data-theme="dark"] {
+  --bs-body-bg: var(--bg-primary);
+  --bs-body-color: var(--text-primary);
+  --bs-secondary-bg: var(--bg-secondary);
+  --bs-border-color: var(--border-color);
+}
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+[data-theme="dark"] body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+/* Dark mode overrides for Bootstrap components */
+[data-theme="dark"] .card {
+  --bs-card-bg: var(--bg-secondary);
+  --bs-card-border-color: var(--border-color);
+}
+
+[data-theme="dark"] .table {
+  --bs-table-bg: var(--bg-secondary);
+  --bs-table-color: var(--text-primary);
+  --bs-table-border-color: var(--border-color);
+  --bs-table-striped-bg: var(--bg-primary);
+  --bs-table-hover-bg: #343a40;
+}
+
+[data-theme="dark"] .form-control,
+[data-theme="dark"] .form-select {
+  background-color: var(--bg-secondary);
+  border-color: var(--border-color);
+  color: var(--text-primary);
+}
+
+[data-theme="dark"] .form-control:focus,
+[data-theme="dark"] .form-select:focus {
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
+}
+
+[data-theme="dark"] .form-control::placeholder {
+  color: var(--text-muted);
+  opacity: 1;
+}
+
+[data-theme="dark"] .btn-primary {
+  --bs-btn-bg: #2563eb;
+  --bs-btn-border-color: #2563eb;
+  --bs-btn-color: #ffffff;
+  --bs-btn-hover-bg: #1d4ed8;
+  --bs-btn-hover-border-color: #1d4ed8;
+  --bs-btn-hover-color: #ffffff;
+  --bs-btn-active-bg: #1e40af;
+  --bs-btn-active-border-color: #1e40af;
+  --bs-btn-active-color: #ffffff;
+}
+
+@media (prefers-color-scheme: dark) {
+  .btn-primary {
+    --bs-btn-bg: #2563eb;
+    --bs-btn-border-color: #2563eb;
+    --bs-btn-color: #ffffff;
+    --bs-btn-hover-bg: #1d4ed8;
+    --bs-btn-hover-border-color: #1d4ed8;
+    --bs-btn-hover-color: #ffffff;
+    --bs-btn-active-bg: #1e40af;
+    --bs-btn-active-border-color: #1e40af;
+    --bs-btn-active-color: #ffffff;
+  }
+}
+
+/* Ensure anchor elements with btn-primary have white text (not link color) */
+[data-theme="dark"] a.btn-primary,
+[data-theme="dark"] a.btn-primary:hover,
+[data-theme="dark"] a.btn-primary:focus {
+  color: #ffffff !important;
+}
+
+@media (prefers-color-scheme: dark) {
+  a.btn-primary,
+  a.btn-primary:hover,
+  a.btn-primary:focus {
+    color: #ffffff !important;
+  }
+}
+
+[data-theme="dark"] .btn-outline-primary {
+  --bs-btn-color: var(--primary-color);
+  --bs-btn-border-color: var(--primary-color);
+}
+
+[data-theme="dark"] .btn-outline-secondary {
+  --bs-btn-color: var(--text-muted);
+  --bs-btn-border-color: var(--border-color);
+}
+
+[data-theme="dark"] .dropdown-menu {
+  --bs-dropdown-bg: var(--bg-secondary);
+  --bs-dropdown-border-color: var(--border-color);
+  --bs-dropdown-link-color: var(--text-primary);
+  --bs-dropdown-link-hover-bg: var(--bg-primary);
+}
+
+[data-theme="dark"] .list-group-item {
+  background-color: var(--bg-secondary);
+  border-color: var(--border-color);
+  color: var(--text-primary);
+}
+
+[data-theme="dark"] .text-muted {
+  color: var(--text-muted) !important;
+}
+
+[data-theme="dark"] a {
+  color: var(--primary-color);
+}
+
+/* Theme toggle icon visibility */
+.theme-toggle .sun-icon {
+  display: none;
+}
+
+.theme-toggle .moon-icon {
+  display: block;
+}
+
+[data-theme="dark"] .theme-toggle .sun-icon {
+  display: block;
+}
+
+[data-theme="dark"] .theme-toggle .moon-icon {
+  display: none;
+}
+
+/* Rank Badges */
+.rank-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2rem;
+  height: 2rem;
+  padding: 0 0.375rem;
+  border-radius: 0.6rem;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.rank-gold {
+  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+  color: #78350f;
+  box-shadow: 0 2px 4px rgba(245, 158, 11, 0.3);
+}
+
+.rank-silver {
+  background: linear-gradient(135deg, #e2e8f0 0%, #94a3b8 100%);
+  color: #1e293b;
+  box-shadow: 0 2px 4px rgba(148, 163, 184, 0.3);
+}
+
+.rank-bronze {
+  background: linear-gradient(135deg, #fdba74 0%, #ea580c 100%);
+  color: #7c2d12;
+  box-shadow: 0 2px 4px rgba(234, 88, 12, 0.3);
+}
+
+.rank-base {
+  background: var(--bg-primary);
+  color: var(--text-muted);
+  border: 1px solid var(--border-color);
+}
+
+/* Autocomplete dropdown */
+.autocomplete-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 1050;
+  display: none;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.autocomplete-dropdown.show {
+  display: block;
+}
+
+/* Responsive card/table toggle */
+@media (min-width: 992px) {
+  .d-lg-none {
+    display: none !important;
+  }
+  .d-none.d-lg-block {
+    display: block !important;
+  }
+}
+
+.table {
+  color: var(--text-primary) !important;
+  --bs-table-bg: transparent !important;
+  --bs-table-color: var(--text-primary) !important;
+}
+
+.table thead {
+  background: var(--table-header-bg) !important;
+}
+
+.table thead th {
+  border: none !important;
+  font-weight: 600 !important;
+  font-size: 0.75rem !important;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.875rem 0.75rem !important;
+  background: var(--table-header-bg) !important;
+  white-space: nowrap;
+}
+
+.table tbody td {
+  border-color: var(--border-color) !important;
+  padding: 1rem 0.75rem !important;
+  vertical-align: middle;
+  color: var(--text-primary) !important;
+}
+
+.table tbody tr {
+  transition: background-color 0.15s ease;
+}
+
+.table-striped > tbody > tr:nth-of-type(odd) {
+  background-color: var(--table-stripe) !important;
+  --bs-table-striped-bg: var(--table-stripe) !important;
+}
+
+.table-striped > tbody > tr:nth-of-type(even) {
+  background-color: var(--bg-secondary) !important;
+}
+
+.table-hover > tbody > tr:hover {
+  background-color: var(--table-hover) !important;
+  --bs-table-hover-bg: var(--table-hover) !important;
+}
+
+/* Table text colors */
+.table .text-muted {
+  color: var(--text-muted) !important;
+}
+
+.table .small {
+  color: var(--text-secondary) !important;
+}
+
+.table .fw-semibold {
+  color: var(--text-primary) !important;
+}
+
+/* Table buttons */
+.table .btn-outline-primary {
+  color: var(--primary-color) !important;
+  border-color: var(--primary-color) !important;
+  background-color: transparent !important;
+}
+
+.table .btn-outline-primary:hover {
+  background-color: var(--primary-color) !important;
+  color: white !important;
+}
+
+.table .btn-outline-secondary {
+  color: var(--text-muted) !important;
+  border-color: var(--border-color) !important;
+  background-color: transparent !important;
+}
+
+.table .btn-outline-secondary:hover {
+  background-color: var(--text-muted) !important;
+  border-color: var(--text-muted) !important;
+  color: white !important;
+}
+
+/* Table badges */
+.table .badge {
+  font-weight: 600 !important;
+}
+
+.table .bg-success {
+  background-color: var(--success-bg) !important;
+  color: var(--success-text) !important;
+}
+
+.table .bg-warning {
+  background-color: var(--warning-bg) !important;
+  color: var(--warning-text) !important;
+}
+
+.table .bg-secondary {
+  background-color: var(--bg-input) !important;
+  color: var(--text-muted) !important;
+  border: 1px solid var(--border-color) !important;
+}
+
+/* Table links */
+.table a {
+  color: var(--primary-color) !important;
+}
+
+.table a:hover {
+  color: var(--primary-hover) !important;
+}
+
+.badge {
+  border-radius: var(--bs-border-radius-xl) !important;
+  font-size: 0.75rem;
+}
+
+.badge.bg-success {
+  background-color: var(--success-bg) !important;
+  color: var(--success-text) !important;
+  border: 1px solid;
+  border-color: var(--success-text) !important;
+}
+
+.badge.bg-warning {
+  background-color: var(--warning-bg) !important;
+  color: var(--warning-text) !important;
+  border-color: var(--warning-text) !important;
+  border: 1px solid;
+}
+
+.badge.bg-secondary {
+  background-color: var(--bg-input) !important;
+  color: var(--text-muted) !important;
+  border: 1px solid var(--border-color) !important;
+}
+
+/* Card labels */
+.card-label {
+  min-width: 80px;
+  font-size: 0.7rem;
+}
+
+/* Content container min-height to reduce CLS */
+#resortCards {
+  min-height: 800px;
+}
+
+@media (min-width: 992px) {
+  #resortCards {
+    min-height: 0;
+  }
+}
+
+/* Footer muted text - accessible contrast */
+.footer-secondary {
+  color: var(--text-muted);
+}

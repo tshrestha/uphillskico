@@ -2,13 +2,26 @@ import { defineConfig } from "vite";
 import { resolve } from "path";
 import purgecss from "vite-plugin-purgecss";
 import { ViteImageOptimizer } from "vite-plugin-image-optimizer";
+import { ViteMinifyPlugin } from "vite-plugin-minify";
 
 export default defineConfig({
   plugins: [
+    // HTML minification
+    ViteMinifyPlugin({
+      collapseWhitespace: true,
+      removeComments: true,
+      removeRedundantAttributes: true,
+      removeScriptTypeAttributes: true,
+      removeStyleLinkTypeAttributes: true,
+      useShortDoctype: true,
+      minifyCSS: true,
+      minifyJS: true,
+    }),
     purgecss({
       content: [
         "./index.html",
         "./trailmaps.html",
+        "./trailmaps/**/*.html",
         "./main.js",
         "./src/**/*.js",
       ],
@@ -24,7 +37,6 @@ export default defineConfig({
           "table-dark",
           "table-responsive",
           "align-middle",
-          "sticky-col",
           // Button classes used in JS
           "btn",
           "btn-sm",
@@ -38,6 +50,11 @@ export default defineConfig({
           "text-decoration-none",
           // Badge class
           "badge",
+          // Card label class
+          "card-label",
+          // Footer and content classes
+          "footer-secondary",
+          "#resortCards",
           // Image class
           "img-fluid",
         ],
@@ -79,6 +96,10 @@ export default defineConfig({
   ],
 
   build: {
+    // Minification settings
+    minify: "esbuild", // Use esbuild for fast JS/CSS minification
+    cssMinify: true, // Ensure CSS is minified
+
     // Generate source maps for debugging
     sourcemap: false,
 
@@ -87,6 +108,9 @@ export default defineConfig({
       input: {
         main: resolve(__dirname, "index.html"),
         trailmaps: resolve(__dirname, "trailmaps.html"),
+        aspen: resolve(__dirname, "trailmaps/aspen.html"),
+        monarch: resolve(__dirname, "trailmaps/monarch.html"),
+        cooper: resolve(__dirname, "trailmaps/cooper.html"),
       },
       output: {
         assetFileNames: "assets/[name]-[hash][extname]",

@@ -39,46 +39,61 @@
       }
     </style>
 
-    <title>Trail Maps | Uphill Ski Colorado</title>
+    <title>Aspen Snowmass Trail Maps | Uphill Ski Colorado</title>
     <meta
       name="description"
-      content="Browse 30 trail maps for 24 Colorado ski resorts with uphill access. View maps for Winter Park, Aspen, Vail, Breckenridge, Copper Mountain, and more."
+      content="Trail maps for all four Aspen Snowmass mountains: Aspen Mountain, Aspen Highlands, Buttermilk, and Snowmass. View uphill skiing routes and terrain."
     />
     <meta
       name="keywords"
-      content="trail maps Colorado, ski resort maps, uphill skiing routes, Winter Park trail map, Aspen trail map, Vail trail map, Colorado ski maps"
+      content="Aspen trail map, Snowmass trail map, Aspen Highlands map, Buttermilk trail map, Aspen Mountain map, uphill skiing Aspen"
     />
     <meta name="author" content="Uphill Ski Colorado" />
     <meta name="robots" content="index, follow" />
     <meta name="referrer" content="strict-origin-when-cross-origin" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="canonical" href="https://uphillskico.com/trailmaps.html" />
+    <link rel="canonical" href="https://uphillskico.com/trailmaps/aspen.html" />
     <link rel="manifest" href="/site.webmanifest" />
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://uphillskico.com/trailmaps.html" />
-    <meta property="og:title" content="Trail Maps | Uphill Ski Colorado" />
+    <meta
+      property="og:url"
+      content="https://uphillskico.com/trailmaps/aspen.html"
+    />
+    <meta
+      property="og:title"
+      content="Aspen Snowmass Trail Maps | Uphill Ski Colorado"
+    />
     <meta
       property="og:description"
-      content="Browse 30 trail maps for 24 Colorado ski resorts with uphill access policies."
+      content="Trail maps for all four Aspen Snowmass mountains with uphill access policies."
     />
     <meta property="og:locale" content="en_US" />
     <meta property="og:site_name" content="Uphill Ski Colorado" />
     <meta property="og:image" content="https://uphillskico.com/og-image.png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="Trail Maps - Uphill Ski Colorado" />
+    <meta
+      property="og:image:alt"
+      content="Aspen Snowmass Trail Maps - Uphill Ski Colorado"
+    />
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Trail Maps | Uphill Ski Colorado" />
+    <meta
+      name="twitter:title"
+      content="Aspen Snowmass Trail Maps | Uphill Ski Colorado"
+    />
     <meta
       name="twitter:description"
-      content="Browse 30 trail maps for 24 Colorado ski resorts with uphill access policies."
+      content="Trail maps for all four Aspen Snowmass mountains with uphill access policies."
     />
     <meta name="twitter:image" content="https://uphillskico.com/og-image.png" />
-    <meta name="twitter:image:alt" content="Trail Maps - Uphill Ski Colorado" />
+    <meta
+      name="twitter:image:alt"
+      content="Aspen Snowmass Trail Maps - Uphill Ski Colorado"
+    />
 
     <!-- Theme colors and PWA -->
     <meta
@@ -91,11 +106,11 @@
       content="#0f172a"
       media="(prefers-color-scheme: dark)"
     />
-    <meta name="apple-mobile-web-app-title" content="Trail Maps" />
+    <meta name="apple-mobile-web-app-title" content="Aspen Maps" />
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   </head>
-  <body>
+  <body data-resort="aspen">
     <a
       href="#main-content"
       class="visually-hidden-focusable position-absolute top-0 start-0 p-2 bg-primary text-white"
@@ -104,7 +119,7 @@
     <header class="py-4 mb-3">
       <div class="container">
         <a
-          href="/"
+          href="/trailmaps.html"
           class="d-inline-flex align-items-center gap-1 text-decoration-none mb-3"
         >
           <svg
@@ -119,17 +134,15 @@
               d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5z"
             />
           </svg>
-          Back to Uphill Policies
+          All Trail Maps
         </a>
         <div class="d-flex align-items-center justify-content-between">
           <div>
-            <h1 class="display-1 mb-1">Trail Maps</h1>
-            <p class="text-secondary mb-0">
-              Browse trail maps for Colorado ski resorts
-            </p>
+            <h1 class="display-5 fw-bold mb-1">Aspen Snowmass</h1>
+            <p class="text-secondary mb-0">Trail maps for all four mountains</p>
           </div>
           <button
-            class="btn btn-outline-secondary theme-toggle rounded-pill"
+            class="btn btn-outline-secondary theme-toggle"
             id="themeToggle"
             aria-label="Toggle dark mode"
             title="Switch between light and dark mode"
@@ -166,27 +179,6 @@
     </header>
 
     <main id="main-content" class="container">
-      <div class="mb-4">
-        <div class="position-relative">
-          <input
-            type="search"
-            id="searchInput"
-            class="form-control form-control-lg rounded-pill"
-            placeholder="Search trail maps..."
-            autocomplete="off"
-            role="combobox"
-            aria-expanded="false"
-            aria-controls="autocomplete-list"
-            aria-autocomplete="list"
-          />
-          <ul
-            id="autocomplete-list"
-            class="list-group autocomplete-dropdown shadow"
-            role="listbox"
-            aria-label="Trail map suggestions"
-          ></ul>
-        </div>
-      </div>
       <p class="text-muted small mb-3" id="resultsCount"></p>
       <div
         class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-3"
@@ -206,12 +198,12 @@
     <footer class="py-4 mt-5 border-top">
       <div class="container">
         <p class="text-muted text-center small mb-0">
-          Trail maps are property of their respective ski resorts. Always verify
-          current trail conditions before your uphill adventure.
+          Trail maps are property of Aspen Snowmass. Always verify current trail
+          conditions before your uphill adventure.
         </p>
       </div>
     </footer>
 
-    <script type="module" src="/src/trailmaps.js"></script>
+    <script type="module" src="/src/resort-trailmaps.js"></script>
   </body>
 </html>

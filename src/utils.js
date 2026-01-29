@@ -1,5 +1,8 @@
 // Shared utilities for Uphill Ski Colorado
 
+// Re-export getRankBadge from shared.js for backwards compatibility
+export { getRankBadge } from "./shared.js";
+
 // Theme management
 export function initTheme() {
   const savedTheme = localStorage.getItem("theme");
@@ -41,14 +44,6 @@ export function setupThemeListener() {
         updateThemeColorMeta(newTheme);
       }
     });
-}
-
-// Rank badge generator
-export function getRankBadge(rank) {
-  if (!rank) return "";
-  const tier =
-    rank <= 5 ? "gold" : rank <= 10 ? "silver" : rank <= 15 ? "bronze" : "base";
-  return `<span class="rank-badge rank-${tier}" title="Uphill Policy Rank #${rank}">#${rank}</span>`;
 }
 
 // Text highlighting for search matches
@@ -93,7 +88,7 @@ export function createAutocomplete(searchInput, autocompleteList, options) {
     const matches = getData(query).slice(0, 8);
 
     if (matches.length === 0) {
-      autocompleteList.innerHTML = `<li class="autocomplete-empty">${emptyMessage}</li>`;
+      autocompleteList.innerHTML = `<li class="list-group-item text-center text-muted py-3">${emptyMessage}</li>`;
       autocompleteList.classList.add("show");
       searchInput.setAttribute("aria-expanded", "true");
       return;
@@ -119,7 +114,7 @@ export function createAutocomplete(searchInput, autocompleteList, options) {
   }
 
   function updateActive(newIndex) {
-    const items = autocompleteList.querySelectorAll(".autocomplete-item");
+    const items = autocompleteList.querySelectorAll(".list-group-item-action");
     if (items.length === 0) return;
 
     items.forEach((item) => item.classList.remove("active"));
@@ -140,7 +135,7 @@ export function createAutocomplete(searchInput, autocompleteList, options) {
 
   // Event listeners
   searchInput.addEventListener("keydown", (e) => {
-    const items = autocompleteList.querySelectorAll(".autocomplete-item");
+    const items = autocompleteList.querySelectorAll(".list-group-item-action");
 
     switch (e.key) {
       case "ArrowDown":
@@ -174,14 +169,17 @@ export function createAutocomplete(searchInput, autocompleteList, options) {
   });
 
   autocompleteList.addEventListener("click", (e) => {
-    const item = e.target.closest(".autocomplete-item");
+    const item = e.target.closest(".list-group-item-action");
     if (item) {
       select(item.dataset.name);
     }
   });
 
+  // Click outside to close - check if click is on input or dropdown
   document.addEventListener("click", (e) => {
-    if (!e.target.closest(".autocomplete-container")) {
+    const isInsideInput = searchInput.contains(e.target);
+    const isInsideDropdown = autocompleteList.contains(e.target);
+    if (!isInsideInput && !isInsideDropdown) {
       hide();
     }
   });

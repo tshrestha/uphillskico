@@ -5,10 +5,8 @@ import {
   toggleTheme,
   setupThemeListener,
   getRankBadge,
-  highlightMatch,
-  createAutocomplete,
 } from "./utils.js";
-import { trailMaps } from "./trailmaps-data.js";
+import { getMapsByResort } from "./trailmaps-data.js";
 
 // Initialize theme
 initTheme();
@@ -17,10 +15,12 @@ setupThemeListener();
 // Theme toggle button
 document.getElementById("themeToggle").addEventListener("click", toggleTheme);
 
+// Get resort ID from data attribute
+const resortId = document.body.dataset.resort;
+const resortMaps = getMapsByResort(resortId);
+
 // DOM elements
 const grid = document.getElementById("trailMapsGrid");
-const searchInput = document.getElementById("searchInput");
-const autocompleteList = document.getElementById("autocomplete-list");
 const resultsCount = document.getElementById("resultsCount");
 
 // Generate image HTML with picture element for AVIF fallback support
@@ -30,7 +30,6 @@ function getImageHtml(map) {
 
   // For AVIF images, use picture element with WebP fallback (when available)
   if (map.type === "avif") {
-    // Fallback to same file if no WebP version exists (browser will handle gracefully)
     const fallbackPath = map.fallback ? `/trailmaps/${map.fallback}` : imgPath;
     return `
       <picture>
@@ -39,7 +38,6 @@ function getImageHtml(map) {
       </picture>`;
   }
 
-  // For WebP and other formats, use simple img tag
   return `<img src="${imgPath}" alt="${alt}" loading="lazy" decoding="async" class="card-img-top object-fit-cover rounded-top-4">`;
 }
 
@@ -66,41 +64,8 @@ function renderTrailMaps(maps) {
     )
     .join("");
 
-  resultsCount.textContent =
-    maps.length === trailMaps.length
-      ? `${maps.length} trail maps`
-      : `${maps.length} of ${trailMaps.length} trail maps`;
+  resultsCount.textContent = `${maps.length} trail map${maps.length !== 1 ? "s" : ""}`;
 }
-
-// Filter trail maps
-function filterTrailMaps() {
-  const query = searchInput.value.toLowerCase();
-  const filtered = trailMaps.filter((map) =>
-    map.name.toLowerCase().includes(query),
-  );
-  renderTrailMaps(filtered);
-}
-
-// Setup autocomplete
-const autocomplete = createAutocomplete(searchInput, autocompleteList, {
-  getData: (query) =>
-    trailMaps.filter((m) => m.name.toLowerCase().includes(query.toLowerCase())),
-  renderItem: (map, idx) => `
-    <li class="list-group-item list-group-item-action d-flex align-items-center gap-2 py-2" role="option" id="autocomplete-option-${idx}" data-index="${idx}" data-name="${map.name}">
-      <span class="badge bg-secondary">${map.rank ? `#${map.rank}` : "-"}</span>
-      <span class="flex-grow-1">${highlightMatch(map.name, searchInput.value)}</span>
-      <span class="small text-muted text-uppercase">${map.type}</span>
-    </li>
-  `,
-  onSelect: filterTrailMaps,
-  emptyMessage: "No trail maps found",
-});
-
-// Input event listener
-searchInput.addEventListener("input", (e) => {
-  autocomplete.show(e.target.value);
-  filterTrailMaps();
-});
 
 // Initial render
-renderTrailMaps(trailMaps);
+renderTrailMaps(resortMaps);

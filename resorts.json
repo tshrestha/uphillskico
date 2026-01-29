@@ -32,7 +32,7 @@
     "uphillPolicy": {
       "rank": 3,
       "link": "https://www.aspensnowmass.com/policies/uphill-policy",
-      "trailMap": "/trailmaps/AspenSnowmass.webp",
+      "trailMap": "/trailmaps/aspen.html",
       "operationalHoursAccess": true,
       "schedule": "5am-10:30pm daily on all four mountains. Aspen Mtn: summit by 9am. Highlands: Merry-Go-Round by 8:30am",
       "cost": "$74/season (Nov 1 - Apr 30). Free for Premier passholders. $10 goes to Mountain Rescue Aspen"
@@ -58,7 +58,7 @@
     "uphillPolicy": {
       "rank": 5,
       "link": "https://www.skicooper.com/snowsports-safety/",
-      "trailMap": "/trailmaps/Cooper-1.webp",
+      "trailMap": "/trailmaps/cooper.html",
       "note": "Uphill policy included on snowsports safety page",
       "operationalHoursAccess": true,
       "schedule": "4pm-8am: Free. 8am-4pm: Requires day/season pass. Must be off mountain by 8:45am",
@@ -72,7 +72,7 @@
     "uphillPolicy": {
       "rank": 6,
       "link": "https://skimonarch.com/uphill-travel/",
-      "trailMap": "/trailmaps/MonarchFrontside.webp",
+      "trailMap": "/trailmaps/monarch.html",
       "operationalHoursAccess": true,
       "schedule": "6am-9am (Little Mo only), 9am-4pm (5 routes), 4pm-10pm (additional trails). Closed 10pm-6am",
       "cost": "$79/season. Free for Monarch season passholders"

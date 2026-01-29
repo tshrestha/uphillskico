@@ -5,3 +5,10 @@
 dist
 node_modules
 .env
+
+# Development artifacts
+lighthouse-report.json
+*.log
+
+# Unused TypeScript definitions
+resort.d.ts

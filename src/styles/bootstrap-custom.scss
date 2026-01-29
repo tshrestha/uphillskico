@@ -1,0 +1,122 @@
+// Custom Bootstrap build - only imports needed components
+// This significantly reduces CSS bundle size
+
+// 1. Include functions first (required)
+@import "bootstrap/scss/functions";
+
+// 2. Include custom variable overrides (before Bootstrap variables)
+// Disable features we don't use
+$enable-dark-mode: false;
+$enable-cssgrid: false;
+$enable-negative-margins: false;
+$enable-rfs: false; // Responsive font sizing not needed
+
+// Remove unused breakpoints (only using sm, md, lg)
+$grid-breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+);
+
+// Container max-widths (only for used breakpoints)
+$container-max-widths: (
+  sm: 540px,
+  md: 720px,
+  lg: 960px,
+);
+
+// 3. Include Bootstrap's required variables and mixins
+@import "bootstrap/scss/variables";
+@import "bootstrap/scss/maps";
+@import "bootstrap/scss/mixins";
+@import "bootstrap/scss/utilities";
+
+// 4. Customize utilities - remove unused ones AFTER importing utilities
+$utilities: map-merge(
+  $utilities,
+  (
+    // Remove utilities we don't use
+    "opacity": null,
+    "overflow": null,
+    "float": null,
+    "font-family": null,
+    "font-style": null,
+    "line-height": null,
+    "word-wrap": null,
+    "white-space": null,
+    "visibility": null,
+    "z-index": null,
+    "user-select": null,
+    "pointer-events": null,
+    "link-opacity": null,
+    "link-offset": null,
+    "link-underline": null,
+    "link-underline-opacity": null,
+    "border": null,
+    "border-end": null,
+    "border-bottom": null,
+    "border-start": null,
+    "border-color": null,
+    "subtle-border-color": null,
+    "border-width": null,
+    "border-opacity": null,
+    "focus-ring": null,
+    // Additional unused utilities
+    "order": null,
+    "flex-direction": null,
+    "flex-wrap": null,
+    "align-content": null,
+    "align-self": null,
+    "viewport-width": null,
+    "viewport-height": null,
+    "min-viewport-width": null,
+    "min-viewport-height": null,
+    "min-width": null,
+    "max-width": null,
+    "min-height": null,
+    "max-height": null,
+    "text-wrap": null,
+    "gradient": null,
+    "translate-middle": null,
+    "negative-margin": null,
+    "negative-margin-x": null,
+    "negative-margin-y": null,
+    "negative-margin-top": null,
+    "negative-margin-end": null,
+    "negative-margin-bottom": null,
+    "negative-margin-start": null,
+  )
+);
+
+// 5. Include root CSS variables (minimal)
+@import "bootstrap/scss/root";
+
+// 6. Include reboot (base styles)
+@import "bootstrap/scss/reboot";
+
+// 7. Include only the components we use
+@import "bootstrap/scss/type";           // Typography (display-*, h*, small, etc.)
+@import "bootstrap/scss/containers";     // .container
+@import "bootstrap/scss/grid";           // .row, .col-*, .g-*
+@import "bootstrap/scss/tables";         // .table, .table-striped, .table-hover
+// Forms - only import modules we use (instead of full forms module)
+@import "bootstrap/scss/forms/labels";
+@import "bootstrap/scss/forms/form-control";
+@import "bootstrap/scss/forms/form-select";
+@import "bootstrap/scss/buttons";        // .btn, .btn-*
+@import "bootstrap/scss/card";           // .card, .card-body, .card-title
+@import "bootstrap/scss/badge";          // .badge, .bg-*
+@import "bootstrap/scss/list-group";     // .list-group, .list-group-item
+
+// 8. Helpers (only what we need)
+@import "bootstrap/scss/helpers/visually-hidden";
+@import "bootstrap/scss/helpers/ratio";
+
+// 9. Utilities API (generates utility classes)
+@import "bootstrap/scss/utilities/api";
+
+// Components NOT included (not used in this project):
+// accordion, alert, breadcrumb, button-group, carousel, close,
+// dropdown, modal, nav, navbar, offcanvas, pagination, placeholders,
+// popover, progress, scrollspy, spinners, toasts, tooltip, transitions
