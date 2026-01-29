@@ -75,15 +75,14 @@ function getHostname(url) {
 function getPassBadge(pass, forCard = false) {
   const height = forCard ? 20 : 24;
   // Image intrinsic: Epic 160x39, Ikon 160x71
-  // Calculate width to maintain aspect ratio
   const epicWidth = Math.round((height * 160) / 39);
   const ikonWidth = Math.round((height * 160) / 71);
 
   switch (pass) {
     case "Epic":
-      return `<img src="/images/epic-logo.jpg" alt="Epic Pass" width="${epicWidth}" height="${height}" class="img-fluid" style="max-height: ${height}px;" decoding="async">`;
+      return `<img src="/images/epic-logo.webp" alt="Epic Pass" width="${epicWidth}" height="${height}" class="img-fluid" style="max-height: ${height}px;" decoding="async">`;
     case "Ikon":
-      return `<img src="/images/ikon-logo.png" alt="Ikon Pass" width="${ikonWidth}" height="${height}" class="img-fluid" style="max-height: ${height}px;" decoding="async">`;
+      return `<img src="/images/ikon-logo.webp" alt="Ikon Pass" width="${ikonWidth}" height="${height}" class="img-fluid" style="max-height: ${height}px;" decoding="async">`;
     default:
       return `<span class="badge badge-indie">${forCard ? "Indie" : "Independent"}</span>`;
   }
@@ -304,7 +303,7 @@ function showAutocomplete(query) {
   autocompleteList.innerHTML = matches
     .map(
       (resort, idx) => `
-      <li class="autocomplete-item" role="option" data-index="${idx}" data-name="${resort.name}">
+      <li class="autocomplete-item" role="option" id="autocomplete-option-${idx}" data-index="${idx}" data-name="${resort.name}">
         <span class="autocomplete-item-rank">#${resort.uphillPolicy?.rank || "-"}</span>
         <span class="autocomplete-item-name">${highlightMatch(resort.name, query)}</span>
         <span class="autocomplete-item-pass">${resort.pass}</span>
@@ -321,6 +320,7 @@ function showAutocomplete(query) {
 function hideAutocomplete() {
   autocompleteList.classList.remove("show");
   searchInput.setAttribute("aria-expanded", "false");
+  searchInput.removeAttribute("aria-activedescendant");
   activeIndex = -1;
 }
 
@@ -340,8 +340,13 @@ function updateActiveItem(newIndex) {
     activeIndex = newIndex;
     items[activeIndex].classList.add("active");
     items[activeIndex].scrollIntoView({ block: "nearest" });
+    searchInput.setAttribute(
+      "aria-activedescendant",
+      `autocomplete-option-${newIndex}`,
+    );
   } else {
     activeIndex = -1;
+    searchInput.removeAttribute("aria-activedescendant");
   }
 }
 

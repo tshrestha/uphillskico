@@ -2,10 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
-    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- Primary Meta Tags -->
     <title>
       Colorado Ski Resorts Uphill Policy Guide 2025-2026 | Uphill/Skinning
@@ -86,13 +83,13 @@
       }
     </script>
 
-    <!-- Structured Data - ItemList for Resorts -->
+    <!-- Structured Data - ItemList for Top Resorts by Uphill Policy -->
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
         "@type": "ItemList",
-        "name": "Colorado Ski Resorts with Uphill Access",
-        "description": "List of Colorado ski resorts and their uphill skiing policies",
+        "name": "Top Colorado Ski Resorts for Uphill Access",
+        "description": "Colorado ski resorts ranked by uphill skiing policy quality",
         "numberOfItems": 24,
         "itemListElement": [
           {
@@ -100,18 +97,32 @@
             "position": 1,
             "item": {
               "@type": "SkiResort",
-              "name": "Vail",
+              "name": "Winter Park",
               "address": {
                 "@type": "PostalAddress",
                 "addressRegion": "CO",
                 "addressCountry": "US"
               },
-              "url": "https://www.vail.com"
+              "url": "https://www.winterparkresort.com"
             }
           },
           {
             "@type": "ListItem",
             "position": 2,
+            "item": {
+              "@type": "SkiResort",
+              "name": "Howelsen Hill",
+              "address": {
+                "@type": "PostalAddress",
+                "addressRegion": "CO",
+                "addressCountry": "US"
+              },
+              "url": "https://www.steamboatsprings.net/131/Howelsen-Hill-Ski-Area"
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
             "item": {
               "@type": "SkiResort",
               "name": "Aspen Snowmass",
@@ -121,20 +132,6 @@
                 "addressCountry": "US"
               },
               "url": "https://www.aspensnowmass.com"
-            }
-          },
-          {
-            "@type": "ListItem",
-            "position": 3,
-            "item": {
-              "@type": "SkiResort",
-              "name": "Breckenridge",
-              "address": {
-                "@type": "PostalAddress",
-                "addressRegion": "CO",
-                "addressCountry": "US"
-              },
-              "url": "https://www.breckenridge.com"
             }
           }
         ]
@@ -178,15 +175,15 @@
     <!-- Preload critical assets -->
     <link
       rel="preload"
-      href="/images/epic-logo.jpg"
+      href="/images/epic-logo.webp"
       as="image"
-      type="image/jpeg"
+      type="image/webp"
     />
     <link
       rel="preload"
-      href="/images/ikon-logo.png"
+      href="/images/ikon-logo.webp"
       as="image"
-      type="image/png"
+      type="image/webp"
     />
 
     <!-- Favicon -->
@@ -345,7 +342,6 @@
         background: var(--bg-secondary);
         border-radius: 0.75rem;
         padding: 1rem;
-        margin-bottom: 1.5rem;
         box-shadow: var(--card-shadow);
         border: 1px solid var(--border-color);
       }
@@ -627,6 +623,39 @@
       .btn-map:hover {
         background-color: var(--primary-color);
         color: white;
+      }
+
+      /* Explore link */
+      .explore-container {
+        text-align: center;
+        margin-top: 1rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .btn-explore {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.625rem 1.25rem;
+        font-size: 0.875rem;
+        font-weight: 600;
+        border-radius: 0.5rem;
+        text-decoration: none;
+        background-color: transparent;
+        color: var(--primary-color);
+        border: 1px solid var(--border-color);
+        transition: all 0.15s ease;
+      }
+
+      .btn-explore:hover {
+        border-color: var(--primary-color);
+        background-color: var(--bg-secondary);
+      }
+
+      .btn-explore svg {
+        width: 18px;
+        height: 18px;
+        fill: currentColor;
       }
 
       .badge-access {
@@ -1070,7 +1099,7 @@
       </div>
     </header>
 
-    <main class="container" role="main" id="main-content">
+    <main id="main-content" class="container">
       <!-- Search and Filter Section -->
       <section aria-label="Filter resorts">
         <h2 class="visually-hidden">Search and Filter Options</h2>
@@ -1132,6 +1161,21 @@
             role="status"
             aria-live="polite"
           ></div>
+        </div>
+        <div class="explore-container">
+          <a href="/trailmaps.html" class="btn-explore">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path
+                d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l5.447 2.724A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"
+                stroke="currentColor"
+                stroke-width="1.5"
+                fill="none"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+            Explore Trail Maps
+          </a>
         </div>
       </section>
 
