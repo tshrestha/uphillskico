@@ -3,7 +3,8 @@ export interface Resort {
   pass: "Ikon" | "Epic" | "independent";
   website: string;
   uphillPolicy?: {
-    link?: string;
+    rank?: number;
+    link?: string | null;
     trailMap?: string;
     note?: string;
     operationalHoursAccess?: boolean;

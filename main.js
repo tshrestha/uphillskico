@@ -102,6 +102,13 @@ function getAccessBadge(hasAccess, forCard = false) {
   return `<span class="text-muted">-</span>`;
 }
 
+function getRankBadge(rank) {
+  if (!rank) return "";
+  const tier =
+    rank <= 5 ? "gold" : rank <= 10 ? "silver" : rank <= 15 ? "bronze" : "base";
+  return `<span class="rank-badge rank-${tier}" title="Uphill Policy Rank #${rank}">#${rank}</span>`;
+}
+
 function renderCards(filteredResorts) {
   const container = document.getElementById("resortCards");
 
@@ -110,11 +117,14 @@ function renderCards(filteredResorts) {
       (resort) => `
       <article class="resort-card" role="listitem" aria-label="${resort.name} uphill policy">
         <header class="resort-card-header">
-          <div>
-            <h3 class="resort-name">${resort.name}</h3>
-            <a href="${resort.website}" target="_blank" rel="noopener noreferrer" class="resort-website" aria-label="Visit ${resort.name} website">
-              ${getHostname(resort.website)}
-            </a>
+          <div class="resort-title-row">
+            ${getRankBadge(resort.uphillPolicy?.rank)}
+            <div>
+              <h3 class="resort-name">${resort.name}</h3>
+              <a href="${resort.website}" target="_blank" rel="noopener noreferrer" class="resort-website" aria-label="Visit ${resort.name} website">
+                ${getHostname(resort.website)}
+              </a>
+            </div>
           </div>
           <div class="pass-badge">
             ${getPassBadge(resort.pass, true)}
@@ -169,6 +179,9 @@ function renderTable(filteredResorts) {
     .map(
       (resort) => `
       <tr>
+        <td class="text-center">
+          ${getRankBadge(resort.uphillPolicy?.rank)}
+        </td>
         <td class="sticky-col">
           <div class="fw-semibold">${resort.name}</div>
           <a href="${resort.website}" target="_blank" rel="noopener noreferrer" class="small text-muted text-decoration-none">
