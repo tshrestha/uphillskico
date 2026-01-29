@@ -173,6 +173,20 @@
       }
     </script>
 
+    <!-- Preload critical assets -->
+    <link
+      rel="preload"
+      href="/images/epic-logo.jpg"
+      as="image"
+      type="image/jpeg"
+    />
+    <link
+      rel="preload"
+      href="/images/ikon-logo.png"
+      as="image"
+      type="image/png"
+    />
+
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="manifest" href="/site.webmanifest" />
@@ -186,13 +200,13 @@
         --bg-input: #ffffff;
         --text-primary: #0f172a;
         --text-secondary: #475569;
-        --text-muted: #64748b;
+        --text-muted: #475569;
         --border-color: #e2e8f0;
         --card-shadow:
           0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.04);
         --card-hover-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        --primary-color: #2563eb;
-        --primary-hover: #1d4ed8;
+        --primary-color: #1d4ed8;
+        --primary-hover: #1e40af;
         --success-bg: #dcfce7;
         --success-text: #166534;
         --warning-bg: #fef3c7;
@@ -215,8 +229,8 @@
         --card-shadow:
           0 1px 3px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2);
         --card-hover-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-        --primary-color: #60a5fa;
-        --primary-hover: #3b82f6;
+        --primary-color: #93c5fd;
+        --primary-hover: #60a5fa;
         --success-bg: #064e3b;
         --success-text: #6ee7b7;
         --warning-bg: #78350f;
@@ -392,10 +406,13 @@
       }
 
       /* Card layout - default for mobile */
+      /* min-height prevents CLS when cards load dynamically */
       .resort-cards {
         display: flex;
         flex-direction: column;
         gap: 1rem;
+        contain: layout style;
+        min-height: 80vh;
       }
 
       .resort-card {
@@ -405,6 +422,7 @@
         box-shadow: var(--card-shadow);
         border: 1px solid var(--border-color);
         transition: box-shadow 0.2s ease;
+        contain: layout style paint;
       }
 
       .resort-card:hover {
@@ -552,6 +570,8 @@
       /* Table layout - hidden on mobile, shown on desktop */
       .table-container {
         display: none;
+        content-visibility: auto;
+        contain-intrinsic-size: 0 500px;
       }
 
       .table {
@@ -803,22 +823,24 @@
         border: 0 !important;
       }
 
-      /* Skip to main content link */
+      /* Skip to main content link - high contrast for accessibility */
       .skip-link {
         position: absolute;
         top: -40px;
         left: 0;
-        background: var(--primary-color);
-        color: white !important;
+        background: #1e40af;
+        color: #ffffff !important;
         padding: 8px 16px;
         z-index: 100;
         text-decoration: none;
         border-radius: 0 0 4px 0;
-        font-weight: 500;
+        font-weight: 600;
       }
 
       .skip-link:focus {
         top: 0;
+        outline: 3px solid #fbbf24;
+        outline-offset: 2px;
       }
     </style>
   </head>

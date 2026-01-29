@@ -73,14 +73,17 @@ function getHostname(url) {
 }
 
 function getPassBadge(pass, forCard = false) {
-  const height = forCard ? "20" : "24";
-  const maxWidth = forCard ? "70px" : "80px";
+  const height = forCard ? 20 : 24;
+  // Image intrinsic: Epic 160x39, Ikon 160x71
+  // Calculate width to maintain aspect ratio
+  const epicWidth = Math.round((height * 160) / 39);
+  const ikonWidth = Math.round((height * 160) / 71);
 
   switch (pass) {
     case "Epic":
-      return `<img src="/images/epic-logo.jpg" alt="Epic Pass" height="${height}" width="auto" class="img-fluid" style="max-width: ${maxWidth};" loading="lazy" decoding="async">`;
+      return `<img src="/images/epic-logo.jpg" alt="Epic Pass" width="${epicWidth}" height="${height}" class="img-fluid" style="max-height: ${height}px;" decoding="async">`;
     case "Ikon":
-      return `<img src="/images/ikon-logo.png" alt="Ikon Pass" height="${height}" width="auto" class="img-fluid" style="max-width: ${maxWidth};" loading="lazy" decoding="async">`;
+      return `<img src="/images/ikon-logo.png" alt="Ikon Pass" width="${ikonWidth}" height="${height}" class="img-fluid" style="max-height: ${height}px;" decoding="async">`;
     default:
       return `<span class="badge badge-indie">${forCard ? "Indie" : "Independent"}</span>`;
   }
@@ -210,11 +213,23 @@ function renderTable(filteredResorts) {
     .join("");
 }
 
+// Check if desktop view (table visible)
+const isDesktop = window.matchMedia("(min-width: 992px)").matches;
+
 function renderResorts(filteredResorts) {
   const countEl = document.getElementById("resortCount");
 
+  // Render cards first (mobile-first)
   renderCards(filteredResorts);
-  renderTable(filteredResorts);
+
+  // Defer table render on mobile since it's hidden
+  if (isDesktop) {
+    renderTable(filteredResorts);
+  } else {
+    requestIdleCallback
+      ? requestIdleCallback(() => renderTable(filteredResorts))
+      : setTimeout(() => renderTable(filteredResorts), 0);
+  }
 
   countEl.textContent = `${filteredResorts.length} of ${resorts.length} resorts`;
 }
