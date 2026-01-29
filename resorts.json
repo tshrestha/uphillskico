@@ -13,24 +13,11 @@
     }
   },
   {
-    "name": "Howelsen Hill",
-    "pass": "independent",
-    "website": "https://www.steamboatsprings.net/131/Howelsen-Hill-Ski-Area",
-    "uphillPolicy": {
-      "rank": 2,
-      "link": "https://steamboatsprings.net/1179/Uphill-Access-Policy",
-      "trailMap": "/trailmaps/HowelsenHill.webp",
-      "operationalHoursAccess": true,
-      "schedule": "During operating hours: Lower Hobo Park XC to Mile Run only. After hours: entire ski area",
-      "cost": "Free - No pass required"
-    }
-  },
-  {
     "name": "Aspen Snowmass",
     "pass": "Ikon",
     "website": "https://www.aspensnowmass.com",
     "uphillPolicy": {
-      "rank": 3,
+      "rank": 2,
       "link": "https://www.aspensnowmass.com/policies/uphill-policy",
       "trailMap": "/trailmaps/aspen.html",
       "operationalHoursAccess": true,
@@ -43,7 +30,7 @@
     "pass": "Ikon",
     "website": "https://www.coppercolorado.com",
     "uphillPolicy": {
-      "rank": 4,
+      "rank": 3,
       "link": "https://www.coppercolorado.com/the-mountain/mountain-safety/uphill-access",
       "trailMap": "/trailmaps/Copper.webp",
       "operationalHoursAccess": true,
@@ -52,25 +39,11 @@
     }
   },
   {
-    "name": "Ski Cooper",
-    "pass": "independent",
-    "website": "https://www.skicooper.com",
-    "uphillPolicy": {
-      "rank": 5,
-      "link": "https://www.skicooper.com/snowsports-safety/",
-      "trailMap": "/trailmaps/cooper.html",
-      "note": "Uphill policy included on snowsports safety page",
-      "operationalHoursAccess": true,
-      "schedule": "4pm-8am: Free. 8am-4pm: Requires day/season pass. Must be off mountain by 8:45am",
-      "cost": "Free (4pm-8am). During operating hours requires lift ticket or season pass"
-    }
-  },
-  {
     "name": "Monarch Mountain",
     "pass": "independent",
     "website": "https://www.skimonarch.com",
     "uphillPolicy": {
-      "rank": 6,
+      "rank": 4,
       "link": "https://skimonarch.com/uphill-travel/",
       "trailMap": "/trailmaps/monarch.html",
       "operationalHoursAccess": true,
@@ -83,7 +56,7 @@
     "pass": "Epic",
     "website": "https://www.tellurideskiresort.com",
     "uphillPolicy": {
-      "rank": 7,
+      "rank": 5,
       "link": "https://tellurideskiresort.com/safety/",
       "trailMap": "/trailmaps/Telluride.webp",
       "note": "Uphill policy included on general safety page",
@@ -93,37 +66,11 @@
     }
   },
   {
-    "name": "Powderhorn",
-    "pass": "independent",
-    "website": "https://www.powderhorn.com",
-    "uphillPolicy": {
-      "rank": 8,
-      "link": "https://powderhorn.com/explore/about/uphill-policy.html",
-      "trailMap": "/trailmaps/Powderhorn.webp",
-      "operationalHoursAccess": true,
-      "schedule": "9am-4pm: Dude, Tenderfoot, Red Eye, Greenhorn. 4pm-9am: Bill's Run only",
-      "cost": "$19/day, $59/season (+$5 RFID fee). Free for Powderhorn season passholders"
-    }
-  },
-  {
-    "name": "Sunlight Mountain Resort",
-    "pass": "independent",
-    "website": "https://www.sunlightmtn.com",
-    "uphillPolicy": {
-      "rank": 9,
-      "link": "https://sunlightmtn.com/mountain/skiing-snowboarding/mountain-safety/sunlight-uphill-pass-program",
-      "trailMap": "/trailmaps/Sunlight.webp",
-      "operationalHoursAccess": true,
-      "schedule": "During and after operating hours on designated Green or Orange routes",
-      "cost": "$10/day, $50/season. Free for Sunlight season passholders"
-    }
-  },
-  {
     "name": "Arapahoe Basin",
     "pass": "Ikon",
     "website": "https://www.arapahoebasin.com",
     "uphillPolicy": {
-      "rank": 10,
+      "rank": 6,
       "link": "https://www.arapahoebasin.com/uphill/",
       "trailMap": "/trailmaps/A-Basin.webp",
       "operationalHoursAccess": true,
@@ -132,11 +79,25 @@
     }
   },
   {
+    "name": "Ski Cooper",
+    "pass": "independent",
+    "website": "https://www.skicooper.com",
+    "uphillPolicy": {
+      "rank": 7,
+      "link": "https://www.skicooper.com/snowsports-safety/",
+      "trailMap": "/trailmaps/cooper.html",
+      "note": "Uphill policy included on snowsports safety page",
+      "operationalHoursAccess": true,
+      "schedule": "4pm-8am: Free. 8am-4pm: Requires day/season pass. Must be off mountain by 8:45am",
+      "cost": "Free (4pm-8am). During operating hours requires lift ticket or season pass"
+    }
+  },
+  {
     "name": "Eldora Mountain Resort",
     "pass": "Ikon",
     "website": "https://www.eldora.com",
     "uphillPolicy": {
-      "rank": 11,
+      "rank": 8,
       "link": "https://www.eldora.com/tickets-passes/passes/uphill-access-policies/",
       "trailMap": "/trailmaps/Eldora.webp",
       "operationalHoursAccess": true,
@@ -145,43 +106,81 @@
     }
   },
   {
-    "name": "Granby Ranch",
-    "pass": "independent",
-    "website": "https://www.granbyranch.com",
+    "name": "Vail",
+    "pass": "Epic",
+    "website": "https://www.vail.com",
+    "uphillPolicy": {
+      "rank": 9,
+      "link": "https://www.vail.com/the-mountain/about-the-mountain/safety/our-multi-use-mountain/uphill-access-policy.aspx",
+      "trailMap": "/trailmaps/Vail.avif",
+      "operationalHoursAccess": false,
+      "schedule": "30 min after lifts close to 15 min before first chair. Call hotline: (970) 754-1023",
+      "cost": "Free"
+    }
+  },
+  {
+    "name": "Breckenridge",
+    "pass": "Epic",
+    "website": "https://www.breckenridge.com",
+    "uphillPolicy": {
+      "rank": 10,
+      "link": "https://www.breckenridge.com/the-mountain/about-the-mountain/safety/our-multi-use-mountain/uphill-access-policy.aspx",
+      "trailMap": "/trailmaps/Breck.webp",
+      "operationalHoursAccess": false,
+      "schedule": "Non-lift operating hours only. Call hotline: (970) 547-5627",
+      "cost": "Free"
+    }
+  },
+  {
+    "name": "Steamboat",
+    "pass": "Ikon",
+    "website": "https://www.steamboat.com",
+    "uphillPolicy": {
+      "rank": 11,
+      "link": "https://www.steamboat.com/the-mountain/safety-and-responsibility/uphill-access",
+      "trailMap": "/trailmaps/Steamboat.webp",
+      "operationalHoursAccess": false,
+      "schedule": "Before 9am or after 4:30pm only. Must reach summit by 9am or turn around",
+      "cost": "$39/season armband required"
+    }
+  },
+  {
+    "name": "Keystone",
+    "pass": "Epic",
+    "website": "https://www.keystoneresort.com",
     "uphillPolicy": {
       "rank": 12,
-      "link": "https://granbyranch.com/mountain-info/uphill-policy/",
-      "trailMap": "/trailmaps/GranbyRanch.webp",
-      "operationalHoursAccess": true,
-      "schedule": "6am-9am and 4pm-7pm daily. No access on night skiing nights",
-      "cost": "$40/season. $20 for homeowners and season passholders"
+      "link": "https://www.keystoneresort.com/the-mountain/about-the-mountain/safety/our-multi-use-mountain/uphill-access-policy.aspx",
+      "trailMap": "/trailmaps/Keystone.webp",
+      "operationalHoursAccess": false,
+      "schedule": "Before and after lift operating hours. Call hotline: (970) 496-4033",
+      "cost": "Free"
     }
   },
   {
-    "name": "Echo Mountain",
-    "pass": "independent",
-    "website": "https://echomtn.com",
+    "name": "Beaver Creek",
+    "pass": "Epic",
+    "website": "https://www.beavercreek.com",
     "uphillPolicy": {
       "rank": 13,
-      "link": "https://echomtn.com/uphill-access",
-      "trailMap": "/trailmaps/EchoMountain.webp",
-      "operationalHoursAccess": true,
-      "schedule": "Weekdays 10am-4:30pm, Weekends 9am-4:30pm. Designated routes only",
-      "cost": "$20/day, $50/season add-on, $99/season (non-passholders)"
+      "link": "https://www.beavercreek.com/the-mountain/about-the-mountain/safety/our-multi-use-mountain/uphill-access-policy.aspx",
+      "trailMap": "/trailmaps/BeaverCreek.avif",
+      "operationalHoursAccess": false,
+      "schedule": "30 min after lifts close to 15 min before first chair. Call hotline: (970) 754-5907",
+      "cost": "Free"
     }
   },
   {
-    "name": "Wolf Creek",
-    "pass": "independent",
-    "website": "https://www.wolfcreekski.com",
+    "name": "Crested Butte",
+    "pass": "Epic",
+    "website": "https://www.skicb.com",
     "uphillPolicy": {
       "rank": 14,
-      "link": "https://wolfcreekski.com/ski-ride-safety/",
-      "trailMap": "/trailmaps/WolfCreek.webp",
-      "note": "Uphill info on safety page; uphill permitted on Kelly Boyce to Divide Trail during operating hours",
-      "operationalHoursAccess": true,
-      "schedule": "9am-4pm on Kelly Boyce to Divide Trail only",
-      "cost": "Pass required, purchase at Ticket Office"
+      "link": "https://www.skicb.com/the-mountain/more-options/uphill-access-policy.aspx",
+      "trailMap": "/trailmaps/CrestedButte.avif",
+      "operationalHoursAccess": false,
+      "schedule": "Before 8:45am and after 4:30pm. Call hotline: (970) 349-2345",
+      "cost": "Free"
     }
   },
   {
@@ -198,81 +197,82 @@
     }
   },
   {
-    "name": "Vail",
-    "pass": "Epic",
-    "website": "https://www.vail.com",
+    "name": "Granby Ranch",
+    "pass": "independent",
+    "website": "https://www.granbyranch.com",
     "uphillPolicy": {
       "rank": 16,
-      "link": "https://www.vail.com/the-mountain/about-the-mountain/safety/our-multi-use-mountain/uphill-access-policy.aspx",
-      "trailMap": "/trailmaps/Vail.avif",
-      "operationalHoursAccess": false,
-      "schedule": "30 min after lifts close to 15 min before first chair. Call hotline: (970) 754-1023",
-      "cost": "Free"
+      "link": "https://granbyranch.com/mountain-info/uphill-policy/",
+      "trailMap": "/trailmaps/GranbyRanch.webp",
+      "operationalHoursAccess": true,
+      "schedule": "6am-9am and 4pm-7pm daily. No access on night skiing nights",
+      "cost": "$40/season. $20 for homeowners and season passholders"
     }
   },
   {
-    "name": "Beaver Creek",
-    "pass": "Epic",
-    "website": "https://www.beavercreek.com",
+    "name": "Echo Mountain",
+    "pass": "independent",
+    "website": "https://echomtn.com",
     "uphillPolicy": {
       "rank": 17,
-      "link": "https://www.beavercreek.com/the-mountain/about-the-mountain/safety/our-multi-use-mountain/uphill-access-policy.aspx",
-      "trailMap": "/trailmaps/BeaverCreek.avif",
-      "operationalHoursAccess": false,
-      "schedule": "30 min after lifts close to 15 min before first chair. Call hotline: (970) 754-5907",
-      "cost": "Free"
+      "link": "https://echomtn.com/uphill-access",
+      "trailMap": "/trailmaps/EchoMountain.webp",
+      "operationalHoursAccess": true,
+      "schedule": "Weekdays 10am-4:30pm, Weekends 9am-4:30pm. Designated routes only",
+      "cost": "$20/day, $50/season add-on, $99/season (non-passholders)"
     }
   },
   {
-    "name": "Breckenridge",
-    "pass": "Epic",
-    "website": "https://www.breckenridge.com",
+    "name": "Wolf Creek",
+    "pass": "independent",
+    "website": "https://www.wolfcreekski.com",
     "uphillPolicy": {
       "rank": 18,
-      "link": "https://www.breckenridge.com/the-mountain/about-the-mountain/safety/our-multi-use-mountain/uphill-access-policy.aspx",
-      "trailMap": "/trailmaps/Breck.webp",
-      "operationalHoursAccess": false,
-      "schedule": "Non-lift operating hours only. Call hotline: (970) 547-5627",
-      "cost": "Free"
+      "link": "https://wolfcreekski.com/ski-ride-safety/",
+      "trailMap": "/trailmaps/WolfCreek.webp",
+      "note": "Uphill info on safety page; uphill permitted on Kelly Boyce to Divide Trail during operating hours",
+      "operationalHoursAccess": true,
+      "schedule": "9am-4pm on Kelly Boyce to Divide Trail only",
+      "cost": "Pass required, purchase at Ticket Office"
     }
   },
   {
-    "name": "Keystone",
-    "pass": "Epic",
-    "website": "https://www.keystoneresort.com",
+    "name": "Howelsen Hill",
+    "pass": "independent",
+    "website": "https://www.steamboatsprings.net/131/Howelsen-Hill-Ski-Area",
     "uphillPolicy": {
       "rank": 19,
-      "link": "https://www.keystoneresort.com/the-mountain/about-the-mountain/safety/our-multi-use-mountain/uphill-access-policy.aspx",
-      "trailMap": "/trailmaps/Keystone.webp",
-      "operationalHoursAccess": false,
-      "schedule": "Before and after lift operating hours. Call hotline: (970) 496-4033",
-      "cost": "Free"
+      "link": "https://steamboatsprings.net/1179/Uphill-Access-Policy",
+      "trailMap": "/trailmaps/HowelsenHill.webp",
+      "operationalHoursAccess": true,
+      "schedule": "During operating hours: Lower Hobo Park XC to Mile Run only. After hours: entire ski area",
+      "cost": "Free - No pass required"
     }
   },
   {
-    "name": "Crested Butte",
-    "pass": "Epic",
-    "website": "https://www.skicb.com",
+    "name": "Powderhorn",
+    "pass": "independent",
+    "website": "https://www.powderhorn.com",
     "uphillPolicy": {
       "rank": 20,
-      "link": "https://www.skicb.com/the-mountain/more-options/uphill-access-policy.aspx",
-      "trailMap": "/trailmaps/CrestedButte.avif",
-      "operationalHoursAccess": false,
-      "schedule": "Before 8:45am and after 4:30pm. Call hotline: (970) 349-2345",
-      "cost": "Free"
+      "link": "https://powderhorn.com/explore/about/uphill-policy.html",
+      "trailMap": "/trailmaps/Powderhorn.webp",
+      "operationalHoursAccess": true,
+      "schedule": "9am-4pm: Dude, Tenderfoot, Red Eye, Greenhorn. 4pm-9am: Bill's Run only",
+      "cost": "$19/day, $59/season (+$5 RFID fee). Free for Powderhorn season passholders"
     }
   },
   {
-    "name": "Steamboat",
-    "pass": "Ikon",
-    "website": "https://www.steamboat.com",
+    "name": "Sunlight Mountain Resort",
+    "pass": "independent",
+    "website": "https://www.sunlightmtn.com",
     "uphillPolicy": {
       "rank": 21,
-      "link": "https://www.steamboat.com/the-mountain/safety-and-responsibility/uphill-access",
-      "trailMap": "/trailmaps/Steamboat.webp",
-      "operationalHoursAccess": false,
-      "schedule": "Before 9am or after 4:30pm only. Must reach summit by 9am or turn around",
-      "cost": "$39/season armband required"
+      "link": "https://sunlightmtn.com/mountain/skiing-snowboarding/mountain-safety/sunlight-uphill-pass-program",
+      "trailMap": "/trailmaps/Sunlight.webp",
+      "operationalHoursAccess": true,
+      "schedule": "During and after operating hours on designated Green or Orange routes",
+      "cost": "$10/day, $50/season. Free for Sunlight season passholders"
     }
   },
   {
