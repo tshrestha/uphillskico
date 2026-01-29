@@ -270,9 +270,134 @@ function filterResorts() {
 // Debounced search for better performance
 const debouncedFilter = debounce(filterResorts, 150);
 
-document
-  .getElementById("searchInput")
-  .addEventListener("input", debouncedFilter);
+// Autocomplete functionality
+const searchInput = document.getElementById("searchInput");
+const autocompleteList = document.getElementById("autocomplete-list");
+let activeIndex = -1;
+
+function highlightMatch(text, query) {
+  if (!query) return text;
+  const regex = new RegExp(
+    `(${query.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")})`,
+    "gi",
+  );
+  return text.replace(regex, "<mark>$1</mark>");
+}
+
+function showAutocomplete(query) {
+  if (!query || query.length < 1) {
+    hideAutocomplete();
+    return;
+  }
+
+  const matches = resorts
+    .filter((r) => r.name.toLowerCase().includes(query.toLowerCase()))
+    .slice(0, 8);
+
+  if (matches.length === 0) {
+    autocompleteList.innerHTML = `<li class="autocomplete-empty">No resorts found</li>`;
+    autocompleteList.classList.add("show");
+    searchInput.setAttribute("aria-expanded", "true");
+    return;
+  }
+
+  autocompleteList.innerHTML = matches
+    .map(
+      (resort, idx) => `
+      <li class="autocomplete-item" role="option" data-index="${idx}" data-name="${resort.name}">
+        <span class="autocomplete-item-rank">#${resort.uphillPolicy?.rank || "-"}</span>
+        <span class="autocomplete-item-name">${highlightMatch(resort.name, query)}</span>
+        <span class="autocomplete-item-pass">${resort.pass}</span>
+      </li>
+    `,
+    )
+    .join("");
+
+  autocompleteList.classList.add("show");
+  searchInput.setAttribute("aria-expanded", "true");
+  activeIndex = -1;
+}
+
+function hideAutocomplete() {
+  autocompleteList.classList.remove("show");
+  searchInput.setAttribute("aria-expanded", "false");
+  activeIndex = -1;
+}
+
+function selectItem(name) {
+  searchInput.value = name;
+  hideAutocomplete();
+  filterResorts();
+}
+
+function updateActiveItem(newIndex) {
+  const items = autocompleteList.querySelectorAll(".autocomplete-item");
+  if (items.length === 0) return;
+
+  items.forEach((item) => item.classList.remove("active"));
+
+  if (newIndex >= 0 && newIndex < items.length) {
+    activeIndex = newIndex;
+    items[activeIndex].classList.add("active");
+    items[activeIndex].scrollIntoView({ block: "nearest" });
+  } else {
+    activeIndex = -1;
+  }
+}
+
+searchInput.addEventListener("input", (e) => {
+  showAutocomplete(e.target.value);
+  debouncedFilter();
+});
+
+searchInput.addEventListener("keydown", (e) => {
+  const items = autocompleteList.querySelectorAll(".autocomplete-item");
+
+  switch (e.key) {
+    case "ArrowDown":
+      e.preventDefault();
+      if (!autocompleteList.classList.contains("show")) {
+        showAutocomplete(searchInput.value);
+      } else {
+        updateActiveItem(activeIndex < items.length - 1 ? activeIndex + 1 : 0);
+      }
+      break;
+    case "ArrowUp":
+      e.preventDefault();
+      updateActiveItem(activeIndex > 0 ? activeIndex - 1 : items.length - 1);
+      break;
+    case "Enter":
+      if (activeIndex >= 0 && items[activeIndex]) {
+        e.preventDefault();
+        selectItem(items[activeIndex].dataset.name);
+      }
+      break;
+    case "Escape":
+      hideAutocomplete();
+      break;
+  }
+});
+
+searchInput.addEventListener("focus", () => {
+  if (searchInput.value) {
+    showAutocomplete(searchInput.value);
+  }
+});
+
+autocompleteList.addEventListener("click", (e) => {
+  const item = e.target.closest(".autocomplete-item");
+  if (item) {
+    selectItem(item.dataset.name);
+  }
+});
+
+// Close autocomplete when clicking outside
+document.addEventListener("click", (e) => {
+  if (!e.target.closest(".autocomplete-container")) {
+    hideAutocomplete();
+  }
+});
+
 document.getElementById("passFilter").addEventListener("change", filterResorts);
 document
   .getElementById("accessFilter")

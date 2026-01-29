@@ -390,6 +390,83 @@
         color: var(--text-muted) !important;
       }
 
+      /* Autocomplete styles */
+      .autocomplete-container {
+        position: relative;
+      }
+
+      .autocomplete-list {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+        display: none;
+        margin: 0.25rem 0 0;
+        padding: 0.25rem 0;
+        list-style: none;
+        background: var(--bg-secondary);
+        border: 1px solid var(--border-color);
+        border-radius: 0.5rem;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        max-height: 280px;
+        overflow-y: auto;
+      }
+
+      .autocomplete-list.show {
+        display: block;
+      }
+
+      .autocomplete-item {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.625rem 0.875rem;
+        cursor: pointer;
+        transition: background-color 0.1s ease;
+      }
+
+      .autocomplete-item:hover,
+      .autocomplete-item.active {
+        background-color: var(--table-hover);
+      }
+
+      .autocomplete-item-rank {
+        font-size: 0.75rem;
+        font-weight: 700;
+        color: var(--text-muted);
+        min-width: 1.75rem;
+      }
+
+      .autocomplete-item-name {
+        flex: 1;
+        font-weight: 500;
+        color: var(--text-primary);
+      }
+
+      .autocomplete-item-name mark {
+        background: #fef08a;
+        color: inherit;
+        padding: 0 2px;
+        border-radius: 2px;
+      }
+
+      [data-theme="dark"] .autocomplete-item-name mark {
+        background: #854d0e;
+      }
+
+      .autocomplete-item-pass {
+        font-size: 0.75rem;
+        color: var(--text-muted);
+      }
+
+      .autocomplete-empty {
+        padding: 0.75rem;
+        text-align: center;
+        color: var(--text-muted);
+        font-size: 0.875rem;
+      }
+
       .form-select {
         background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%2364748b' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e") !important;
       }
@@ -1000,13 +1077,26 @@
         <div class="filters-container">
           <div class="filter-group">
             <label class="filter-label" for="searchInput">Search</label>
-            <input
-              type="search"
-              id="searchInput"
-              class="form-control"
-              placeholder="Resort name..."
-              aria-describedby="searchHelp"
-            />
+            <div class="autocomplete-container">
+              <input
+                type="search"
+                id="searchInput"
+                class="form-control"
+                placeholder="Resort name..."
+                aria-describedby="searchHelp"
+                autocomplete="off"
+                role="combobox"
+                aria-expanded="false"
+                aria-controls="autocomplete-list"
+                aria-autocomplete="list"
+              />
+              <ul
+                id="autocomplete-list"
+                class="autocomplete-list"
+                role="listbox"
+                aria-label="Resort suggestions"
+              ></ul>
+            </div>
             <span id="searchHelp" class="visually-hidden"
               >Search for a ski resort by name</span
             >
