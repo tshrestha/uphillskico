@@ -1,0 +1,21 @@
+{
+  "name": "Uphill Ski Colorado",
+  "short_name": "Uphill Ski CO",
+  "description": "Complete guide to uphill skiing policies at Colorado ski resorts",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f8fafc",
+  "theme_color": "#1e293b",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["sports", "travel", "lifestyle"],
+  "lang": "en-US",
+  "dir": "ltr"
+}

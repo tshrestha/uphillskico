@@ -1,0 +1,4 @@
+.claude
+.idea
+dist/
+package-lock.json

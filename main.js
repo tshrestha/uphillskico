@@ -1,0 +1,259 @@
+import "bootstrap/dist/css/bootstrap.min.css";
+import resorts from "./resorts.json";
+
+// Theme management
+function initTheme() {
+  const savedTheme = localStorage.getItem("theme");
+  const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+  if (savedTheme) {
+    document.documentElement.setAttribute("data-theme", savedTheme);
+  } else if (prefersDark) {
+    document.documentElement.setAttribute("data-theme", "dark");
+  }
+}
+
+function toggleTheme() {
+  const currentTheme = document.documentElement.getAttribute("data-theme");
+  const newTheme = currentTheme === "dark" ? "light" : "dark";
+
+  document.documentElement.setAttribute("data-theme", newTheme);
+  localStorage.setItem("theme", newTheme);
+
+  // Update theme-color meta tag for browsers
+  updateThemeColorMeta(newTheme);
+}
+
+function updateThemeColorMeta(theme) {
+  const lightColor = "#f8fafc";
+  const darkColor = "#0f172a";
+  const themeColorMetas = document.querySelectorAll('meta[name="theme-color"]');
+  themeColorMetas.forEach((meta) => {
+    meta.setAttribute("content", theme === "dark" ? darkColor : lightColor);
+  });
+}
+
+// Initialize theme on load
+initTheme();
+
+// Listen for system theme changes
+window
+  .matchMedia("(prefers-color-scheme: dark)")
+  .addEventListener("change", (e) => {
+    if (!localStorage.getItem("theme")) {
+      const newTheme = e.matches ? "dark" : "light";
+      document.documentElement.setAttribute("data-theme", newTheme);
+      updateThemeColorMeta(newTheme);
+    }
+  });
+
+// Theme toggle button
+document.getElementById("themeToggle").addEventListener("click", toggleTheme);
+
+// Debounce utility for search input
+function debounce(func, wait) {
+  let timeout;
+  return function executedFunction(...args) {
+    const later = () => {
+      clearTimeout(timeout);
+      func(...args);
+    };
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
+  };
+}
+
+// Safe URL hostname extraction
+function getHostname(url) {
+  try {
+    return new URL(url).hostname.replace("www.", "");
+  } catch {
+    return url;
+  }
+}
+
+function getPassBadge(pass, forCard = false) {
+  const height = forCard ? "20" : "24";
+  const maxWidth = forCard ? "70px" : "80px";
+
+  switch (pass) {
+    case "Epic":
+      return `<img src="/images/epic-logo.jpg" alt="Epic Pass" height="${height}" width="auto" class="img-fluid" style="max-width: ${maxWidth};" loading="lazy" decoding="async">`;
+    case "Ikon":
+      return `<img src="/images/ikon-logo.png" alt="Ikon Pass" height="${height}" width="auto" class="img-fluid" style="max-width: ${maxWidth};" loading="lazy" decoding="async">`;
+    default:
+      return `<span class="badge badge-indie">${forCard ? "Indie" : "Independent"}</span>`;
+  }
+}
+
+function getAccessBadge(hasAccess, forCard = false) {
+  if (hasAccess === true) {
+    return forCard
+      ? `<span class="badge-access badge-yes">Yes</span>`
+      : `<span class="badge badge-access badge-yes">Yes</span>`;
+  } else if (hasAccess === false) {
+    return forCard
+      ? `<span class="badge-access badge-no">No</span>`
+      : `<span class="badge badge-access badge-no">No</span>`;
+  }
+  return `<span class="text-muted">-</span>`;
+}
+
+function renderCards(filteredResorts) {
+  const container = document.getElementById("resortCards");
+
+  container.innerHTML = filteredResorts
+    .map(
+      (resort) => `
+      <article class="resort-card" role="listitem" aria-label="${resort.name} uphill policy">
+        <header class="resort-card-header">
+          <div>
+            <h3 class="resort-name">${resort.name}</h3>
+            <a href="${resort.website}" target="_blank" rel="noopener noreferrer" class="resort-website" aria-label="Visit ${resort.name} website">
+              ${getHostname(resort.website)}
+            </a>
+          </div>
+          <div class="pass-badge">
+            ${getPassBadge(resort.pass, true)}
+          </div>
+        </header>
+        <div class="resort-card-body">
+          <div class="info-row">
+            <span class="info-label">During Ops</span>
+            <span class="info-value">${getAccessBadge(resort.uphillPolicy?.operationalHoursAccess, true)}</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Schedule</span>
+            <span class="info-value">${resort.uphillPolicy?.schedule || "-"}</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">Cost</span>
+            <span class="info-value">${resort.uphillPolicy?.cost || "-"}</span>
+          </div>
+        </div>
+        ${
+          resort.uphillPolicy?.link || resort.uphillPolicy?.trailMap
+            ? `
+          <footer class="resort-card-footer">
+            ${
+              resort.uphillPolicy?.link
+                ? `<a href="${resort.uphillPolicy.link}" target="_blank" rel="noopener noreferrer" class="btn-policy" aria-label="View ${resort.name} uphill policy">
+              Policy
+            </a>`
+                : ""
+            }
+            ${
+              resort.uphillPolicy?.trailMap
+                ? `<a href="${resort.uphillPolicy.trailMap}" target="_blank" rel="noopener noreferrer" class="btn-map" aria-label="View ${resort.name} trail map">
+              Trail Map
+            </a>`
+                : ""
+            }
+          </footer>
+        `
+            : ""
+        }
+      </article>
+    `,
+    )
+    .join("");
+}
+
+function renderTable(filteredResorts) {
+  const tbody = document.getElementById("resortTableBody");
+
+  tbody.innerHTML = filteredResorts
+    .map(
+      (resort) => `
+      <tr>
+        <td class="sticky-col">
+          <div class="fw-semibold">${resort.name}</div>
+          <a href="${resort.website}" target="_blank" rel="noopener noreferrer" class="small text-muted text-decoration-none">
+            ${getHostname(resort.website)}
+          </a>
+        </td>
+        <td>
+          ${getPassBadge(resort.pass)}
+        </td>
+        <td class="text-center">
+          ${getAccessBadge(resort.uphillPolicy?.operationalHoursAccess)}
+        </td>
+        <td class="small" style="max-width: 250px;">
+          ${resort.uphillPolicy?.schedule || "-"}
+        </td>
+        <td class="small" style="max-width: 200px;">
+          ${resort.uphillPolicy?.cost || "-"}
+        </td>
+        <td>
+          ${
+            resort.uphillPolicy?.link
+              ? `<a href="${resort.uphillPolicy.link}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline-primary" aria-label="View ${resort.name} uphill policy">
+                  View
+                </a>`
+              : resort.uphillPolicy?.note
+                ? `<span class="small text-muted" title="${resort.uphillPolicy.note}">See notes</span>`
+                : '<span class="text-muted">-</span>'
+          }
+        </td>
+        <td>
+          ${
+            resort.uphillPolicy?.trailMap
+              ? `<a href="${resort.uphillPolicy.trailMap}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline-secondary" aria-label="View ${resort.name} trail map">
+                  Map
+                </a>`
+              : '<span class="text-muted">-</span>'
+          }
+        </td>
+      </tr>
+    `,
+    )
+    .join("");
+}
+
+function renderResorts(filteredResorts) {
+  const countEl = document.getElementById("resortCount");
+
+  renderCards(filteredResorts);
+  renderTable(filteredResorts);
+
+  countEl.textContent = `${filteredResorts.length} of ${resorts.length} resorts`;
+}
+
+function filterResorts() {
+  const searchTerm = document.getElementById("searchInput").value.toLowerCase();
+  const passFilter = document.getElementById("passFilter").value;
+  const accessFilter = document.getElementById("accessFilter").value;
+
+  const filtered = resorts.filter((resort) => {
+    const matchesSearch = resort.name.toLowerCase().includes(searchTerm);
+    const matchesPass = !passFilter || resort.pass === passFilter;
+    const matchesAccess =
+      !accessFilter ||
+      (accessFilter === "true" &&
+        resort.uphillPolicy?.operationalHoursAccess === true) ||
+      (accessFilter === "false" &&
+        resort.uphillPolicy?.operationalHoursAccess === false);
+    return matchesSearch && matchesPass && matchesAccess;
+  });
+
+  renderResorts(filtered);
+}
+
+// Debounced search for better performance
+const debouncedFilter = debounce(filterResorts, 150);
+
+document
+  .getElementById("searchInput")
+  .addEventListener("input", debouncedFilter);
+document.getElementById("passFilter").addEventListener("change", filterResorts);
+document
+  .getElementById("accessFilter")
+  .addEventListener("change", filterResorts);
+
+// Initial render
+renderResorts(resorts);
+
+// Log performance timing in development
+if (import.meta.env?.DEV) {
+  console.log(`Loaded ${resorts.length} resorts`);
+}
