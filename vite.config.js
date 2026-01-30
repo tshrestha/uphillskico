@@ -56,6 +56,8 @@ export default defineConfig({
           "footer-secondary",
           // Image class
           "img-fluid",
+          "alert",
+          "alert-primary",
         ],
       },
     }),
