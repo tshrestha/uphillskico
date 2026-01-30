@@ -111,7 +111,7 @@ const autocomplete = createAutocomplete(searchInput, autocompleteList, {
   renderItem: (resort, idx) => `
     <li class="list-group-item list-group-item-action d-flex align-items-center gap-2 py-2" role="option" id="autocomplete-option-${idx}" data-index="${idx}" data-name="${resort.name}">
       ${getRankBadge(resort.uphillPolicy?.rank)}
-      <span class="flex-grow-1">${highlightMatch(resort.name, searchInput.value)}</span>
+      <span class="flex-grow-1">${resort.name}</span>
       <span class="small text-muted text-uppercase">${resort.pass}</span>
     </li>
   `,

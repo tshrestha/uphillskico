@@ -88,7 +88,7 @@ const autocomplete = createAutocomplete(searchInput, autocompleteList, {
   renderItem: (map, idx) => `
     <li class="list-group-item list-group-item-action d-flex align-items-center gap-2 py-2" role="option" id="autocomplete-option-${idx}" data-index="${idx}" data-name="${map.name}">
       <span class="badge bg-secondary">${map.rank ? `#${map.rank}` : "-"}</span>
-      <span class="flex-grow-1">${highlightMatch(map.name, searchInput.value)}</span>
+      <span class="flex-grow-1">${map.name}</span>
       <span class="small text-muted text-uppercase">${map.type}</span>
     </li>
   `,
