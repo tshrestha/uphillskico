@@ -54,42 +54,8 @@ export default defineConfig({
           "card-label",
           // Footer and content classes
           "footer-secondary",
-          "#resortCards",
           // Image class
           "img-fluid",
-        ],
-      },
-    }),
-    ViteImageOptimizer({
-      // Optimize images in public folder
-      test: /\.(jpe?g|png|gif|tiff|webp|svg|avif)$/i,
-      includePublic: true,
-      logStats: true,
-      // JPEG optimization
-      jpeg: {
-        quality: 80,
-      },
-      jpg: {
-        quality: 80,
-      },
-      // PNG optimization
-      png: {
-        quality: 80,
-      },
-      // WebP conversion settings
-      webp: {
-        quality: 80,
-        lossless: false,
-      },
-      // SVG optimization
-      svg: {
-        multipass: true,
-        plugins: [
-          "preset-default",
-          {
-            name: "removeViewBox",
-            active: false,
-          },
         ],
       },
     }),

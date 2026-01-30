@@ -1,4 +1,4 @@
-import "./src/styles/bootstrap-custom.scss";
+import "bootstrap/dist/css/bootstrap.min.css";
 import "./src/styles/theme.css";
 import resorts from "./resorts.json";
 import {
@@ -28,6 +28,10 @@ const accessFilter = document.getElementById("accessFilter");
 
 // Track if we're showing filtered results
 let isFiltered = false;
+
+// Store original static HTML for restoration when filters are cleared
+const originalCardsHtml = cardsContainer.innerHTML;
+const originalTableHtml = tableBody.innerHTML;
 
 // Render cards (only called when filtering)
 function renderCards(filteredResorts) {
@@ -87,10 +91,9 @@ function handleFilter() {
     isFiltered = true;
   } else if (isFiltered) {
     // Filters cleared, restore original static content
-    // Reload the page to get the static HTML back
-    // This is simpler than storing the original HTML
-    window.location.reload();
-    return;
+    cardsContainer.innerHTML = originalCardsHtml;
+    tableBody.innerHTML = originalTableHtml;
+    isFiltered = false;
   }
 
   updateCount(filtered.length);

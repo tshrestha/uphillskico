@@ -9,7 +9,13 @@
 export function getHostname(url) {
   try {
     return new URL(url).hostname.replace("www.", "");
-  } catch {
+  } catch (e) {
+    if (
+      typeof process === "undefined" ||
+      process.env?.NODE_ENV !== "production"
+    ) {
+      console.warn(`Invalid URL: ${url}`);
+    }
     return url;
   }
 }
@@ -39,12 +45,13 @@ export function getPassBadge(pass, forCard = false) {
   const height = forCard ? 20 : 24;
   const epicWidth = Math.round((height * 160) / 39);
   const ikonWidth = Math.round((height * 160) / 71);
+  const sizeClass = forCard ? "logo-pass-sm" : "logo-pass";
 
   switch (pass) {
     case "Epic":
-      return `<img src="/images/epic-logo.webp" alt="Epic Pass" width="${epicWidth}" height="${height}" class="img-fluid" style="max-height: ${height}px;" decoding="async">`;
+      return `<img src="/images/epic-logo.webp" alt="Epic Pass" width="${epicWidth}" height="${height}" class="img-fluid ${sizeClass}" loading="lazy" decoding="async">`;
     case "Ikon":
-      return `<img src="/images/ikon-logo.webp" alt="Ikon Pass" width="${ikonWidth}" height="${height}" class="img-fluid" style="max-height: ${height}px;" decoding="async">`;
+      return `<img src="/images/ikon-logo.webp" alt="Ikon Pass" width="${ikonWidth}" height="${height}" class="img-fluid ${sizeClass}" loading="lazy" decoding="async">`;
     default:
       return `<span class="badge bg-secondary">${forCard ? "Indie" : "Independent"}</span>`;
   }

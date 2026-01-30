@@ -1,4 +1,4 @@
-import "./styles/bootstrap-custom.scss";
+import "bootstrap/dist/css/bootstrap.min.css";
 import "./styles/theme.css";
 import {
   initTheme,

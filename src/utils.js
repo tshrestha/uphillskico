@@ -94,7 +94,9 @@ export function createAutocomplete(searchInput, autocompleteList, options) {
       return;
     }
 
-    autocompleteList.innerHTML = matches.map(renderItem).join("");
+    autocompleteList.innerHTML = matches
+      .map((item, idx) => renderItem(item, idx))
+      .join("");
     autocompleteList.classList.add("show");
     searchInput.setAttribute("aria-expanded", "true");
     activeIndex = -1;
