@@ -1,0 +1,1478 @@
+/* ==========================================================================
+   Home page: hero range, filters, lift tickets
+   ========================================================================== */
+
+/* ---------- Hero ---------- */
+.hero {
+  --ridge-h: clamp(220px, 44vh, 440px);
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  grid-template-rows: 1fr auto;
+  min-height: clamp(560px, 100svh, 980px);
+  overflow: hidden;
+  color: var(--on-sky);
+  background: linear-gradient(
+    180deg,
+    var(--sky-1) 0%,
+    var(--sky-2) 40%,
+    var(--sky-3) 74%,
+    var(--sky-4) 100%
+  );
+  transition: background-color 0.6s;
+}
+
+.sky {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.sky::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: 70%;
+  background: radial-gradient(
+    ellipse 75% 55% at 62% 100%,
+    var(--horizon-glow),
+    transparent 70%
+  );
+}
+
+.sun,
+.moon {
+  position: absolute;
+  border-radius: 50%;
+  transition:
+    transform 1.4s var(--ease-out),
+    opacity 0.9s ease;
+}
+
+.sun {
+  top: 12%;
+  right: 10%;
+  width: clamp(120px, 22vmin, 260px);
+  aspect-ratio: 1;
+  background: radial-gradient(
+    circle,
+    #fffbe9 0 22%,
+    #ffe7a3 23% 25%,
+    rgba(255, 231, 163, 0.38) 26%,
+    rgba(255, 231, 163, 0) 70%
+  );
+}
+
+.moon {
+  --m: clamp(40px, 6.5vmin, 76px);
+  top: 13%;
+  right: 15%;
+  width: var(--m);
+  aspect-ratio: 1;
+  opacity: 0;
+  transform: translateY(45vh);
+  box-shadow: inset calc(var(--m) * -0.26) calc(var(--m) * -0.12) 0 0 #f4efd6;
+  filter: drop-shadow(0 0 calc(var(--m) * 0.3) rgba(244, 239, 214, 0.45));
+}
+
+.stars {
+  position: absolute;
+  inset: 0 0 35%;
+  opacity: 0;
+  transition: opacity 1.2s ease;
+  background-image:
+    radial-gradient(1.1px 1.1px at 24px 36px, #fff 98%, transparent),
+    radial-gradient(
+      1px 1px at 140px 84px,
+      rgba(255, 255, 255, 0.75) 98%,
+      transparent
+    ),
+    radial-gradient(1.6px 1.6px at 96px 160px, #fff 98%, transparent),
+    radial-gradient(
+      1px 1px at 210px 214px,
+      rgba(255, 255, 255, 0.6) 98%,
+      transparent
+    ),
+    radial-gradient(1.3px 1.3px at 268px 44px, #fff 98%, transparent),
+    radial-gradient(
+      1px 1px at 304px 128px,
+      rgba(255, 255, 255, 0.7) 98%,
+      transparent
+    );
+  background-size: 330px 250px;
+  -webkit-mask-image: linear-gradient(#000 40%, transparent);
+  mask-image: linear-gradient(#000 40%, transparent);
+}
+
+.stars::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(1.4px 1.4px at 60px 90px, #fff 98%, transparent),
+    radial-gradient(1px 1px at 190px 30px, #fff 98%, transparent),
+    radial-gradient(1.2px 1.2px at 330px 180px, #fff 98%, transparent);
+  background-size: 410px 290px;
+  animation: twinkle 3.6s ease-in-out infinite alternate;
+}
+
+@keyframes twinkle {
+  from {
+    opacity: 0.25;
+  }
+}
+
+[data-theme="dark"] .sun {
+  opacity: 0;
+  transform: translateY(55vh) scale(0.85);
+}
+
+[data-theme="dark"] .moon {
+  opacity: 1;
+  transform: none;
+}
+
+[data-theme="dark"] .stars {
+  opacity: 1;
+}
+
+.range-far {
+  position: absolute;
+  z-index: 1;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: calc(var(--ridge-h) * 1.2);
+  pointer-events: none;
+}
+
+.far-1 {
+  fill: var(--far-1);
+}
+
+.far-2 {
+  fill: var(--far-2);
+}
+
+.snow,
+.headlamp {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.headlamp {
+  opacity: 0;
+  background: radial-gradient(
+    circle clamp(150px, 24vmin, 280px) at var(--mx, 70%) var(--my, 60%),
+    rgba(255, 224, 160, 0.2),
+    rgba(255, 224, 160, 0.06) 45%,
+    transparent 72%
+  );
+  mix-blend-mode: screen;
+  transition: opacity 0.6s ease;
+}
+
+[data-theme="dark"] .hero.lamp-on .headlamp {
+  opacity: 1;
+}
+
+/* ---------- Title ---------- */
+.hero-copy {
+  position: relative;
+  z-index: 2;
+  align-self: end;
+  padding: 6.5rem var(--gutter) 0;
+  margin-bottom: calc(var(--ridge-h) * -0.34);
+  will-change: transform;
+}
+
+.hero-title {
+  display: grid;
+  justify-items: center;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.hero-kicker {
+  order: -1;
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  margin-bottom: clamp(0.25rem, 1vw, 0.75rem);
+  font-size: clamp(0.85rem, 1.5vw, 1.25rem);
+  font-weight: 800;
+  font-stretch: 125%;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  animation: fade-up 0.9s var(--ease-out) 0.1s backwards;
+}
+
+.hero-kicker::before,
+.hero-kicker::after {
+  content: "";
+  width: clamp(1.5rem, 6vw, 5rem);
+  height: 2px;
+  background: currentColor;
+  opacity: 0.6;
+}
+
+.hero-word {
+  display: block;
+  color: var(--title);
+  font-size: clamp(4.6rem, 20.5vw, 21rem);
+  font-weight: 900;
+  font-stretch: 125%;
+  letter-spacing: -0.04em;
+  line-height: 0.8;
+  text-transform: uppercase;
+  white-space: nowrap;
+  transition: color 0.6s;
+}
+
+.letters .w > span {
+  display: inline-block;
+  animation: letter-rise 1.15s var(--ease-out) backwards;
+  animation-delay: calc(var(--i) * 75ms + 120ms);
+}
+
+@keyframes letter-rise {
+  from {
+    opacity: 0;
+    transform: translateY(45%);
+    font-stretch: 75%;
+  }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+}
+
+.hero-season {
+  position: absolute;
+  top: 6.6rem;
+  right: var(--gutter);
+  display: none;
+  margin: 0;
+  text-align: right;
+  font-size: 0.78rem;
+  font-weight: 700;
+  font-stretch: 112%;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  line-height: 1.5;
+  opacity: 0.85;
+  animation: fade-up 0.9s var(--ease-out) 0.5s backwards;
+}
+
+.hero-season span {
+  display: block;
+}
+
+.hero-season span:first-child {
+  font-size: 1.6em;
+  font-weight: 900;
+  font-stretch: 125%;
+  letter-spacing: 0.02em;
+}
+
+@media (min-width: 900px) {
+  .hero-season {
+    display: block;
+  }
+}
+
+/* Scroll-linked: the word condenses as you climb past it */
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .hero-word {
+      animation: word-squeeze linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0 90vh;
+    }
+
+    @keyframes word-squeeze {
+      to {
+        font-stretch: 88%;
+        letter-spacing: 0.02em;
+        transform: translateY(18%);
+      }
+    }
+  }
+}
+
+/* ---------- The Range (data-driven ridge) ---------- */
+.ridge {
+  --sk-size: clamp(38px, 4.4vw, 66px);
+  position: relative;
+  z-index: 3;
+  height: var(--ridge-h);
+  touch-action: pan-y;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.ridge:focus-visible {
+  outline: none;
+}
+
+.ridge:focus-visible .ridge-svg {
+  filter: drop-shadow(0 -2px 0 var(--focus));
+}
+
+.ridge-svg,
+.trail-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* The trail redraws every frame while the skier climbs; keeping it on its
+   own layer means the mountains underneath never have to repaint */
+.trail-svg {
+  z-index: 1;
+  pointer-events: none;
+  will-change: transform;
+  -webkit-mask-image: linear-gradient(#000 70%, transparent 97%);
+  mask-image: linear-gradient(#000 70%, transparent 97%);
+}
+
+.peak {
+  transition: opacity 0.45s ease;
+  animation: peak-rise 1.1s var(--ease-out) backwards;
+  animation-delay: calc(var(--d) * 520ms + 200ms);
+}
+
+@keyframes peak-rise {
+  from {
+    transform: translateY(260px);
+  }
+}
+
+/* Low-poly mountains lit from the west: body, snowcap, streaks, three
+   shaded facets, a darker base for volume, and a rim of light on the ridge */
+.peak-body {
+  fill: color-mix(in oklab, var(--m-near) calc(var(--d) * 100%), var(--m-far));
+  stroke: var(--m-edge);
+  stroke-width: 1;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+  transition: fill 0.4s ease;
+}
+
+.peak-cap,
+.peak-streaks {
+  fill: var(--m-cap);
+  transition: fill 0.4s ease;
+}
+
+.peak-streaks {
+  opacity: 0.8;
+}
+
+/* Texture: exposed rock, spruce on the lower flanks, erosion streaks and grain */
+.peak-rocks {
+  fill: rgb(var(--m-rock) / var(--rock-a));
+}
+
+.peak-trees {
+  fill: rgb(var(--m-tree) / var(--tree-a));
+}
+
+.peak-texture {
+  fill: url(#peakTexture);
+  opacity: var(--tex);
+  pointer-events: none;
+}
+
+.f1 {
+  fill: rgb(var(--m-facet) / var(--f1));
+}
+
+.f2 {
+  fill: rgb(var(--m-facet) / var(--f2));
+}
+
+.f3 {
+  fill: rgb(var(--m-facet) / var(--f3));
+}
+
+.peak-volume {
+  fill: url(#peakVolume);
+}
+
+.volume-from {
+  stop-color: rgb(var(--m-facet));
+  stop-opacity: 0;
+}
+
+.volume-to {
+  stop-color: rgb(var(--m-facet));
+  stop-opacity: var(--vol);
+}
+
+.peak-rim {
+  fill: none;
+  stroke: var(--m-rim);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+  transition:
+    stroke 0.3s ease,
+    stroke-width 0.3s ease;
+}
+
+/* Hovered peak: alpenglow cap, glowing aura and a bright crest */
+.peak.is-active {
+  filter: url(#peakGlow);
+}
+
+.glow-flood {
+  flood-color: var(--m-glow);
+  flood-opacity: 0.7;
+}
+
+.peak.is-active .peak-cap,
+.peak.is-active .peak-streaks {
+  fill: var(--m-glow);
+}
+
+.peak.is-active .peak-body {
+  fill: color-mix(in oklab, var(--m-glow) 26%, var(--m-far));
+}
+
+.peak.is-active .peak-rim {
+  stroke: var(--m-glow-rim);
+  stroke-width: 2.6;
+}
+
+.peak.is-dim {
+  opacity: 0.22;
+}
+
+.fade-from {
+  stop-color: var(--bg);
+  stop-opacity: 0;
+}
+
+.fade-to {
+  stop-color: var(--bg);
+  stop-opacity: 1;
+}
+
+.ridge-fade {
+  pointer-events: none;
+}
+
+/* ---------- Skin track ---------- */
+.trail,
+.skier {
+  transition: opacity 0.45s ease;
+}
+
+.ridge.track-dim .trail,
+.ridge.track-dim .skier {
+  opacity: 0.15;
+}
+
+.trail path {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+  pointer-events: none;
+}
+
+/* A groove pressed into the snow: soft shadow with a bright centre */
+.trail-groove {
+  stroke: var(--trail-groove);
+  stroke-width: 5;
+}
+
+.trail-line {
+  stroke: var(--trail-line);
+  stroke-width: 1.5;
+}
+
+.trail-descent {
+  stroke: var(--trail-descent);
+  stroke-width: 1.6;
+  transition: opacity 1.4s ease;
+}
+
+.trail-descent.is-fading {
+  opacity: 0;
+}
+
+/* ---------- Skier (3D, drawn on a canvas that follows the trail) ---------- */
+.skier {
+  position: absolute;
+  z-index: 7;
+  top: 0;
+  left: 0;
+  width: calc(var(--sk-size) * 3);
+  height: calc(var(--sk-size) * 3);
+  opacity: 0;
+  pointer-events: none;
+  will-change: transform;
+  transform: translate(calc(var(--sx, 0px) - 50%), calc(var(--sy, 0px) - 75%));
+  transition: opacity 0.45s ease;
+}
+
+.skier.is-on {
+  opacity: 1;
+}
+
+/* Summit flag tooltip */
+.ridge-flag {
+  position: absolute;
+  z-index: 6;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  transform: translate(var(--fx, 0), var(--fy, 0));
+  transition: transform 0.4s var(--ease-spring);
+  pointer-events: none;
+}
+
+.ridge-flag::before {
+  content: "";
+  position: absolute;
+  left: -1px;
+  bottom: 0;
+  width: 2px;
+  height: 30px;
+  background: var(--on-sky);
+  opacity: 0.9;
+}
+
+/* The #1 summit hosts the skier, so its flag flies clear of their head */
+.ridge-flag.is-tall:not(.is-docked)::before {
+  height: calc(var(--sk-size) * 1.55 + 8px);
+}
+
+.ridge-flag.is-tall:not(.is-docked) .flag-card {
+  bottom: calc(var(--sk-size) * 1.55 + 8px);
+}
+
+.ridge-flag::after {
+  content: "";
+  position: absolute;
+  left: -4px;
+  bottom: -4px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--on-sky);
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3);
+}
+
+.flag-card {
+  position: absolute;
+  bottom: 30px;
+  left: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.4rem 0.6rem 0.4rem 0.4rem;
+  border-radius: 12px;
+  background: var(--paper);
+  color: var(--ink);
+  box-shadow: var(--shadow-pop);
+  text-decoration: none;
+  white-space: nowrap;
+  pointer-events: auto;
+  transform: translate(calc(-50% + var(--shift, 0px)), var(--lift, 0px));
+  transition: transform 0.4s var(--ease-spring);
+}
+
+/* Phones: the card docks at the foot of the range, the dot marks the summit */
+.ridge-flag.is-docked::before {
+  display: none;
+}
+
+.flag-card.pop {
+  animation: flag-pop 0.35s var(--ease-spring);
+}
+
+@keyframes flag-pop {
+  from {
+    opacity: 0.4;
+    scale: 0.9;
+  }
+}
+
+.flag-card .rank-chip {
+  min-width: 2.1rem;
+  height: 2.1rem;
+  font-size: 0.95rem;
+}
+
+.flag-text {
+  display: grid;
+  line-height: 1.2;
+}
+
+.flag-name {
+  font-size: 0.95rem;
+  font-weight: 800;
+  font-stretch: 110%;
+}
+
+.flag-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  color: var(--muted);
+  font-size: 0.74rem;
+  font-weight: 600;
+}
+
+.flag-meta .i {
+  width: 0.95rem;
+  height: 0.95rem;
+}
+
+.flag-card > .i {
+  color: var(--muted);
+  transition: transform 0.25s var(--ease-spring);
+}
+
+.flag-card:hover > .i {
+  transform: translateY(2px);
+  color: var(--ink);
+}
+
+/* ---------- Intro ---------- */
+.intro {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+  gap: clamp(1.5rem, 5vw, 5rem);
+  align-items: end;
+  max-width: var(--wrap);
+  margin: clamp(0.5rem, 2vw, 1.5rem) auto clamp(3rem, 7vw, 5.5rem);
+  padding-inline: var(--gutter);
+}
+
+.intro-lead {
+  margin: 0;
+  font-size: clamp(1.65rem, 3.7vw, 3.1rem);
+  font-weight: 800;
+  font-stretch: 112%;
+  line-height: 1.04;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+}
+
+.intro-side p {
+  margin: 0 0 1rem;
+  color: var(--ink-2);
+  font-size: 1.05rem;
+  line-height: 1.55;
+}
+
+.intro-side .ridge-hint {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  margin: 0;
+  padding: 0.75rem 0.9rem;
+  border: 1.5px dashed var(--line-2);
+  border-radius: 12px;
+  color: var(--muted);
+  font-size: 0.88rem;
+  line-height: 1.45;
+}
+
+.ridge-hint .i {
+  margin-top: 0.1rem;
+  color: var(--brand);
+}
+
+/* ---------- Lineup ---------- */
+.lineup {
+  max-width: var(--wrap);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.lineup-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 0.75rem 2rem;
+  margin-bottom: 1.25rem;
+}
+
+.lineup-head h2,
+.maps-copy h2 {
+  font-size: clamp(2.1rem, 5.6vw, 4.2rem);
+  font-weight: 900;
+  font-stretch: 125%;
+  letter-spacing: -0.035em;
+  line-height: 0.92;
+  text-transform: uppercase;
+}
+
+.rank-note {
+  max-width: 34ch;
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+/* ---------- Controls ---------- */
+.controls {
+  position: relative;
+  z-index: 20;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 0.75rem 1rem;
+  margin-bottom: 1.5rem;
+  padding: 0.7rem;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: color-mix(in srgb, var(--paper) 86%, transparent);
+  backdrop-filter: blur(16px) saturate(1.4);
+  -webkit-backdrop-filter: blur(16px) saturate(1.4);
+  box-shadow: 0 10px 30px -18px var(--tk-shadow-strong);
+}
+
+@media (min-width: 900px) {
+  .controls {
+    position: sticky;
+    top: 0.75rem;
+  }
+
+  html {
+    scroll-padding-top: 7.5rem;
+  }
+}
+
+.search {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex: 1 1 15rem;
+}
+
+.search > .i {
+  position: absolute;
+  left: 0.9rem;
+  color: var(--muted);
+  pointer-events: none;
+}
+
+#searchInput {
+  width: 100%;
+  height: 2.9rem;
+  padding: 0 1rem 0 2.7rem;
+  border: 1.5px solid transparent;
+  border-radius: 12px;
+  background: var(--paper-2);
+  color: var(--ink);
+  font-size: 1rem;
+  outline: none;
+  transition:
+    border-color 0.2s,
+    background-color 0.2s,
+    box-shadow 0.2s;
+}
+
+#searchInput::placeholder {
+  color: var(--muted);
+  opacity: 1;
+}
+
+#searchInput:focus {
+  border-color: var(--brand);
+  background: var(--paper);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--brand) 18%, transparent);
+}
+
+.seg {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.seg legend {
+  margin: 0 0 0.35rem 0.3rem;
+  padding: 0;
+  color: var(--muted);
+  font-size: 0.66rem;
+  font-weight: 750;
+  font-stretch: 118%;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.seg-track {
+  position: relative;
+  display: flex;
+  padding: 3px;
+  border-radius: 12px;
+  background: var(--paper-2);
+}
+
+.seg input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.seg label {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  flex: 1 1 auto;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  height: 2.4rem;
+  padding: 0 0.75rem;
+  border-radius: 9px;
+  color: var(--ink-2);
+  font-size: 0.86rem;
+  font-weight: 650;
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+  transition:
+    color 0.25s,
+    opacity 0.25s;
+}
+
+.seg label .i {
+  width: 1rem;
+  height: 1rem;
+}
+
+.seg-count {
+  min-width: 1.35rem;
+  padding: 0.08rem 0.35rem;
+  border-radius: 99px;
+  background: color-mix(in srgb, var(--ink) 8%, transparent);
+  color: var(--muted);
+  font-size: 0.7rem;
+  font-weight: 750;
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+  transition:
+    background-color 0.25s,
+    color 0.25s;
+}
+
+.seg label.is-empty {
+  opacity: 0.45;
+}
+
+.seg input:checked + label {
+  color: var(--seg-on-ink);
+}
+
+.seg input:checked + label .seg-count {
+  background: color-mix(in srgb, var(--seg-on-ink) 18%, transparent);
+  color: inherit;
+}
+
+.seg:not(.is-ready) input:checked + label {
+  background: var(--seg-on);
+}
+
+.seg input:focus-visible + label {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.seg-thumb {
+  position: absolute;
+  z-index: 0;
+  top: 3px;
+  bottom: 3px;
+  left: 0;
+  width: var(--w, 0);
+  border-radius: 9px;
+  background: var(--seg-on);
+  box-shadow: 0 4px 12px -4px var(--tk-shadow-strong);
+  transform: translateX(var(--x, 0));
+  transition:
+    transform 0.42s var(--ease-spring),
+    width 0.42s var(--ease-spring),
+    background-color 0.3s;
+}
+
+.seg:not(.is-ready) .seg-thumb {
+  display: none;
+}
+
+.seg.no-anim .seg-thumb {
+  transition: none;
+}
+
+.count {
+  margin: 0 0 0 auto;
+  padding: 0 0.4rem 0.75rem;
+  color: var(--muted);
+  font-size: 0.85rem;
+  font-weight: 650;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* ---------- Lift tickets ---------- */
+.tickets {
+  display: grid;
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ticket {
+  --stub: 5.75rem;
+  --notch: 11px;
+  position: relative;
+  filter: drop-shadow(0 1px 0 var(--tk-edge))
+    drop-shadow(0 10px 16px var(--tk-shadow));
+  transition:
+    transform 0.4s var(--ease-spring),
+    filter 0.4s ease;
+}
+
+.ticket[hidden] {
+  display: none;
+}
+
+.ticket-card {
+  display: grid;
+  grid-template-columns: var(--stub) minmax(0, 1fr);
+  min-height: 100%;
+  border-radius: 16px;
+  background:
+    radial-gradient(
+      circle 280px at var(--gx, -999px) var(--gy, -999px),
+      var(--tk-glow),
+      transparent 70%
+    ),
+    var(--paper);
+  -webkit-mask:
+    radial-gradient(circle var(--notch) at var(--stub) 0, #0000 97%, #000) top /
+      100% 51% no-repeat,
+    radial-gradient(circle var(--notch) at var(--stub) 100%, #0000 97%, #000)
+      bottom / 100% 51% no-repeat;
+  mask:
+    radial-gradient(circle var(--notch) at var(--stub) 0, #0000 97%, #000) top /
+      100% 51% no-repeat,
+    radial-gradient(circle var(--notch) at var(--stub) 100%, #0000 97%, #000)
+      bottom / 100% 51% no-repeat;
+}
+
+.ticket-stub {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  padding: 1rem 0.4rem;
+  background: var(--tier-bg);
+  color: var(--tier-ink);
+  overflow: hidden;
+}
+
+.stub-label {
+  font-size: 0.6rem;
+  font-weight: 800;
+  font-stretch: 125%;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  opacity: 0.72;
+}
+
+.stub-rank {
+  font-size: 2.7rem;
+  font-weight: 900;
+  font-stretch: 125%;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.05em;
+  line-height: 0.88;
+}
+
+.barcode {
+  width: 3.4rem;
+  height: 1rem;
+  margin-top: 0.3rem;
+  fill: currentColor;
+  opacity: 0.5;
+}
+
+/* Laser scan across the barcode on hover */
+.ticket-stub::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 1rem;
+  width: 4.2rem;
+  height: 2px;
+  margin-left: -2.1rem;
+  border-radius: 2px;
+  background: var(--scan);
+  box-shadow: 0 0 10px 1px var(--scan);
+  opacity: 0;
+}
+
+.ticket-body {
+  display: grid;
+  gap: 0.85rem;
+  min-width: 0;
+  padding: 1.1rem 1.15rem 1.15rem 1.35rem;
+  background: radial-gradient(circle, var(--line-2) 1.3px, transparent 1.8px)
+    left -1px top 0 / 4px 9px repeat-y;
+}
+
+.ticket-head {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  grid-template-areas:
+    "name name"
+    "pass site";
+  align-items: center;
+  gap: 0.4rem 0.6rem;
+  min-width: 0;
+}
+
+.ticket-name {
+  grid-area: name;
+  font-size: 1.28rem;
+  font-weight: 800;
+  font-stretch: 112%;
+  letter-spacing: -0.015em;
+  line-height: 1.1;
+}
+
+.ticket-site {
+  grid-area: site;
+  max-width: 100%;
+  overflow: hidden;
+  color: var(--muted);
+  font-size: 0.8rem;
+  text-decoration: none;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: max-content;
+}
+
+.ticket-site:hover {
+  color: var(--link);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.ticket-head .pass {
+  grid-area: pass;
+  justify-self: start;
+}
+
+.access {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  width: fit-content;
+  margin: 0;
+  padding: 0.38rem 0.75rem 0.38rem 0.55rem;
+  border-radius: 99px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.access .i {
+  width: 1.05rem;
+  height: 1.05rem;
+}
+
+.access.is-yes {
+  background: var(--yes-bg);
+  color: var(--yes-ink);
+}
+
+.access.is-yes .i {
+  animation: spin 16s linear infinite;
+}
+
+.access.is-no,
+.access.is-unknown {
+  background: var(--no-bg);
+  color: var(--no-ink);
+}
+
+@keyframes spin {
+  to {
+    rotate: 1turn;
+  }
+}
+
+.facts {
+  display: grid;
+  gap: 0.75rem;
+  margin: 0;
+}
+
+.fact {
+  min-width: 0;
+}
+
+.fact dt {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-bottom: 0.2rem;
+  color: var(--muted);
+  font-size: 0.66rem;
+  font-weight: 750;
+  font-stretch: 118%;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.fact dt .i {
+  width: 0.95rem;
+  height: 0.95rem;
+}
+
+.fact dd {
+  margin: 0;
+  color: var(--ink);
+  font-size: 0.9rem;
+  line-height: 1.42;
+}
+
+.ticket-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  margin: 0;
+  padding-top: 0.75rem;
+  border-top: 1px dashed var(--line);
+  color: var(--muted);
+  font-size: 0.8rem;
+  line-height: 1.4;
+}
+
+.ticket-note .i {
+  margin-top: 0.05rem;
+}
+
+.ticket-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.ticket-actions .btn {
+  flex: 1 1 auto;
+}
+
+.ticket.is-flash .ticket-card {
+  animation: ticket-flash 1.8s ease-out;
+}
+
+@keyframes ticket-flash {
+  0%,
+  35% {
+    box-shadow: inset 0 0 0 3px var(--gold);
+  }
+}
+
+@media (hover: hover) {
+  .ticket:hover {
+    z-index: 2;
+    transform: translateY(-3px) rotate(-0.35deg);
+    filter: drop-shadow(0 1px 0 var(--tk-edge))
+      drop-shadow(0 22px 24px var(--tk-shadow-strong));
+  }
+
+  .ticket:hover .ticket-stub::after {
+    animation: scan 1.1s ease-in-out;
+  }
+}
+
+@keyframes scan {
+  0% {
+    opacity: 0;
+    transform: translateY(-1.6rem);
+  }
+  15%,
+  85% {
+    opacity: 0.9;
+  }
+  50% {
+    transform: translateY(0.9rem);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-1.6rem);
+  }
+}
+
+/* Tickets slide in as they come into view */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .ticket {
+      animation: ticket-in linear backwards;
+      animation-timeline: view();
+      animation-range: entry 0% entry 70%;
+    }
+
+    @keyframes ticket-in {
+      from {
+        opacity: 0;
+        translate: 0 36px;
+        rotate: 0.6deg;
+      }
+    }
+  }
+}
+
+/* Tablet: schedule and cost side by side */
+@media (min-width: 640px) {
+  .facts {
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+  }
+
+  .ticket-actions .btn {
+    flex: 0 0 auto;
+  }
+}
+
+/* Desktop: a wide ticket with table-like columns */
+@media (min-width: 1040px) {
+  .ticket {
+    --stub: 6.25rem;
+  }
+
+  .ticket-body {
+    grid-template-columns:
+      minmax(13rem, 1.1fr) minmax(11.25rem, 0.6fr) minmax(0, 1.45fr)
+      minmax(0, 1.15fr) auto;
+    align-items: center;
+    column-gap: 1.6rem;
+    padding: 1.15rem 1.35rem 1.15rem 1.6rem;
+  }
+
+  .facts {
+    display: contents;
+  }
+
+  .ticket-note {
+    grid-column: 1 / -1;
+  }
+
+  .ticket-actions {
+    flex-direction: column;
+    grid-row: 1;
+    grid-column: 5;
+  }
+
+  .ticket-actions .btn {
+    flex: none;
+    width: 100%;
+  }
+
+  .ticket-name {
+    font-size: 1.32rem;
+  }
+}
+
+/* Small phones: compact stub */
+@media (max-width: 480px) {
+  .ticket {
+    --stub: 4.25rem;
+    --notch: 9px;
+  }
+
+  .stub-rank {
+    font-size: 2.1rem;
+  }
+
+  .stub-label {
+    letter-spacing: 0.16em;
+  }
+
+  .barcode {
+    width: 2.6rem;
+  }
+
+  .ticket-body {
+    padding: 1rem 0.95rem 1rem 1.15rem;
+  }
+
+  .ticket-name {
+    font-size: 1.15rem;
+  }
+
+  .ticket-actions .btn {
+    padding-inline: 0.7rem;
+  }
+}
+
+/* ---------- Empty state ---------- */
+.empty {
+  display: grid;
+  justify-items: center;
+  gap: 0.4rem;
+  padding: 3rem 1.5rem;
+  border: 2px dashed var(--line-2);
+  border-radius: 18px;
+  color: var(--muted);
+  text-align: center;
+}
+
+.empty p {
+  margin: 0;
+}
+
+.empty-title {
+  color: var(--ink);
+  font-size: 1.35rem;
+  font-weight: 800;
+  font-stretch: 112%;
+}
+
+.empty .btn {
+  margin-top: 0.75rem;
+}
+
+/* ---------- Trail maps promo ---------- */
+.maps-promo {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr);
+  align-items: center;
+  gap: clamp(2rem, 5vw, 4rem);
+  max-width: var(--wrap);
+  margin: clamp(4.5rem, 10vw, 8rem) auto 0;
+  padding-inline: var(--gutter);
+}
+
+.maps-copy p {
+  max-width: 34ch;
+  margin: 1rem 0 1.5rem;
+  color: var(--ink-2);
+  font-size: 1.05rem;
+}
+
+.maps-fan {
+  position: relative;
+  display: block;
+  height: clamp(220px, 30vw, 380px);
+}
+
+.maps-fan img {
+  position: absolute;
+  bottom: 6%;
+  left: 50%;
+  width: 54%;
+  height: auto;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+  border: 5px solid var(--paper);
+  border-radius: 12px;
+  box-shadow: 0 22px 34px -16px var(--tk-shadow-strong);
+  transform-origin: 50% 140%;
+  transform: translateX(-50%) rotate(calc(var(--n) * 9deg));
+  transition: transform 0.6s var(--ease-spring);
+}
+
+.maps-promo:hover .maps-fan img,
+.maps-fan:focus-visible img {
+  transform: translateX(calc(-50% + var(--n) * 14%))
+    rotate(calc(var(--n) * 13deg)) translateY(-4%);
+}
+
+.maps-fan img:hover {
+  z-index: 2;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 899px) {
+  .intro,
+  .maps-promo {
+    grid-template-columns: 1fr;
+  }
+
+  .controls {
+    align-items: stretch;
+  }
+
+  .search {
+    flex-basis: 100%;
+  }
+
+  .seg {
+    flex: 1 1 100%;
+  }
+
+  .count {
+    margin: 0;
+    padding: 0 0.3rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .hero {
+    --ridge-h: clamp(230px, 38vh, 320px);
+    min-height: clamp(540px, 86svh, 760px);
+  }
+
+  .hero-copy {
+    margin-bottom: calc(var(--ridge-h) * -0.16);
+  }
+
+  .seg label {
+    padding: 0 0.5rem;
+    font-size: 0.82rem;
+  }
+
+  .seg-count {
+    display: none;
+  }
+
+  .flag-card {
+    padding: 0.35rem 0.5rem 0.35rem 0.35rem;
+  }
+
+  .flag-name {
+    font-size: 0.88rem;
+  }
+}
+
+/* Phones and portrait tablets: stack the word as UP / HILL */
+@media (max-width: 640px), (max-aspect-ratio: 3/4) {
+  .letters {
+    display: grid;
+    justify-items: center;
+  }
+
+  .hero-word {
+    font-size: clamp(4.6rem, 33vw, 17rem);
+    line-height: 0.82;
+  }
+}

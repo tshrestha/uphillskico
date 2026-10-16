@@ -13,6 +13,15 @@ export function initTheme() {
   } else if (prefersDark) {
     document.documentElement.setAttribute("data-theme", "dark");
   }
+  syncThemeToggle();
+}
+
+// Reflect the current theme on the toggle button for assistive tech
+function syncThemeToggle() {
+  const isDark = document.documentElement.getAttribute("data-theme") === "dark";
+  document
+    .getElementById("themeToggle")
+    ?.setAttribute("aria-pressed", String(isDark));
 }
 
 export function toggleTheme() {
@@ -23,11 +32,13 @@ export function toggleTheme() {
   localStorage.setItem("theme", newTheme);
 
   updateThemeColorMeta(newTheme);
+  syncThemeToggle();
+  document.dispatchEvent(new CustomEvent("themechange", { detail: newTheme }));
 }
 
 export function updateThemeColorMeta(theme) {
-  const lightColor = "#f8fafc";
-  const darkColor = "#0f172a";
+  const lightColor = "#0b27b8";
+  const darkColor = "#01030d";
   const themeColorMetas = document.querySelectorAll('meta[name="theme-color"]');
   themeColorMetas.forEach((meta) => {
     meta.setAttribute("content", theme === "dark" ? darkColor : lightColor);
@@ -42,6 +53,10 @@ export function setupThemeListener() {
         const newTheme = e.matches ? "dark" : "light";
         document.documentElement.setAttribute("data-theme", newTheme);
         updateThemeColorMeta(newTheme);
+        syncThemeToggle();
+        document.dispatchEvent(
+          new CustomEvent("themechange", { detail: newTheme }),
+        );
       }
     });
 }
@@ -88,7 +103,7 @@ export function createAutocomplete(searchInput, autocompleteList, options) {
     const matches = getData(query).slice(0, 8);
 
     if (matches.length === 0) {
-      autocompleteList.innerHTML = `<li class="list-group-item text-center text-muted py-3">${emptyMessage}</li>`;
+      autocompleteList.innerHTML = `<li class="ac-empty">${emptyMessage}</li>`;
       autocompleteList.classList.add("show");
       searchInput.setAttribute("aria-expanded", "true");
       return;
@@ -116,7 +131,7 @@ export function createAutocomplete(searchInput, autocompleteList, options) {
   }
 
   function updateActive(newIndex) {
-    const items = autocompleteList.querySelectorAll(".list-group-item-action");
+    const items = autocompleteList.querySelectorAll(".ac-item");
     if (items.length === 0) return;
 
     items.forEach((item) => item.classList.remove("active"));
@@ -137,7 +152,7 @@ export function createAutocomplete(searchInput, autocompleteList, options) {
 
   // Event listeners
   searchInput.addEventListener("keydown", (e) => {
-    const items = autocompleteList.querySelectorAll(".list-group-item-action");
+    const items = autocompleteList.querySelectorAll(".ac-item");
 
     switch (e.key) {
       case "ArrowDown":
@@ -171,7 +186,7 @@ export function createAutocomplete(searchInput, autocompleteList, options) {
   });
 
   autocompleteList.addEventListener("click", (e) => {
-    const item = e.target.closest(".list-group-item-action");
+    const item = e.target.closest(".ac-item");
     if (item) {
       select(item.dataset.name);
     }

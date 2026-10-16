@@ -1,0 +1,413 @@
+/* ==========================================================================
+   Trail map pages: topo hero and map grid
+   ========================================================================== */
+
+.maps-hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding: 7.25rem var(--gutter) clamp(5.5rem, 10vw, 8rem);
+  color: var(--on-sky);
+  background: linear-gradient(
+    170deg,
+    var(--sky-1) 0%,
+    var(--sky-2) 55%,
+    var(--sky-3) 100%
+  );
+}
+
+.topo,
+.topo span {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.topo-base {
+  background: rgba(255, 255, 255, 0.17);
+  -webkit-mask: url("/images/topo.svg") center / cover no-repeat;
+  mask: url("/images/topo.svg") center / cover no-repeat;
+}
+
+/* Contours light up under the cursor like a headlamp on a paper map */
+.topo-lit {
+  background: var(--gold);
+  -webkit-mask:
+    url("/images/topo.svg") center / cover no-repeat,
+    radial-gradient(
+      circle clamp(170px, 24vw, 320px) at var(--mx, -999px) var(--my, -999px),
+      #000 25%,
+      transparent 75%
+    );
+  -webkit-mask-composite: source-in;
+  mask:
+    url("/images/topo.svg") center / cover no-repeat,
+    radial-gradient(
+      circle clamp(170px, 24vw, 320px) at var(--mx, -999px) var(--my, -999px),
+      #000 25%,
+      transparent 75%
+    );
+  mask-composite: intersect;
+}
+
+.topo-edge {
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  width: 100%;
+  height: clamp(36px, 6vw, 80px);
+  fill: var(--bg);
+}
+
+.maps-hero-inner {
+  max-width: var(--wrap);
+  margin-inline: auto;
+}
+
+.crumbs {
+  margin: 0 0 1.5rem;
+}
+
+.crumbs a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  color: inherit;
+  font-size: 0.9rem;
+  font-weight: 650;
+  text-decoration: none;
+  opacity: 0.88;
+}
+
+.crumbs a:hover {
+  opacity: 1;
+  text-decoration: underline;
+  text-decoration-color: var(--gold);
+  text-underline-offset: 4px;
+}
+
+.crumbs .i {
+  transition: transform 0.3s var(--ease-spring);
+}
+
+.crumbs a:hover .i {
+  transform: translateX(-3px);
+}
+
+.maps-title {
+  color: var(--title);
+  font-size: clamp(3.2rem, 12.5vw, 10.5rem);
+  font-weight: 900;
+  font-stretch: 125%;
+  letter-spacing: -0.04em;
+  line-height: 0.84;
+  text-transform: uppercase;
+  animation: maps-title-in 1s var(--ease-out) backwards;
+}
+
+.maps-title.is-long {
+  font-size: clamp(2.6rem, 9vw, 7.5rem);
+}
+
+@keyframes maps-title-in {
+  from {
+    opacity: 0;
+    font-stretch: 80%;
+    transform: translateY(20px);
+  }
+}
+
+.maps-sub {
+  max-width: 44ch;
+  margin: 1.25rem 0 0;
+  font-size: clamp(1rem, 1.6vw, 1.2rem);
+  opacity: 0.92;
+}
+
+/* ---------- Toolbar ---------- */
+.maps-main {
+  position: relative;
+  z-index: 2;
+  max-width: var(--wrap);
+  margin: clamp(-3.5rem, -5vw, -2rem) auto 0;
+  padding-inline: var(--gutter);
+}
+
+.maps-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1rem;
+  margin-bottom: 1.75rem;
+  padding: 0.7rem;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: var(--paper);
+  box-shadow: var(--shadow-pop);
+}
+
+.maps-toolbar .search {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex: 1 1 16rem;
+}
+
+.maps-toolbar .search > .i {
+  position: absolute;
+  left: 0.9rem;
+  color: var(--muted);
+  pointer-events: none;
+}
+
+.maps-toolbar #searchInput {
+  width: 100%;
+  height: 3rem;
+  padding: 0 1rem 0 2.7rem;
+  border: 1.5px solid transparent;
+  border-radius: 12px;
+  background: var(--paper-2);
+  color: var(--ink);
+  font-size: 1rem;
+  outline: none;
+  transition:
+    border-color 0.2s,
+    background-color 0.2s,
+    box-shadow 0.2s;
+}
+
+.maps-toolbar #searchInput::placeholder {
+  color: var(--muted);
+  opacity: 1;
+}
+
+.maps-toolbar #searchInput:focus {
+  border-color: var(--brand);
+  background: var(--paper);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--brand) 18%, transparent);
+}
+
+.maps-toolbar .count {
+  margin: 0;
+  padding: 0 0.5rem;
+  color: var(--muted);
+  font-size: 0.85rem;
+  font-weight: 650;
+  font-variant-numeric: tabular-nums;
+}
+
+.maps-tip {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin: 0 0 0 auto;
+  padding: 0 0.5rem;
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+/* ---------- Grid ---------- */
+.map-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 17rem), 1fr));
+  gap: clamp(1rem, 2vw, 1.5rem);
+}
+
+.map-card {
+  display: flex;
+  flex-direction: column;
+  padding: 0.55rem;
+  border-radius: 18px;
+  background: var(--paper);
+  color: var(--ink);
+  text-decoration: none;
+  box-shadow:
+    0 1px 0 var(--tk-edge),
+    0 14px 26px -18px var(--tk-shadow-strong);
+  transition:
+    transform 0.45s var(--ease-spring),
+    box-shadow 0.45s ease;
+  animation: card-in 0.6s var(--ease-out) backwards;
+}
+
+.map-card:nth-child(n) {
+  animation-delay: calc(min(var(--n, 0), 12) * 40ms);
+}
+
+@keyframes card-in {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+}
+
+.map-thumb {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+  border-radius: 12px;
+  background: var(--paper-2);
+}
+
+.map-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 1.2s var(--ease-out);
+}
+
+/* Folded paper map creases */
+.map-thumb::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    linear-gradient(
+      90deg,
+      transparent 33.2%,
+      rgba(0, 0, 0, 0.09) 33.3%,
+      rgba(255, 255, 255, 0.16) 33.6%,
+      transparent 34.4%,
+      transparent 66.4%,
+      rgba(0, 0, 0, 0.09) 66.6%,
+      rgba(255, 255, 255, 0.16) 66.9%,
+      transparent 67.6%
+    ),
+    linear-gradient(
+      180deg,
+      transparent 49.4%,
+      rgba(0, 0, 0, 0.1) 49.6%,
+      rgba(255, 255, 255, 0.16) 50.2%,
+      transparent 51%
+    );
+}
+
+.map-zoom {
+  position: absolute;
+  z-index: 2;
+  top: 0.6rem;
+  right: 0.6rem;
+  display: grid;
+  place-items: center;
+  width: 2.4rem;
+  height: 2.4rem;
+  border-radius: 50%;
+  background: var(--paper);
+  color: var(--ink);
+  box-shadow: var(--shadow-pop);
+  opacity: 0;
+  transform: scale(0.6) rotate(-45deg);
+  transition:
+    opacity 0.3s,
+    transform 0.4s var(--ease-spring);
+}
+
+.map-info {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.7rem 0.35rem 0.3rem;
+}
+
+.map-name {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  font-weight: 750;
+  font-stretch: 108%;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.map-info > .i {
+  color: var(--muted);
+  transition: transform 0.3s var(--ease-spring);
+}
+
+@media (hover: hover) {
+  .map-card:hover {
+    transform: translateY(-5px) rotate(-0.6deg);
+    box-shadow:
+      0 1px 0 var(--tk-edge),
+      0 26px 34px -18px var(--tk-shadow-strong);
+  }
+
+  .map-card:hover .map-thumb img {
+    transform: scale(1.12) translate(-2%, -2%);
+  }
+
+  .map-card:hover .map-zoom {
+    opacity: 1;
+    transform: none;
+  }
+
+  .map-card:hover .map-info > .i {
+    color: var(--ink);
+    transform: translate(2px, -2px);
+  }
+}
+
+.maps-empty {
+  padding: 3rem 1.5rem;
+  border: 2px dashed var(--line-2);
+  border-radius: 18px;
+  color: var(--muted);
+  text-align: center;
+}
+
+.maps-noscript {
+  padding: 3rem 1rem;
+  text-align: center;
+}
+
+@media (max-width: 560px) {
+  .map-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+  }
+
+  .map-card {
+    padding: 0.4rem;
+    border-radius: 14px;
+  }
+
+  .map-thumb {
+    border-radius: 10px;
+  }
+
+  .map-info {
+    align-items: flex-start;
+    gap: 0.45rem;
+    padding: 0.55rem 0.15rem 0.2rem;
+  }
+
+  .map-info > .i {
+    display: none;
+  }
+
+  .map-info .rank-chip {
+    min-width: 1.55rem;
+    height: 1.55rem;
+    font-size: 0.72rem;
+  }
+
+  .map-name {
+    font-size: 0.85rem;
+    line-height: 1.25;
+    white-space: normal;
+  }
+}
+
+@media (max-width: 640px) {
+  .maps-hero {
+    padding-top: 6.25rem;
+  }
+
+  .maps-tip {
+    display: none;
+  }
+}

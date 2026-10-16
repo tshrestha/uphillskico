@@ -7,37 +7,62 @@
     <!-- Critical CSS for faster FCP/LCP -->
     <style>
       :root {
-        --bg-primary: #f8fafc;
-        --text-primary: #0f172a;
-        --text-muted: #64748b;
+        --bg: #f2f5fd;
+        --ink: #0a1338;
+        --sky-1: #0b27b8;
+        color-scheme: light;
       }
+
       @media (prefers-color-scheme: dark) {
-        :root {
-          --bg-primary: #0f172a;
-          --text-primary: #f1f5f9;
-          --text-muted: #94a3b8;
+        :root:not([data-theme="light"]) {
+          --bg: #050920;
+          --ink: #edf1ff;
+          --sky-1: #01030d;
+          color-scheme: dark;
         }
       }
+
+      [data-theme="dark"] {
+        --bg: #050920;
+        --ink: #edf1ff;
+        --sky-1: #01030d;
+        color-scheme: dark;
+      }
+
       body {
         font-family:
-          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-        background-color: var(--bg-primary);
-        color: var(--text-primary);
+          "Mona Sans",
+          ui-sans-serif,
+          system-ui,
+          -apple-system,
+          "Segoe UI",
+          sans-serif;
+        background-color: var(--bg);
+        color: var(--ink);
         margin: 0;
       }
-      .container {
-        max-width: 1400px;
-        margin: 0 auto;
-        padding: 0 1rem;
+      .maps-hero {
+        background-color: var(--sky-1);
       }
-      .visually-hidden-focusable:not(:focus) {
+
+      .visually-hidden {
         position: absolute !important;
         width: 1px !important;
         height: 1px !important;
         overflow: hidden !important;
         clip: rect(0, 0, 0, 0) !important;
+        clip-path: inset(50%) !important;
+        white-space: nowrap !important;
       }
     </style>
+
+    <link
+      rel="preload"
+      href="/fonts/mona-sans-latin.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
 
     <title>Monarch Mountain Trail Maps | Uphill Ski Colorado</title>
     <meta
@@ -101,12 +126,12 @@
     <!-- Theme colors and PWA -->
     <meta
       name="theme-color"
-      content="#f8fafc"
+      content="#0b27b8"
       media="(prefers-color-scheme: light)"
     />
     <meta
       name="theme-color"
-      content="#0f172a"
+      content="#01030d"
       media="(prefers-color-scheme: dark)"
     />
     <meta name="apple-mobile-web-app-title" content="Monarch Maps" />
@@ -114,96 +139,185 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   </head>
   <body data-resort="monarch">
-    <a
-      href="#main-content"
-      class="visually-hidden-focusable position-absolute top-0 start-0 p-2 bg-primary text-white"
-      >Skip to main content</a
-    >
-    <header class="py-4 mb-3">
-      <div class="container">
-        <a
-          href="/trailmaps.html"
-          class="d-inline-flex align-items-center gap-1 text-decoration-none mb-3"
-        >
-          <svg
-            width="16"
-            height="16"
-            viewBox="0 0 16 16"
-            fill="currentColor"
-            aria-hidden="true"
-          >
-            <path
-              fill-rule="evenodd"
-              d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5z"
-            />
-          </svg>
-          All Trail Maps
-        </a>
-        <div class="d-flex align-items-center justify-content-between">
-          <div>
-            <h1 class="display-4 mb-1">Monarch Mountain</h1>
-            <p class="text-secondary mb-0">Trail maps for Monarch ski area</p>
-          </div>
-          <button
-            class="btn btn-outline-secondary theme-toggle"
-            id="themeToggle"
-            aria-label="Toggle dark mode"
-            title="Switch between light and dark mode"
-          >
-            <svg
-              class="moon-icon"
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="currentColor"
-              xmlns="http://www.w3.org/2000/svg"
-              aria-hidden="true"
-            >
-              <path
-                d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z"
-              />
-            </svg>
-            <svg
-              class="sun-icon"
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="currentColor"
-              xmlns="http://www.w3.org/2000/svg"
-              aria-hidden="true"
-            >
-              <path
-                d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM18.894 6.166a.75.75 0 00-1.06-1.06l-1.591 1.59a.75.75 0 101.06 1.061l1.591-1.59zM21.75 12a.75.75 0 01-.75.75h-2.25a.75.75 0 010-1.5H21a.75.75 0 01.75.75zM17.834 18.894a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 10-1.061 1.06l1.59 1.591zM12 18a.75.75 0 01.75.75V21a.75.75 0 01-1.5 0v-2.25A.75.75 0 0112 18zM7.758 17.303a.75.75 0 00-1.061-1.06l-1.591 1.59a.75.75 0 001.06 1.061l1.591-1.59zM6 12a.75.75 0 01-.75.75H3a.75.75 0 010-1.5h2.25A.75.75 0 016 12zM6.697 7.757a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 00-1.061 1.06l1.59 1.591z"
-              />
-            </svg>
-          </button>
-        </div>
-      </div>
+    <svg class="sprite" aria-hidden="true" focusable="false">
+      <symbol id="i-sun" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="4" />
+        <path
+          d="M12 2.5v2M12 19.5v2M4.6 4.6 6 6M18 18l1.4 1.4M2.5 12h2M19.5 12h2M4.6 19.4 6 18M18 6l1.4-1.4"
+        />
+      </symbol>
+      <symbol id="i-moon" viewBox="0 0 24 24">
+        <path d="M19.5 14.6A7.8 7.8 0 0 1 9.4 4.5a7.8 7.8 0 1 0 10.1 10.1Z" />
+      </symbol>
+      <symbol id="i-clock" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="8.5" />
+        <path d="M12 7.5V12l3 2" />
+      </symbol>
+      <symbol id="i-tag" viewBox="0 0 24 24">
+        <path
+          d="M3.5 12.4V4.5a1 1 0 0 1 1-1h7.9l8.1 8.1a1.5 1.5 0 0 1 0 2.1l-6.8 6.8a1.5 1.5 0 0 1-2.1 0Z"
+        />
+        <circle cx="8.2" cy="8.2" r="1.3" />
+      </symbol>
+      <symbol id="i-info" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="8.5" />
+        <path d="M12 11v5M12 8h.01" />
+      </symbol>
+      <symbol id="i-arrow-up-right" viewBox="0 0 24 24">
+        <path d="M7 17 17 7M8.5 7H17v8.5" />
+      </symbol>
+      <symbol id="i-map" viewBox="0 0 24 24">
+        <path d="m3.5 6.5 5.5-2 6 2 5.5-2v13l-5.5 2-6-2-5.5 2Z" />
+        <path d="M9 4.5v13M15 6.5v13" />
+      </symbol>
+      <symbol id="i-search" viewBox="0 0 24 24">
+        <circle cx="11" cy="11" r="6.5" />
+        <path d="m16 16 4.5 4.5" />
+      </symbol>
+      <symbol id="i-arrow-left" viewBox="0 0 24 24">
+        <path d="M19 12H5M11 6l-6 6 6 6" />
+      </symbol>
+      <symbol id="i-arrow-down" viewBox="0 0 24 24">
+        <path d="M12 5v14M6 13l6 6 6-6" />
+      </symbol>
+      <symbol id="i-arrow-up" viewBox="0 0 24 24">
+        <path d="M12 19V5M6 11l6-6 6 6" />
+      </symbol>
+      <symbol id="i-swipe" viewBox="0 0 24 24">
+        <path d="M3.5 12h17M7.5 8l-4 4 4 4M16.5 8l4 4-4 4" />
+      </symbol>
+      <symbol id="i-close" viewBox="0 0 24 24">
+        <path d="M6 6l12 12M18 6 6 18" />
+      </symbol>
+      <symbol id="i-plus" viewBox="0 0 24 24">
+        <path d="M12 5v14M5 12h14" />
+      </symbol>
+      <symbol id="i-minus" viewBox="0 0 24 24">
+        <path d="M5 12h14" />
+      </symbol>
+      <symbol id="i-fit" viewBox="0 0 24 24">
+        <path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" />
+      </symbol>
+      <symbol id="i-chevron-left" viewBox="0 0 24 24">
+        <path d="m15 5-7 7 7 7" />
+      </symbol>
+      <symbol id="i-chevron-right" viewBox="0 0 24 24">
+        <path d="m9 5 7 7-7 7" />
+      </symbol>
+    </svg>
+
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <header class="topbar" id="top">
+      <a class="brand" href="/">
+        <svg class="brand-mark" viewBox="0 0 40 40" aria-hidden="true">
+          <circle class="bm-sun" cx="30" cy="10.5" r="4.5" />
+          <path class="bm-peak" d="M2 35 15.5 11l6 9.5 4.5-6L38 35Z" />
+          <path
+            class="bm-track"
+            d="M9.5 32.5 20 29.5l-7-2.6 8.5-2.8-5.2-2.7 4.4-1.6"
+          />
+        </svg>
+        <span class="brand-name">Uphill <span>Ski CO</span></span>
+      </a>
+      <nav class="topnav" aria-label="Primary">
+        <a href="/#resorts">Resorts</a>
+        <a href="/trailmaps.html">Trail maps</a>
+      </nav>
+      <button
+        class="theme-toggle"
+        id="themeToggle"
+        type="button"
+        aria-pressed="false"
+        aria-label="Dark mode"
+        title="Toggle dark mode"
+      >
+        <svg viewBox="0 0 40 40" aria-hidden="true">
+          <g class="tt-stars">
+            <circle cx="9" cy="9" r="1.1" />
+            <circle cx="31" cy="7" r=".9" />
+            <circle cx="34" cy="17" r="1" />
+            <circle cx="12" cy="18" r=".7" />
+          </g>
+          <circle class="tt-sun" cx="20" cy="17" r="6.5" />
+          <path
+            class="tt-moon"
+            d="M23 10.7A7 7 0 1 0 26.2 20.3 5.5 5.5 0 0 1 23 10.7Z"
+          />
+          <path class="tt-ridge" d="M0 40v-7l9.5-9 6 5 7.5-9.5L40 34v6Z" />
+        </svg>
+      </button>
     </header>
 
-    <main id="main-content" class="container">
-      <p class="text-muted small mb-3" id="resultsCount"></p>
-      <div
-        class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-3"
-        id="trailMapsGrid"
+    <section class="maps-hero" aria-labelledby="page-title">
+      <div class="topo" aria-hidden="true">
+        <span class="topo-base"></span>
+        <span class="topo-lit"></span>
+      </div>
+      <div class="maps-hero-inner">
+        <p class="crumbs">
+          <a href="/trailmaps.html"
+            ><svg class="i" aria-hidden="true"><use href="#i-arrow-left" /></svg
+            >All trail maps</a
+          >
+        </p>
+        <h1 class="maps-title is-long" id="page-title">Monarch Mountain</h1>
+        <p class="maps-sub">Trail maps for Monarch ski area</p>
+      </div>
+      <svg
+        class="topo-edge"
+        viewBox="0 0 1000 80"
+        preserveAspectRatio="none"
+        aria-hidden="true"
       >
+        <path
+          d="M0 13L18 31L31 12L44 27L78 42L89 19L102 37L137 29L150 8L164 22L204 59L218 59L233 62L269 35L280 11L291 33L328 35L342 19L358 30L389 56L398 49L406 51L440 49L455 34L472 47L512 61L524 55L538 59L569 38L579 19L589 37L623 60L637 57L652 57L684 56L693 55L702 60L733 40L746 16L760 34L795 32L807 8L820 29L851 37L860 27L870 34L902 33L914 19L928 34L964 55L977 57L991 55L1000 80L0 80Z"
+        />
+      </svg>
+    </section>
+
+    <main id="main-content" class="maps-main">
+      <div class="maps-toolbar">
+        <p class="count" id="resultsCount" role="status" aria-live="polite"></p>
+        <p class="maps-tip">
+          <svg class="i" aria-hidden="true"><use href="#i-plus" /></svg>
+          Open a map to zoom and pan
+        </p>
+      </div>
+      <div class="map-grid" id="trailMapsGrid">
         <noscript>
-          <div class="col-12">
-            <p class="text-center py-5">
-              JavaScript is required to view trail maps. Please enable
-              JavaScript in your browser.
-            </p>
-          </div>
+          <p class="maps-noscript">
+            JavaScript is required to view trail maps. Please enable JavaScript
+            in your browser.
+          </p>
         </noscript>
       </div>
     </main>
 
-    <footer class="py-4 mt-5 border-top">
-      <div class="container">
-        <p class="text-muted text-center small mb-0">
+    <footer class="site-footer">
+      <svg
+        class="footer-ridge"
+        viewBox="0 0 1000 80"
+        preserveAspectRatio="none"
+        aria-hidden="true"
+      >
+        <path
+          d="M0 13L18 31L31 12L44 27L78 42L89 19L102 37L137 29L150 8L164 22L204 59L218 59L233 62L269 35L280 11L291 33L328 35L342 19L358 30L389 56L398 49L406 51L440 49L455 34L472 47L512 61L524 55L538 59L569 38L579 19L589 37L623 60L637 57L652 57L684 56L693 55L702 60L733 40L746 16L760 34L795 32L807 8L820 29L851 37L860 27L870 34L902 33L914 19L928 34L964 55L977 57L991 55L1000 80L0 80Z"
+        />
+      </svg>
+      <div class="footer-inner">
+        <p class="footer-lead">
           Trail maps are property of Monarch Mountain. Always verify current
           trail conditions before your uphill adventure.
         </p>
+        <nav class="footer-nav" aria-label="Footer">
+          <a href="/#resorts">Resorts</a>
+          <a href="/trailmaps.html">Trail maps</a>
+          <a href="#top" class="to-top"
+            >Back to the summit
+            <svg class="i" aria-hidden="true"><use href="#i-arrow-up" /></svg
+          ></a>
+        </nav>
       </div>
     </footer>
 

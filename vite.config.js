@@ -1,7 +1,5 @@
 import { defineConfig } from "vite";
 import { resolve } from "path";
-import purgecss from "vite-plugin-purgecss";
-import { ViteImageOptimizer } from "vite-plugin-image-optimizer";
 import { ViteMinifyPlugin } from "vite-plugin-minify";
 
 export default defineConfig({
@@ -16,50 +14,6 @@ export default defineConfig({
       useShortDoctype: true,
       minifyCSS: true,
       minifyJS: true,
-    }),
-    purgecss({
-      content: [
-        "./index.html",
-        "./trailmaps.html",
-        "./trailmaps/**/*.html",
-        "./main.js",
-        "./src/**/*.js",
-      ],
-      // Safelist Bootstrap classes that might be dynamically generated
-      safelist: {
-        standard: [
-          // Theme-related
-          /^data-theme/,
-          // Table classes used in JS
-          "table",
-          "table-striped",
-          "table-hover",
-          "table-dark",
-          "table-responsive",
-          "align-middle",
-          // Button classes used in JS
-          "btn",
-          "btn-sm",
-          "btn-outline-primary",
-          "btn-outline-secondary",
-          // Typography/utilities used in JS
-          "fw-semibold",
-          "small",
-          "text-muted",
-          "text-center",
-          "text-decoration-none",
-          // Badge class
-          "badge",
-          // Card label class
-          "card-label",
-          // Footer and content classes
-          "footer-secondary",
-          // Image class
-          "img-fluid",
-          "alert",
-          "alert-primary",
-        ],
-      },
     }),
   ],
 

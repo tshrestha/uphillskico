@@ -6,7 +6,7 @@
 import { readFileSync, writeFileSync } from "fs";
 import { fileURLToPath } from "url";
 import { dirname, join } from "path";
-import { generateCard, generateTableRow } from "../src/shared.js";
+import { generateTicket, generateRidge } from "../src/shared.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -17,47 +17,42 @@ const resorts = JSON.parse(
   readFileSync(join(rootDir, "resorts.json"), "utf-8"),
 );
 
-// Generate all cards
-const cardsHtml = resorts.map(generateCard).join("");
-
-// Generate all table rows
-const tableRowsHtml = resorts.map(generateTableRow).join("");
-
 // Read index.html template
 let indexHtml = readFileSync(join(rootDir, "index.html"), "utf-8");
 
-// Marker comments for injection
-const CARDS_START = "<!-- STATIC_CARDS_START -->";
-const CARDS_END = "<!-- STATIC_CARDS_END -->";
-const TABLE_START = "<!-- STATIC_TABLE_START -->";
-const TABLE_END = "<!-- STATIC_TABLE_END -->";
-const COUNT_MARKER = "<!-- STATIC_COUNT -->";
-
-// Replace placeholders with generated content
-if (indexHtml.includes(CARDS_START) && indexHtml.includes(CARDS_END)) {
-  const cardsRegex = new RegExp(`${CARDS_START}[\\s\\S]*?${CARDS_END}`, "g");
-  indexHtml = indexHtml.replace(
-    cardsRegex,
-    `${CARDS_START}\n${cardsHtml}\n          ${CARDS_END}`,
-  );
-} else {
-  console.warn("Warning: Cards markers not found in index.html");
+/**
+ * Replace everything between <!-- STATIC_<NAME>_START --> and
+ * <!-- STATIC_<NAME>_END --> markers, keeping the markers for the next build.
+ */
+function replaceBlock(name, html, indent = "") {
+  const start = `<!-- STATIC_${name}_START -->`;
+  const end = `<!-- STATIC_${name}_END -->`;
+  if (!indexHtml.includes(start) || !indexHtml.includes(end)) {
+    console.warn(`Warning: ${name} markers not found in index.html`);
+    return;
+  }
+  const regex = new RegExp(`${start}[\\s\\S]*?${end}`, "g");
+  indexHtml = indexHtml.replace(regex, () => `${start}${html}${indent}${end}`);
 }
 
-if (indexHtml.includes(TABLE_START) && indexHtml.includes(TABLE_END)) {
-  const tableRegex = new RegExp(`${TABLE_START}[\\s\\S]*?${TABLE_END}`, "g");
-  indexHtml = indexHtml.replace(
-    tableRegex,
-    `${TABLE_START}\n${tableRowsHtml}\n              ${TABLE_END}`,
-  );
-} else {
-  console.warn("Warning: Table markers not found in index.html");
-}
+replaceBlock(
+  "TICKETS",
+  `${resorts.map(generateTicket).join("")}\n`,
+  "        ",
+);
+replaceBlock("RIDGE", generateRidge(resorts));
+replaceBlock("COUNT", `${resorts.length} of ${resorts.length} resorts`);
 
-// Replace count marker
+// Fill filter option counts: <span data-count="pass:Epic">6</span>
+const matchers = {
+  pass: (resort, value) => !value || resort.pass === value,
+  access: (resort, value) =>
+    !value || String(resort.uphillPolicy?.operationalHoursAccess) === value,
+};
 indexHtml = indexHtml.replace(
-  COUNT_MARKER,
-  `${resorts.length} of ${resorts.length} resorts`,
+  /(<span[^>]*data-count="(\w+):([\w-]*)"[^>]*>)[^<]*(<\/span\s*>)/g,
+  (_match, open, key, value, close) =>
+    `${open}${resorts.filter((r) => matchers[key]?.(r, value)).length}${close}`,
 );
 
 // Write updated index.html

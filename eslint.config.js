@@ -16,6 +16,12 @@ export default [
         URL: "readonly",
         setTimeout: "readonly",
         clearTimeout: "readonly",
+        requestAnimationFrame: "readonly",
+        ResizeObserver: "readonly",
+        IntersectionObserver: "readonly",
+        CustomEvent: "readonly",
+        Image: "readonly",
+        performance: "readonly",
         // Node.js globals (for build scripts)
         process: "readonly",
       },

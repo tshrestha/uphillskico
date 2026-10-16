@@ -1,15 +1,16 @@
-import "bootstrap/dist/css/bootstrap.min.css";
-import "./src/styles/theme.css";
+import "./src/styles/site.css";
+import "./src/styles/home.css";
 import resorts from "./resorts.json";
 import {
   initTheme,
   toggleTheme,
   setupThemeListener,
-  highlightMatch,
   debounce,
   createAutocomplete,
 } from "./src/utils.js";
-import { generateCard, generateTableRow, getRankBadge } from "./src/shared.js";
+import { escapeHtml, getPassLabel, getRankBadge } from "./src/shared.js";
+import { initHero } from "./src/hero.js";
+import { initSegmented, bindTrailMapViewer } from "./src/ui.js";
 
 // Initialize theme
 initTheme();
@@ -18,89 +19,100 @@ setupThemeListener();
 // Theme toggle button
 document.getElementById("themeToggle").addEventListener("click", toggleTheme);
 
+const reduceMotion = window.matchMedia(
+  "(prefers-reduced-motion: reduce)",
+).matches;
+
 // DOM elements
-const cardsContainer = document.getElementById("resortCards");
-const tableBody = document.getElementById("resortTableBody");
+const list = document.getElementById("resortList");
+const tickets = [...list.querySelectorAll(".ticket")];
 const countEl = document.getElementById("resortCount");
 const searchInput = document.getElementById("searchInput");
-const passFilter = document.getElementById("passFilter");
-const accessFilter = document.getElementById("accessFilter");
+const emptyState = document.getElementById("emptyState");
+const segments = [...document.querySelectorAll(".seg")].map(initSegmented);
 
-// Track if we're showing filtered results
-let isFiltered = false;
+const slugOf = (ticket) => ticket.id.replace("resort-", "");
 
-// Store original static HTML for restoration when filters are cleared
-const originalCardsHtml = cardsContainer.innerHTML;
-const originalTableHtml = tableBody.innerHTML;
-
-// Render cards (only called when filtering)
-function renderCards(filteredResorts) {
-  cardsContainer.innerHTML = filteredResorts.map(generateCard).join("");
-}
-
-// Render table (only called when filtering)
-function renderTable(filteredResorts) {
-  tableBody.innerHTML = filteredResorts.map(generateTableRow).join("");
-}
-
-// Update count display
-function updateCount(count) {
-  countEl.textContent =
-    count === resorts.length
-      ? `${count} of ${resorts.length} resorts`
-      : `${count} of ${resorts.length} resorts`;
-}
-
-// Filter resorts based on current filters
-function getFilteredResorts() {
-  const searchTerm = searchInput.value.toLowerCase();
-  const passValue = passFilter.value;
-  const accessValue = accessFilter.value;
-
-  return resorts.filter((resort) => {
-    const matchesSearch = resort.name.toLowerCase().includes(searchTerm);
-    const matchesPass = !passValue || resort.pass === passValue;
-    const matchesAccess =
-      !accessValue ||
-      (accessValue === "true" &&
-        resort.uphillPolicy?.operationalHoursAccess === true) ||
-      (accessValue === "false" &&
-        resort.uphillPolicy?.operationalHoursAccess === false);
-    return matchesSearch && matchesPass && matchesAccess;
+// Jump from the mountain range to a resort's ticket
+function jumpToResort(slug) {
+  const ticket = document.getElementById(`resort-${slug}`);
+  if (!ticket || ticket.hidden) return;
+  ticket.scrollIntoView({
+    behavior: reduceMotion ? "auto" : "smooth",
+    block: "center",
   });
+  const article = ticket.querySelector(".ticket-body");
+  article.setAttribute("tabindex", "-1");
+  article.focus({ preventScroll: true });
+  ticket.classList.remove("is-flash");
+  void ticket.offsetWidth;
+  ticket.classList.add("is-flash");
 }
 
-// Check if any filter is active
-function hasActiveFilters() {
+const hero = initHero({ onJump: jumpToResort });
+
+// Value of a radio group, with "all" meaning no filter
+function radioValue(name) {
+  const value = document.querySelector(`input[name="${name}"]:checked`)?.value;
+  return !value || value === "all" ? "" : value;
+}
+
+// Read the current filter state
+function getFilters() {
+  return {
+    search: searchInput.value.trim().toLowerCase(),
+    pass: radioValue("pass"),
+    access: radioValue("access"),
+  };
+}
+
+function matches(ticket, { search, pass, access }) {
   return (
-    searchInput.value !== "" ||
-    passFilter.value !== "" ||
-    accessFilter.value !== ""
+    ticket.dataset.name.includes(search) &&
+    (!pass || ticket.dataset.pass === pass) &&
+    (!access || ticket.dataset.access === access)
   );
 }
 
-// Handle filtering
-function handleFilter() {
-  const filtered = getFilteredResorts();
-  const needsRender = hasActiveFilters();
+// Show how many resorts each option would leave, given the other filters
+function updateOptionCounts(filters) {
+  document.querySelectorAll("[data-count]").forEach((el) => {
+    const [key, value] = el.dataset.count.split(":");
+    const count = tickets.filter((t) =>
+      matches(t, { ...filters, [key]: value }),
+    ).length;
+    el.textContent = count;
+    el.closest("label")?.classList.toggle("is-empty", count === 0);
+  });
+  segments.forEach((seg) => seg.place(true));
+}
 
-  if (needsRender) {
-    // We have active filters, render filtered results
-    renderCards(filtered);
-    renderTable(filtered);
-    isFiltered = true;
-  } else if (isFiltered) {
-    // Filters cleared, restore original static content
-    cardsContainer.innerHTML = originalCardsHtml;
-    tableBody.innerHTML = originalTableHtml;
-    isFiltered = false;
+// Handle filtering
+function handleFilter({ animate = false } = {}) {
+  const filters = getFilters();
+  const visible = tickets.filter((t) => matches(t, filters));
+  const active = filters.search || filters.pass || filters.access;
+
+  const update = () => {
+    tickets.forEach((t) => {
+      t.hidden = !visible.includes(t);
+    });
+    emptyState.hidden = visible.length > 0;
+  };
+
+  if (animate && document.startViewTransition && !reduceMotion) {
+    document.startViewTransition(update);
+  } else {
+    update();
   }
 
-  updateCount(filtered.length);
+  countEl.textContent = `${visible.length} of ${tickets.length} resorts`;
+  updateOptionCounts(filters);
+  hero.setVisible(active ? new Set(visible.map(slugOf)) : null);
 }
 
 // Debounced filter for search input
-const debouncedFilter = debounce(handleFilter, 150);
+const debouncedFilter = debounce(() => handleFilter(), 150);
 
 // Autocomplete setup
 const autocompleteList = document.getElementById("autocomplete-list");
@@ -109,13 +121,13 @@ const autocomplete = createAutocomplete(searchInput, autocompleteList, {
   getData: (query) =>
     resorts.filter((r) => r.name.toLowerCase().includes(query.toLowerCase())),
   renderItem: (resort, idx) => `
-    <li class="list-group-item list-group-item-action d-flex align-items-center gap-2 py-2" role="option" id="autocomplete-option-${idx}" data-index="${idx}" data-name="${resort.name}">
+    <li class="ac-item" role="option" id="autocomplete-option-${idx}" data-index="${idx}" data-name="${escapeHtml(resort.name)}">
       ${getRankBadge(resort.uphillPolicy?.rank)}
-      <span class="flex-grow-1">${resort.name}</span>
-      <span class="small text-muted text-uppercase">${resort.pass}</span>
+      <span class="ac-name">${escapeHtml(resort.name)}</span>
+      <span class="ac-meta">${getPassLabel(resort.pass)}</span>
     </li>
   `,
-  onSelect: handleFilter,
+  onSelect: () => handleFilter({ animate: true }),
   emptyMessage: "No resorts found",
 });
 
@@ -125,11 +137,45 @@ searchInput.addEventListener("input", (e) => {
   debouncedFilter();
 });
 
-passFilter.addEventListener("change", handleFilter);
-accessFilter.addEventListener("change", handleFilter);
+document
+  .querySelectorAll('input[name="pass"], input[name="access"]')
+  .forEach((input) =>
+    input.addEventListener("change", () => handleFilter({ animate: true })),
+  );
 
-// No initial render needed - content is pre-rendered in HTML
-// Just ensure the count is correct (it's already set in the static HTML)
+document.getElementById("resetFilters").addEventListener("click", () => {
+  searchInput.value = "";
+  document.getElementById("pass-all").checked = true;
+  document.getElementById("access-all").checked = true;
+  handleFilter({ animate: true });
+  segments.forEach((seg) => seg.place());
+  searchInput.focus();
+});
+
+// Headlamp glow that follows the cursor across a ticket
+if (window.matchMedia("(hover: hover)").matches) {
+  let frame = null;
+  list.addEventListener("pointermove", (e) => {
+    const card = e.target.closest(".ticket-card");
+    if (!card || frame) return;
+    frame = requestAnimationFrame(() => {
+      frame = null;
+      const rect = card.getBoundingClientRect();
+      card.style.setProperty("--gx", `${e.clientX - rect.left}px`);
+      card.style.setProperty("--gy", `${e.clientY - rect.top}px`);
+    });
+  });
+  list.addEventListener("pointerout", (e) => {
+    const card = e.target.closest(".ticket-card");
+    if (card && !card.contains(e.relatedTarget)) {
+      card.style.removeProperty("--gx");
+      card.style.removeProperty("--gy");
+    }
+  });
+}
+
+// Open trail maps in the in-page viewer
+bindTrailMapViewer();
 
 // Log performance timing in development
 if (import.meta.env?.DEV) {
