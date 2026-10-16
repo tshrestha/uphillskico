@@ -19,20 +19,20 @@ export default defineConfig({
 
   build: {
     // Minification settings
-    minify: "esbuild", // Use esbuild for fast JS/CSS minification
+    minify: true, // Use esbuild for fast JS/CSS minification
     cssMinify: true, // Ensure CSS is minified
 
     // Generate source maps for debugging
     sourcemap: false,
 
     // Multi-page build configuration
-    rollupOptions: {
+    rolldownOptions: {
       input: {
-        main: resolve(__dirname, "index.html"),
-        trailmaps: resolve(__dirname, "trailmaps.html"),
-        aspen: resolve(__dirname, "trailmaps/aspen.html"),
-        monarch: resolve(__dirname, "trailmaps/monarch.html"),
-        cooper: resolve(__dirname, "trailmaps/cooper.html"),
+        main: resolve(import.meta.dirname, "index.html"),
+        trailmaps: resolve(import.meta.dirname, "trailmaps.html"),
+        aspen: resolve(import.meta.dirname, "trailmaps/aspen.html"),
+        monarch: resolve(import.meta.dirname, "trailmaps/monarch.html"),
+        cooper: resolve(import.meta.dirname, "trailmaps/cooper.html"),
       },
       output: {
         assetFileNames: "assets/[name]-[hash][extname]",
@@ -42,7 +42,7 @@ export default defineConfig({
     },
 
     // Target modern browsers for smaller bundle
-    target: "es2024",
+    target: "es2025",
 
     // CSS code splitting
     cssCodeSplit: true,
