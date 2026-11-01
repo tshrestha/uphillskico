@@ -118,6 +118,25 @@ export function getAccessBadge(hasAccess) {
   return `<p class="access is-unknown">${icon("info")}Lift-ops access unknown</p>`;
 }
 
+// The season this guide covers. A resort's `season` records which season its
+// official source covers; resorts without one have an undated policy page.
+export const CURRENT_SEASON = "2026-27";
+
+/**
+ * Generate the season stamp: confirmed for this season, or the last season
+ * the resort's official information covered
+ * @param {string|undefined} season - Season of the source, e.g. "2025-26"
+ * @returns {string} HTML string for the stamp (empty for undated policies)
+ */
+export function getSeasonStamp(season) {
+  if (!season) return "";
+  const label = season.replace("-", "–");
+  if (season === CURRENT_SEASON) {
+    return `<p class="season is-current">${icon("check")}${label} policy</p>`;
+  }
+  return `<p class="season is-stale">${icon("info")}Last confirmed ${label}</p>`;
+}
+
 // Small deterministic PRNG so generated art is identical on every build
 function mulberry32(seed) {
   let a = seed >>> 0;
@@ -192,7 +211,9 @@ export function generateTicket(resort) {
               <a class="ticket-site" href="${escapeHtml(resort.website)}" target="_blank" rel="noopener noreferrer">${escapeHtml(getHostname(resort.website))}</a>
               ${getPassBadge(resort.pass)}
             </header>
-            ${getAccessBadge(policy.operationalHoursAccess)}
+            <div class="ticket-status">
+              ${getAccessBadge(policy.operationalHoursAccess)}${getSeasonStamp(policy.season)}
+            </div>
             <dl class="facts">
               <div class="fact"><dt>${icon("clock")}Schedule</dt><dd>${escapeHtml(policy.schedule || "–")}</dd></div>
               <div class="fact"><dt>${icon("tag")}Cost</dt><dd>${escapeHtml(policy.cost || "–")}</dd></div>

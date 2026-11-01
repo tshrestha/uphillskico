@@ -209,9 +209,17 @@ function createRange(ridge, svg, { onJump, onActivate }) {
     card.style.setProperty("--lift", "0px");
   }
 
+  // Icon and wording for whether uphill is allowed while the lifts run
+  function accessInfo(access) {
+    if (access === "true") return { icon: "sun", text: "Open during lift ops" };
+    if (access === "false") {
+      return { icon: "moon", text: "Closed during lift ops" };
+    }
+    return { icon: "info", text: "Lift-ops access unknown" };
+  }
+
   function describe(p) {
-    const access =
-      p.access === "true" ? "open during lift ops" : "closed during lift ops";
+    const access = accessInfo(p.access).text.toLowerCase();
     return `${p.name}, rank ${p.rank}, ${getPassLabel(p.pass, true)}, ${access}`;
   }
 
@@ -224,7 +232,8 @@ function createRange(ridge, svg, { onJump, onActivate }) {
     rankEl.textContent = p.rank;
     rankEl.className = `rank-chip t${getRankTier(p.rank)}`;
     nameEl.textContent = p.name;
-    metaEl.innerHTML = `${getPassLabel(p.pass)} · ${icon(p.access === "true" ? "sun" : "moon")}${p.access === "true" ? "Open" : "Closed"} during lift ops`;
+    const access = accessInfo(p.access);
+    metaEl.innerHTML = `${getPassLabel(p.pass)} · ${icon(access.icon)}${access.text}`;
     card.href = `#resort-${p.slug}`;
     card.setAttribute("aria-label", `Jump to ${p.name}`);
 

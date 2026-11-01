@@ -5,11 +5,13 @@
     "website": "https://www.winterparkresort.com",
     "uphillPolicy": {
       "rank": 1,
+      "season": "2026-27",
       "link": "https://www.winterparkresort.com/the-mountain/uphill-policy",
       "trailMap": "/trailmaps/WinterPark.webp",
+      "note": "2026–27 uphill start date and armband sale not announced yet. Uphill usually opens in early to mid-December",
       "operationalHoursAccess": true,
       "schedule": "4am-8pm daily. No access 8pm-4am",
-      "cost": "$25/season armband"
+      "cost": "Armband required. 2026–27 price not posted yet"
     }
   },
   {
@@ -18,11 +20,12 @@
     "website": "https://www.aspensnowmass.com",
     "uphillPolicy": {
       "rank": 2,
+      "season": "2026-27",
       "link": "https://www.aspensnowmass.com/policies/uphill-policy",
       "trailMap": "/trailmaps/aspen.html",
       "operationalHoursAccess": true,
       "schedule": "5am-10:30pm daily on all four mountains. Aspen Mtn: summit by 9am. Highlands: Merry-Go-Round by 8:30am",
-      "cost": "$74/season (Nov 1 - Apr 30). Free for Premier passholders. $10 goes to Mountain Rescue Aspen"
+      "cost": "$74/season (straps required Nov 1, 2026 - Apr 18, 2027). Free for Premier passholders. $10 goes to Mountain Rescue Aspen"
     }
   },
   {
@@ -31,11 +34,13 @@
     "website": "https://www.coppercolorado.com",
     "uphillPolicy": {
       "rank": 3,
-      "link": "https://www.coppercolorado.com/the-mountain/mountain-safety/uphill-access",
+      "season": "2025-26",
+      "link": "https://www.coppercolorado.com/events-activities/winter-activities/uphill-access/",
       "trailMap": "/trailmaps/Copper.webp",
+      "note": "Copper hasn't posted 2026–27 uphill details yet. Hours are from its 2025–26 uphill map",
       "operationalHoursAccess": true,
-      "schedule": "Before/after hours: 5am-8:30am & 4:30pm-10pm. Daytime routes: 9am-3:30pm",
-      "cost": "$79/season. Free for Ikon and Copper passholders. $5 armband fee"
+      "schedule": "Before/after hours: 5am-8:30am & 4:30pm-10pm. Daytime routes: 8:30am-3:30pm",
+      "cost": "Free for Copper and Ikon passholders (register online). New or replacement armband $5. 2026–27 pricing not posted yet"
     }
   },
   {
@@ -44,6 +49,7 @@
     "website": "https://www.skimonarch.com",
     "uphillPolicy": {
       "rank": 4,
+      "season": "2026-27",
       "link": "https://skimonarch.com/uphill-travel/",
       "trailMap": "/trailmaps/monarch.html",
       "operationalHoursAccess": true,
@@ -62,7 +68,7 @@
       "note": "Uphill policy included on general safety page",
       "operationalHoursAccess": true,
       "schedule": "8am-10pm daily, Sunshine (Lift 10) Pod only, except Sundance Trail",
-      "cost": "Included with mountain access"
+      "cost": "No uphill fee listed"
     }
   },
   {
@@ -71,11 +77,13 @@
     "website": "https://www.arapahoebasin.com",
     "uphillPolicy": {
       "rank": 6,
+      "season": "2026-27",
       "link": "https://www.arapahoebasin.com/uphill/",
       "trailMap": "/trailmaps/A-Basin.webp",
+      "note": "2026–27 uphill pass coming soon. The uphill pass does not include lift access",
       "operationalHoursAccess": true,
-      "schedule": "To Black Mountain Lodge during operating hours. Summit access before 8:30am or after 4pm",
-      "cost": "$119/season ($39 add-on for A-Basin passholders). Free for Ikon passholders"
+      "schedule": "During lift ops: east edge of High Noon to Black Mountain Lodge only. Outside lift ops: open front-side terrain",
+      "cost": "$49 add-on with any A-Basin or Ikon pass. Non-passholder price not posted yet"
     }
   },
   {
@@ -84,12 +92,13 @@
     "website": "https://www.skicooper.com",
     "uphillPolicy": {
       "rank": 7,
-      "link": "https://www.skicooper.com/snowsports-safety/",
+      "season": "2025-26",
+      "link": "https://www.skicooper.com/terrain-uphill-access/",
       "trailMap": "/trailmaps/cooper.html",
-      "note": "Uphill policy included on snowsports safety page",
+      "note": "Ski Cooper hasn't posted its 2026–27 uphill policy yet. Details are from its 2025–26 policy",
       "operationalHoursAccess": true,
-      "schedule": "4pm-8am: Free. 8am-4pm: Requires day/season pass. Must be off mountain by 8:45am",
-      "cost": "Free (4pm-8am). During operating hours requires lift ticket or season pass"
+      "schedule": "4pm-8am: Free. 8am-4pm: Requires day/season pass and Uphill Access Ticket. Without a pass, be off the mountain by 8:45am",
+      "cost": "Free (4pm-8am). 8am-4pm requires a Cooper season or day pass plus an Uphill Access Ticket from Guest Services"
     }
   },
   {
@@ -98,11 +107,13 @@
     "website": "https://www.eldora.com",
     "uphillPolicy": {
       "rank": 8,
-      "link": "https://www.eldora.com/tickets-passes/passes/uphill-access-policies/",
+      "season": "2026-27",
+      "link": "https://www.eldora.com/tickets-passes/uphill-access-policies/",
       "trailMap": "/trailmaps/Eldora.webp",
+      "note": "2026–27 Uphill Pass coming in mid-to-late December and required from the start of the season",
       "operationalHoursAccess": true,
-      "schedule": "Monday-Friday only. Early access 7am-9am, Daytime 9am-4pm. No weekends",
-      "cost": "$99/season. Free for Eldora and Ikon passholders"
+      "schedule": "Designated frontside, backside and select-day early-morning routes. 2026–27 route times not posted yet",
+      "cost": "Free for Ikon and Eldora Alpine season passholders (add the $0 Uphill Pass online). Non-passholder price not posted yet"
     }
   },
   {
@@ -114,8 +125,8 @@
       "link": "https://www.vail.com/the-mountain/about-the-mountain/safety/our-multi-use-mountain/uphill-access-policy.aspx",
       "trailMap": "/trailmaps/Vail.avif",
       "operationalHoursAccess": false,
-      "schedule": "30 min after lifts close to 15 min before first chair. Call hotline: (970) 754-1023",
-      "cost": "Free"
+      "schedule": "Not permitted during daytime lift operations. Call hotline for schedule: (970) 754-1023",
+      "cost": "No uphill fee listed"
     }
   },
   {
@@ -127,8 +138,8 @@
       "link": "https://www.breckenridge.com/the-mountain/about-the-mountain/safety/our-multi-use-mountain/uphill-access-policy.aspx",
       "trailMap": "/trailmaps/Breck.webp",
       "operationalHoursAccess": false,
-      "schedule": "Non-lift operating hours only. Call hotline: (970) 547-5627",
-      "cost": "Free"
+      "schedule": "May be prohibited during daytime lift operations. Call hotline for schedule: (970) 547-5627",
+      "cost": "No uphill fee listed"
     }
   },
   {
@@ -137,11 +148,13 @@
     "website": "https://www.steamboat.com",
     "uphillPolicy": {
       "rank": 11,
+      "season": "2024-25",
       "link": "https://www.steamboat.com/the-mountain/safety-and-responsibility/uphill-access",
       "trailMap": "/trailmaps/Steamboat.webp",
+      "note": "Couldn't confirm on steamboat.com. Details are from Steamboat's 2024–25 uphill policy, the latest we could read",
       "operationalHoursAccess": false,
-      "schedule": "Before 9am or after 4:30pm only. Must reach summit by 9am or turn around",
-      "cost": "$39/season armband required"
+      "schedule": "Before 9am or after 4:30pm only. Turn around if not at the top of Thunderhead or Storm Peak by 9am",
+      "cost": "Season armband required ($39 in 2024–25)"
     }
   },
   {
@@ -153,8 +166,8 @@
       "link": "https://www.keystoneresort.com/the-mountain/about-the-mountain/safety/our-multi-use-mountain/uphill-access-policy.aspx",
       "trailMap": "/trailmaps/Keystone.webp",
       "operationalHoursAccess": false,
-      "schedule": "Before and after lift operating hours. Call hotline: (970) 496-4033",
-      "cost": "Free"
+      "schedule": "May be prohibited during daytime lift operations. Call hotline for schedule: (970) 496-4033",
+      "cost": "No uphill fee listed"
     }
   },
   {
@@ -165,9 +178,10 @@
       "rank": 13,
       "link": "https://www.beavercreek.com/the-mountain/about-the-mountain/safety/our-multi-use-mountain/uphill-access-policy.aspx",
       "trailMap": "/trailmaps/BeaverCreek.avif",
+      "note": "Designated routes: Gold Dust to top of Centennial Express #6 (Main Mountain), plus Bachelor Gulch & Arrowhead",
       "operationalHoursAccess": false,
-      "schedule": "30 min after lifts close to 15 min before first chair. Call hotline: (970) 754-5907",
-      "cost": "Free"
+      "schedule": "May be prohibited during daytime lift operations. Call hotline for schedule: (970) 754-5907",
+      "cost": "No uphill fee listed"
     }
   },
   {
@@ -178,9 +192,10 @@
       "rank": 14,
       "link": "https://www.skicb.com/the-mountain/more-options/uphill-access-policy.aspx",
       "trailMap": "/trailmaps/CrestedButte.avif",
+      "note": "Skinning route: Warming House Hill > Lower Keystone > Upper Park > Yellow Brick Road > Paradise Bowl",
       "operationalHoursAccess": false,
       "schedule": "Before 8:45am and after 4:30pm. Call hotline: (970) 349-2345",
-      "cost": "Free"
+      "cost": "No uphill fee listed"
     }
   },
   {
@@ -189,11 +204,13 @@
     "website": "https://www.skiloveland.com",
     "uphillPolicy": {
       "rank": 15,
+      "season": "2025-26",
       "link": "https://skiloveland.com/the-mountain/uphill-access/",
       "trailMap": "/trailmaps/Loveland.webp",
+      "note": "Loveland expects uphill to reopen for 2026–27 in mid to late December, after snowmaking. 2026–27 pricing not posted yet",
       "operationalHoursAccess": false,
       "schedule": "Before 8am or after 4:30pm only. Route A to top of Ptarmigan Lift",
-      "cost": "$50/season. Included with Loveland season pass. 50% donated to Alpine Rescue Team"
+      "cost": "$50/season in 2025–26, included with Loveland season pass. 50% donated to Alpine Rescue Team and National Forest Foundation"
     }
   },
   {
@@ -202,11 +219,11 @@
     "website": "https://www.granbyranch.com",
     "uphillPolicy": {
       "rank": 16,
-      "link": "https://granbyranch.com/mountain-info/uphill-policy/",
+      "link": "https://granbyranch.com/uphill/",
       "trailMap": "/trailmaps/GranbyRanch.webp",
       "operationalHoursAccess": true,
-      "schedule": "6am-9am and 4pm-7pm daily. No access on night skiing nights",
-      "cost": "$40/season. $20 for homeowners and season passholders"
+      "schedule": "6am-9pm on designated East Mountain trails, off by 9:40pm. No uphill on night-ski nights (Saturdays and select holiday Sundays)",
+      "cost": "$40 uphill pass (ticket window only). 50% off for homeowners and season passholders. 10% donated to Grand Fire"
     }
   },
   {
@@ -228,12 +245,13 @@
     "website": "https://www.wolfcreekski.com",
     "uphillPolicy": {
       "rank": 18,
-      "link": "https://wolfcreekski.com/ski-ride-safety/",
+      "season": "2025-26",
+      "link": null,
       "trailMap": "/trailmaps/WolfCreek.webp",
-      "note": "Uphill info on safety page; uphill permitted on Kelly Boyce to Divide Trail during operating hours",
+      "note": "No dedicated uphill policy page. Details are from Wolf Creek's 2025–26 snow reports",
       "operationalHoursAccess": true,
-      "schedule": "9am-4pm on Kelly Boyce to Divide Trail only",
-      "cost": "Pass required, purchase at Ticket Office"
+      "schedule": "Kelly Boyce to Divide Trail during lift operating hours (normally 8:30am-4pm)",
+      "cost": "Uphill pass required, purchase at Ticket Office"
     }
   },
   {
@@ -255,11 +273,11 @@
     "website": "https://www.powderhorn.com",
     "uphillPolicy": {
       "rank": 20,
-      "link": "https://powderhorn.com/explore/about/uphill-policy.html",
+      "link": "https://www.powderhorn.com/uphill-policy/",
       "trailMap": "/trailmaps/Powderhorn.webp",
       "operationalHoursAccess": true,
-      "schedule": "9am-4pm: Dude, Tenderfoot, Red Eye, Greenhorn. 4pm-9am: Bill's Run only",
-      "cost": "$19/day, $59/season (+$5 RFID fee). Free for Powderhorn season passholders"
+      "schedule": "West End routes: Lower Dude to Boardwalk and Red Eye, or Middle Dude and Tenderfoot. After hours at your own risk",
+      "cost": "$29/day, $69/season (+$5 RFID card). Free for Powderhorn season passholders"
     }
   },
   {
@@ -268,11 +286,12 @@
     "website": "https://www.sunlightmtn.com",
     "uphillPolicy": {
       "rank": 21,
-      "link": "https://sunlightmtn.com/mountain/skiing-snowboarding/mountain-safety/sunlight-uphill-pass-program",
+      "season": "2026-27",
+      "link": "https://sunlightmtn.com/uphill-pass-program/",
       "trailMap": "/trailmaps/Sunlight.webp",
       "operationalHoursAccess": true,
-      "schedule": "During and after operating hours on designated Green or Orange routes",
-      "cost": "$10/day, $50/season. Free for Sunlight season passholders"
+      "schedule": "During and after operating hours on designated uphill routes (Ute and Sun King). Closed during snowmaking",
+      "cost": "$50/season (+$5 for new pass media). Free with Sunlight Individual and Family season passes. Uphill day tickets also sold"
     }
   },
   {
@@ -286,7 +305,7 @@
       "note": "Uphill travel allowed only when lift is not running",
       "operationalHoursAccess": false,
       "schedule": "Only when lift is not running. Human-powered only, no motorized",
-      "cost": "Free"
+      "cost": "No uphill fee listed"
     }
   },
   {
@@ -295,12 +314,12 @@
     "website": "https://www.silvertonmountain.com",
     "uphillPolicy": {
       "rank": 23,
-      "link": null,
+      "link": "https://silvertonmountain.com/experience/what-to-expect/",
       "trailMap": "/trailmaps/Silverton.webp",
-      "note": "No dedicated uphill policy page; guided/unguided backcountry ski area where uphill travel is via boot pack",
-      "operationalHoursAccess": false,
-      "schedule": "Traditional uphill skinning not permitted. Boot pack hiking after lift access",
-      "cost": "N/A - Guided backcountry skiing model"
+      "note": "No dedicated uphill policy; the linked FAQ covers uphill travel. 2026–27 season: guided Dec 31 - Apr 11, unguided Mar 17 - Apr 11",
+      "operationalHoursAccess": null,
+      "schedule": "One lift, then hike along ridgelines. No skins or snowshoes needed; all terrain is accessible by boot pack",
+      "cost": "N/A - No uphill pass listed"
     }
   },
   {
@@ -309,9 +328,9 @@
     "website": "https://www.purgatory.ski",
     "uphillPolicy": {
       "rank": 24,
-      "link": "https://purgatory.ski/the-mountain/purgatory-mountain/mountain-policies/uphill",
+      "link": "https://www.purgatory.ski/resort-policies/",
       "trailMap": "/trailmaps/Purgatory.webp",
-      "note": "Front side uphill not permitted; backcountry access via USFS Road 578 only",
+      "note": "Purgatory does not permit uphill travel of any kind on resort; backcountry access via USFS Road 578 only",
       "operationalHoursAccess": false,
       "schedule": "Not permitted on resort. Access backcountry via USFS Road 578 (Hermosa Park Road)",
       "cost": "N/A - Uphill access not permitted"
