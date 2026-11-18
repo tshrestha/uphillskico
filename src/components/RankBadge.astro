@@ -1,0 +1,15 @@
+---
+// Compact rank chip (trail map cards); same markup as getRankBadge()
+import { getRankTier } from "../shared.js";
+
+/**
+ * @typedef {object} Props
+ * @property {number} [rank]
+ */
+const { rank } = /** @type {Props} */ (Astro.props);
+---
+
+{
+  // prettier-ignore
+  rank && <span class={`rank-chip t${getRankTier(rank)}`} title={`Uphill policy rank #${rank}`}>{rank}</span>
+}

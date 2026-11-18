@@ -6,7 +6,8 @@
   Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=()
   Content-Security-Policy: default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; img-src 'self' data:; font-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests
 
-/assets/*
+# Content-hashed scripts, styles and processed images (Astro build output)
+/_astro/*
   Cache-Control: public, max-age=31536000, immutable
 
 /images/*
@@ -30,5 +31,5 @@
 /trailmaps/*.html
   Cache-Control: public, max-age=0, must-revalidate
 
-/trailmaps/*
-  Cache-Control: public, max-age=31536000, immutable
+/sitemap.xml
+  Cache-Control: public, max-age=0, must-revalidate

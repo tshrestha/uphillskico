@@ -12,7 +12,7 @@ import { dirname, join } from "path";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-const out = join(__dirname, "..", "public/images/peak-texture.png");
+const out = join(__dirname, "..", "src/assets/images/peak-texture.png");
 
 // The pattern tile covers 220 range units; rendered at this many pixels
 const SIZE = 300;

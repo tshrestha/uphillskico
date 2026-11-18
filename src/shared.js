@@ -1,5 +1,6 @@
 // Shared utilities for Uphill Ski Colorado
-// Used by both browser (main.js) and build script (generate-static.js)
+// Used both at build time (Astro components) and in the browser (autocomplete,
+// trail map viewer)
 
 /**
  * Escape text for safe use in HTML content and attributes
@@ -86,13 +87,12 @@ export function getPassLabel(pass, long = false) {
 }
 
 /**
- * Generate pass tag HTML
+ * Class suffix for a pass type: "epic", "ikon" or "indie"
  * @param {string} pass - The pass type (Epic, Ikon, or independent)
- * @returns {string} HTML string for the pass tag
+ * @returns {string} Key used in the `pass-<key>` class
  */
-export function getPassBadge(pass) {
-  const key = PASS_LABELS[pass] ? pass.toLowerCase() : "indie";
-  return `<span class="pass pass-${key}" title="${getPassLabel(pass, true)}">${getPassLabel(pass)}</span>`;
+export function getPassKey(pass) {
+  return PASS_LABELS[pass] ? pass.toLowerCase() : "indie";
 }
 
 /**
@@ -104,38 +104,9 @@ export function icon(name) {
   return `<svg class="i" aria-hidden="true"><use href="#i-${name}"/></svg>`;
 }
 
-/**
- * Generate access status HTML (allowed during lift operations or not)
- * @param {boolean|undefined} hasAccess - Whether uphill access is allowed during operational hours
- * @returns {string} HTML string for the access status
- */
-export function getAccessBadge(hasAccess) {
-  if (hasAccess === true) {
-    return `<p class="access is-yes">${icon("sun")}Open during lift ops</p>`;
-  } else if (hasAccess === false) {
-    return `<p class="access is-no">${icon("moon")}Closed during lift ops</p>`;
-  }
-  return `<p class="access is-unknown">${icon("info")}Lift-ops access unknown</p>`;
-}
-
 // The season this guide covers. A resort's `season` records which season its
 // official source covers; resorts without one have an undated policy page.
 export const CURRENT_SEASON = "2026-27";
-
-/**
- * Generate the season stamp: confirmed for this season, or the last season
- * the resort's official information covered
- * @param {string|undefined} season - Season of the source, e.g. "2025-26"
- * @returns {string} HTML string for the stamp (empty for undated policies)
- */
-export function getSeasonStamp(season) {
-  if (!season) return "";
-  const label = season.replace("-", "–");
-  if (season === CURRENT_SEASON) {
-    return `<p class="season is-current">${icon("check")}${label} policy</p>`;
-  }
-  return `<p class="season is-stale">${icon("info")}Last confirmed ${label}</p>`;
-}
 
 // Small deterministic PRNG so generated art is identical on every build
 function mulberry32(seed) {
@@ -158,11 +129,11 @@ function hashString(text) {
 }
 
 /**
- * Generate a decorative lift-ticket barcode unique to a resort
+ * Bar pattern for a resort's decorative lift-ticket barcode
  * @param {string} seed - Text used to derive the bar pattern
- * @returns {string} HTML string for the barcode SVG
+ * @returns {{ width: number, height: number, d: string }} SVG size and path
  */
-export function getBarcode(seed) {
+export function getBarcodePath(seed) {
   const rand = mulberry32(hashString(seed));
   const width = 56;
   const height = 16;
@@ -174,54 +145,7 @@ export function getBarcode(seed) {
     d += `M${+x.toFixed(2)} 0h${bar}v${height}h-${bar}z`;
     x += bar + [1, 1.5, 2][Math.floor(rand() * 3)];
   }
-  return `<svg class="barcode" viewBox="0 0 ${width} ${height}" preserveAspectRatio="none" aria-hidden="true"><path d="${d}"/></svg>`;
-}
-
-/**
- * Generate lift-ticket HTML for a resort
- * @param {object} resort - Resort object from resorts.json
- * @returns {string} HTML string for the resort ticket
- */
-export function generateTicket(resort) {
-  const policy = resort.uphillPolicy ?? {};
-  const slug = slugify(resort.name);
-  const name = escapeHtml(resort.name);
-  const rank = policy.rank;
-
-  const actions = [
-    policy.link
-      ? `<a class="btn btn-solid" href="${escapeHtml(policy.link)}" target="_blank" rel="noopener noreferrer" aria-label="${name} uphill policy (opens in a new tab)">Uphill policy${icon("arrow-up-right")}</a>`
-      : "",
-    policy.trailMap
-      ? `<a class="btn btn-line" href="${escapeHtml(policy.trailMap)}" target="_blank" rel="noopener noreferrer" data-trailmap aria-label="${name} trail map">${icon("map")}Trail map</a>`
-      : "",
-  ].join("");
-
-  return `
-      <li class="ticket t${getRankTier(rank)}" id="resort-${slug}" data-name="${escapeHtml(resort.name.toLowerCase())}" data-pass="${escapeHtml(resort.pass)}" data-access="${policy.operationalHoursAccess}" data-rank="${rank ?? ""}" style="view-transition-name:t-${slug}">
-        <div class="ticket-card">
-          <div class="ticket-stub" aria-hidden="true">
-            <span class="stub-label">Rank</span>
-            <span class="stub-rank">${rank ?? "–"}</span>
-            ${getBarcode(resort.name)}
-          </div>
-          <article class="ticket-body" aria-labelledby="name-${slug}">
-            <header class="ticket-head">
-              <h3 class="ticket-name" id="name-${slug}">${rank ? `<span class="visually-hidden">#${rank} </span>` : ""}${name}</h3>
-              <a class="ticket-site" href="${escapeHtml(resort.website)}" target="_blank" rel="noopener noreferrer">${escapeHtml(getHostname(resort.website))}</a>
-              ${getPassBadge(resort.pass)}
-            </header>
-            <div class="ticket-status">
-              ${getAccessBadge(policy.operationalHoursAccess)}${getSeasonStamp(policy.season)}
-            </div>
-            <dl class="facts">
-              <div class="fact"><dt>${icon("clock")}Schedule</dt><dd>${escapeHtml(policy.schedule || "–")}</dd></div>
-              <div class="fact"><dt>${icon("tag")}Cost</dt><dd>${escapeHtml(policy.cost || "–")}</dd></div>
-            </dl>${policy.note ? `\n            <p class="ticket-note">${icon("info")}${escapeHtml(policy.note)}</p>` : ""}
-            <div class="ticket-actions">${actions}</div>
-          </article>
-        </div>
-      </li>`;
+  return { width, height, d };
 }
 
 /* --------------------------------------------------------------------------
@@ -559,9 +483,14 @@ function buildSkinTrack(cx, top, h, w) {
 /**
  * Generate the interactive mountain range SVG: one peak per resort
  * @param {object[]} resorts - Resorts from resorts.json
+ * @param {object} [options]
+ * @param {string} [options.textureHref] - URL of the peak surface texture
  * @returns {string} HTML string for the range SVG
  */
-export function generateRidge(resorts) {
+export function generateRidge(
+  resorts,
+  { textureHref = "/images/peak-texture.png" } = {},
+) {
   const order = (r) => {
     const i = WEST_TO_EAST.indexOf(r.name);
     return i === -1 ? WEST_TO_EAST.length : i;
@@ -610,5 +539,5 @@ export function generateRidge(resorts) {
     tallest.shape.halfWidth,
   );
 
-  return `<svg class="ridge-svg" viewBox="0 0 ${RIDGE_WIDTH} ${RIDGE_HEIGHT}" preserveAspectRatio="none" aria-hidden="true" focusable="false"><defs><linearGradient id="ridgeFade" x1="0" y1="0" x2="0" y2="1"><stop offset="0" class="fade-from"/><stop offset="1" class="fade-to"/></linearGradient><linearGradient id="peakVolume" x1="0" y1="0" x2="0" y2="1"><stop offset="0.35" class="volume-from"/><stop offset="1" class="volume-to"/></linearGradient><pattern id="peakTexture" patternUnits="userSpaceOnUse" width="220" height="220"><image href="/images/peak-texture.png" width="220" height="220" preserveAspectRatio="none"/></pattern><filter id="peakGlow" x="-40%" y="-40%" width="180%" height="180%"><feDropShadow class="glow-flood" dx="0" dy="-2" stdDeviation="9"/></filter></defs><g class="peaks">${groups}</g><rect class="ridge-fade" x="0" y="${RIDGE_HEIGHT - 120}" width="${RIDGE_WIDTH}" height="121" fill="url(#ridgeFade)"/></svg><svg class="trail-svg" viewBox="0 0 ${RIDGE_WIDTH} ${RIDGE_HEIGHT}" preserveAspectRatio="none" aria-hidden="true" focusable="false"><g class="trail" data-slug="${slugify(tallest.resort.name)}" data-cx="${round(tallest.cx)}" data-top="${round(tallest.top)}" data-w="${round(tallest.shape.halfWidth)}" data-h="${round(tallest.shape.height)}"><path class="trail-groove" d="${track}"/><path class="trail-line" d="${track}"/><path class="trail-descent" d=""/></g></svg>`;
+  return `<svg class="ridge-svg" viewBox="0 0 ${RIDGE_WIDTH} ${RIDGE_HEIGHT}" preserveAspectRatio="none" aria-hidden="true" focusable="false"><defs><linearGradient id="ridgeFade" x1="0" y1="0" x2="0" y2="1"><stop offset="0" class="fade-from"/><stop offset="1" class="fade-to"/></linearGradient><linearGradient id="peakVolume" x1="0" y1="0" x2="0" y2="1"><stop offset="0.35" class="volume-from"/><stop offset="1" class="volume-to"/></linearGradient><pattern id="peakTexture" patternUnits="userSpaceOnUse" width="220" height="220"><image href="${escapeHtml(textureHref)}" width="220" height="220" preserveAspectRatio="none"/></pattern><filter id="peakGlow" x="-40%" y="-40%" width="180%" height="180%"><feDropShadow class="glow-flood" dx="0" dy="-2" stdDeviation="9"/></filter></defs><g class="peaks">${groups}</g><rect class="ridge-fade" x="0" y="${RIDGE_HEIGHT - 120}" width="${RIDGE_WIDTH}" height="121" fill="url(#ridgeFade)"/></svg><svg class="trail-svg" viewBox="0 0 ${RIDGE_WIDTH} ${RIDGE_HEIGHT}" preserveAspectRatio="none" aria-hidden="true" focusable="false"><g class="trail" data-slug="${slugify(tallest.resort.name)}" data-cx="${round(tallest.cx)}" data-top="${round(tallest.top)}" data-w="${round(tallest.shape.halfWidth)}" data-h="${round(tallest.shape.height)}"><path class="trail-groove" d="${track}"/><path class="trail-line" d="${track}"/><path class="trail-descent" d=""/></g></svg>`;
 }

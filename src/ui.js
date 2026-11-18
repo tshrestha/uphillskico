@@ -50,7 +50,7 @@ export function bindTrailMapViewer() {
     }
     e.preventDefault();
     import("./viewer.js")
-      .then(({ openTrailMap }) => openTrailMap(link.getAttribute("href"), link))
+      .then(({ openTrailMap }) => openTrailMap(link))
       .catch(() => window.open(link.href, "_blank", "noopener"));
   });
 }

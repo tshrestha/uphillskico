@@ -1,0 +1,117 @@
+---
+// Shared shell for the trail map pages: topo hero, toolbar and a grid of
+// prerendered map cards.
+import Base from "./Base.astro";
+import Icon from "../components/Icon.astro";
+import MapCard from "../components/MapCard.astro";
+import "../styles/maps.css";
+
+/**
+ * @typedef {object} Props
+ * @property {string} path - Public path, as listed in src/data/pages.js
+ * @property {string} title
+ * @property {string} description
+ * @property {string} keywords
+ * @property {string} ogDescription
+ * @property {string} imageAlt
+ * @property {string} appTitle
+ * @property {string} heading - Hero heading (h1)
+ * @property {boolean} [longHeading] - Smaller heading for long names
+ * @property {string} subheading
+ * @property {{ href: string, text: string }} crumb - Back link above the heading
+ * @property {{ name: string, file: string, rank?: number }[]} maps
+ * @property {boolean} [searchable] - Show the search box and empty state
+ * @property {string} owner - Who the maps belong to (footer note)
+ * @property {"trailmaps"} [current] - Marks the primary nav link as current
+ * @property {string} [resort] - Resort id (body data-resort)
+ */
+const {
+  heading,
+  longHeading = false,
+  subheading,
+  crumb,
+  maps,
+  searchable = false,
+  owner,
+  ...base
+} = /** @type {Props} */ (Astro.props);
+
+const n = maps.length;
+const countText = `${n} trail map${n === 1 ? "" : "s"}`;
+---
+
+<Base {...base} heroClass="maps-hero">
+  {/* prettier-ignore */}
+  <section class="maps-hero" aria-labelledby="page-title">
+    <div class="topo" aria-hidden="true">
+      <span class="topo-base"></span>
+      <span class="topo-lit"></span>
+    </div>
+    <div class="maps-hero-inner">
+      <p class="crumbs">
+        <a href={crumb.href}><Icon name="arrow-left" />{crumb.text}</a>
+      </p>
+      <h1 class:list={["maps-title", { "is-long": longHeading }]} id="page-title">{heading}</h1>
+      <p class="maps-sub">{subheading}</p>
+    </div>
+    <svg
+      class="topo-edge"
+      viewBox="0 0 1000 80"
+      preserveAspectRatio="none"
+      aria-hidden="true"
+    >
+      <path
+        d="M0 13L18 31L31 12L44 27L78 42L89 19L102 37L137 29L150 8L164 22L204 59L218 59L233 62L269 35L280 11L291 33L328 35L342 19L358 30L389 56L398 49L406 51L440 49L455 34L472 47L512 61L524 55L538 59L569 38L579 19L589 37L623 60L637 57L652 57L684 56L693 55L702 60L733 40L746 16L760 34L795 32L807 8L820 29L851 37L860 27L870 34L902 33L914 19L928 34L964 55L977 57L991 55L1000 80L0 80Z"
+      />
+    </svg>
+  </section>
+
+  <main id="main-content" class="maps-main">
+    <div class="maps-toolbar">
+      {searchable && (
+        <div class="search">
+          <Icon name="search" />
+          <label class="visually-hidden" for="searchInput">
+            Search trail maps
+          </label>
+          <input
+            type="search"
+            id="searchInput"
+            placeholder="Search trail maps"
+            autocomplete="off"
+            role="combobox"
+            aria-expanded="false"
+            aria-controls="autocomplete-list"
+            aria-autocomplete="list"
+          />
+          <ul
+            id="autocomplete-list"
+            class="ac-list"
+            role="listbox"
+            aria-label="Trail map suggestions"
+          />
+        </div>
+      )}
+      <p class="count" id="resultsCount" role="status" aria-live="polite">
+        {countText}
+      </p>
+      {/* prettier-ignore */}
+      <p class="maps-tip"><Icon name="plus" /> Open a map to zoom and pan</p>
+    </div>
+    <div class="map-grid" id="trailMapsGrid">
+      {maps.map((map, index) => (
+        <MapCard map={map} index={index} />
+      ))}
+    </div>
+    {searchable && (
+      <p class="maps-empty" id="mapsEmpty" hidden>
+        No trail maps match that search.
+      </p>
+    )}
+  </main>
+
+  <p class="footer-lead" slot="footer">
+    Trail maps are property of {owner}. Always verify current trail conditions
+    before your uphill adventure.
+  </p>
+</Base>

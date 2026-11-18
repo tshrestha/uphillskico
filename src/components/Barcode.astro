@@ -1,0 +1,20 @@
+---
+// Decorative lift-ticket barcode, unique (and stable) per resort
+import { getBarcodePath } from "../shared.js";
+
+/**
+ * @typedef {{
+ *   seed: string;
+ * }} Props
+ */
+const { width, height, d } = getBarcodePath(Astro.props.seed);
+---
+
+<svg
+  class="barcode"
+  viewBox={`0 0 ${width} ${height}`}
+  preserveAspectRatio="none"
+  aria-hidden="true"
+>
+  <path d={d}></path>
+</svg>

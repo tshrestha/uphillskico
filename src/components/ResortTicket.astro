@@ -1,0 +1,87 @@
+---
+// Lift-ticket card for one resort in the home page lineup
+import Icon from "./Icon.astro";
+import PassBadge from "./PassBadge.astro";
+import AccessStatus from "./AccessStatus.astro";
+import SeasonStamp from "./SeasonStamp.astro";
+import Barcode from "./Barcode.astro";
+import PolicyLink from "./PolicyLink.astro";
+import TrailMapLink from "./TrailMapLink.astro";
+import { getHostname, getRankTier, slugify } from "../shared.js";
+
+/**
+ * @typedef {object} Props
+ * @property {{
+ *   name: string,
+ *   pass: string,
+ *   website: string,
+ *   uphillPolicy?: {
+ *     rank?: number,
+ *     season?: string,
+ *     link?: string,
+ *     trailMap?: string,
+ *     note?: string,
+ *     operationalHoursAccess?: boolean | null,
+ *     schedule?: string,
+ *     cost?: string,
+ *   },
+ * }} resort - Resort entry from resorts.json
+ */
+
+const { resort } = Astro.props;
+const policy = resort.uphillPolicy ?? {};
+const slug = slugify(resort.name);
+const { rank } = policy;
+---
+
+<li
+  class={`ticket t${getRankTier(rank)}`}
+  id={`resort-${slug}`}
+  data-name={resort.name.toLowerCase()}
+  data-pass={resort.pass}
+  data-access={String(policy.operationalHoursAccess)}
+  data-rank={rank ?? ""}
+  style={`view-transition-name:t-${slug}`}
+>
+  <div class="ticket-card">
+    <div class="ticket-stub" aria-hidden="true">
+      <span class="stub-label">Rank</span>
+      <span class="stub-rank">{rank ?? "–"}</span>
+      <Barcode seed={resort.name} />
+    </div>
+    <article class="ticket-body" aria-labelledby={`name-${slug}`}>
+      <header class="ticket-head">
+        <h3 class="ticket-name" id={`name-${slug}`}>
+          {rank && <span class="visually-hidden">#{rank} </span>}
+          {resort.name}
+        </h3>
+        <a
+          class="ticket-site"
+          href={resort.website}
+          target="_blank"
+          rel="noopener noreferrer"
+          set:text={getHostname(resort.website)}
+        />
+        <PassBadge pass={resort.pass} />
+      </header>
+      <div class="ticket-status">
+        <AccessStatus access={policy.operationalHoursAccess} />
+        <SeasonStamp season={policy.season} />
+      </div>
+      <dl class="facts">
+        {/* prettier-ignore */}
+        <div class="fact"><dt><Icon name="clock" />Schedule</dt><dd>{policy.schedule || "–"}</dd></div>
+        {/* prettier-ignore */}
+        <div class="fact"><dt><Icon name="tag" />Cost</dt><dd>{policy.cost || "–"}</dd></div>
+      </dl>
+      {
+        // prettier-ignore
+        policy.note && <p class="ticket-note"><Icon name="info" />{policy.note}</p>
+      }
+      <div class="ticket-actions">
+        <PolicyLink name={resort.name} href={policy.link} />
+        <TrailMapLink name={resort.name} path={policy.trailMap} />
+      </div>
+    </article>
+  </div>
+</li>

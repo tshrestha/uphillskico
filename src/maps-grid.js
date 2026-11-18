@@ -1,10 +1,8 @@
-// Trail map grid shared by the trail maps index and resort map pages
+// Trail map grid behaviour shared by the trail maps index and resort map pages.
+// The cards are prerendered (src/components/MapCard.astro); this only adds
+// theme handling, the cursor-lit hero and the zoomable viewer.
 
-import "./styles/site.css";
-import "./styles/maps.css";
 import { initTheme, toggleTheme, setupThemeListener } from "./utils.js";
-import { escapeHtml, getRankBadge, getRankTier, icon } from "./shared.js";
-import { getMapSrc, getThumbSrc } from "./trailmaps-data.js";
 
 /**
  * Theme setup and the cursor-lit topo hero common to every map page
@@ -34,35 +32,24 @@ export function initMapPage() {
 }
 
 /**
- * Render trail map cards into the grid
- * @param {HTMLElement} grid - Grid container
- * @param {object[]} maps - Trail map entries to show
+ * Viewer entry for a prerendered map card
+ * @param {HTMLAnchorElement} card - A .map-card
+ * @returns {{ name: string, rank?: number, src: string, thumb: string }}
  */
-export function renderMapCards(grid, maps) {
-  grid.innerHTML = maps
-    .map(
-      (map, index) => `
-      <a class="map-card t${getRankTier(map.rank)}" href="${getMapSrc(map)}" data-index="${index}" style="--n:${index}" aria-label="View ${escapeHtml(map.name)} trail map">
-        <span class="map-thumb">
-          <img src="${getThumbSrc(map)}" alt="" width="600" height="400" loading="${index < 8 ? "eager" : "lazy"}" decoding="async">
-          <span class="map-zoom">${icon("plus")}</span>
-        </span>
-        <span class="map-info">
-          ${getRankBadge(map.rank)}
-          <span class="map-name">${escapeHtml(map.name)}</span>
-          ${icon("arrow-up-right")}
-        </span>
-      </a>`,
-    )
-    .join("");
+export function cardToMap(card) {
+  return {
+    name: card.querySelector(".map-name").textContent,
+    rank: Number(card.dataset.rank) || undefined,
+    src: card.getAttribute("href"),
+    thumb: card.querySelector("img").getAttribute("src"),
+  };
 }
 
 /**
- * Open grid cards in the zoomable viewer, paging through the visible maps
+ * Open grid cards in the zoomable viewer, paging through the visible cards
  * @param {HTMLElement} grid - Grid container
- * @param {() => object[]} getMaps - Returns the maps currently in the grid
  */
-export function bindMapGrid(grid, getMaps) {
+export function bindMapGrid(grid) {
   grid.addEventListener("click", (e) => {
     const card = e.target.closest(".map-card");
     if (
@@ -76,9 +63,10 @@ export function bindMapGrid(grid, getMaps) {
       return;
     }
     e.preventDefault();
+    const cards = [...grid.querySelectorAll(".map-card:not([hidden])")];
     import("./viewer.js")
       .then(({ openViewer }) =>
-        openViewer(getMaps(), Number(card.dataset.index), card),
+        openViewer(cards.map(cardToMap), cards.indexOf(card), card),
       )
       .catch(() => window.open(card.href, "_blank", "noopener"));
   });

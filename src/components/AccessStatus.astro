@@ -1,0 +1,20 @@
+---
+// Whether uphill access is allowed during lift operations
+import Icon from "./Icon.astro";
+
+/**
+ * @typedef {{
+ *   access: boolean | null | undefined;
+ * }} Props
+ */
+const { access } = Astro.props;
+const [state, icon, label] =
+  access === true
+    ? ["is-yes", "sun", "Open during lift ops"]
+    : access === false
+      ? ["is-no", "moon", "Closed during lift ops"]
+      : ["is-unknown", "info", "Lift-ops access unknown"];
+---
+
+{/* prettier-ignore */}
+<p class={`access ${state}`}><Icon name={icon} />{label}</p>

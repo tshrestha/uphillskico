@@ -3,14 +3,12 @@
   "version": "1.0.0",
   "description": "Complete guide to uphill skiing policies at Colorado ski resorts",
   "scripts": {
-    "dev": "vite",
-    "prebuild": "node scripts/generate-static.js && node scripts/generate-thumbs.js",
-    "build": "npm run prebuild && vite build",
-    "preview": "vite preview",
+    "dev": "astro dev",
+    "build": "astro build && node scripts/check-inline-scripts.js",
+    "preview": "astro preview",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "fmt": "prettier --write \".\"",
-    "thumbs": "node scripts/generate-thumbs.js",
     "texture": "node scripts/generate-texture.js"
   },
   "keywords": [
@@ -26,14 +24,15 @@
   "type": "module",
   "devDependencies": {
     "@eslint/js": "^10.0.1",
+    "astro": "^7.4.12",
     "eslint": "^10.12.0",
+    "eslint-plugin-astro": "^3.2.1",
+    "node-html-parser": "^9.0.7",
     "prettier": "^3.9.10",
+    "prettier-plugin-astro": "^1.1.2",
     "sass": "^1.105.2",
     "sharp": "^0.35.5",
-    "svgo": "^4.1.0",
-    "vite": "^8.3.4",
-    "vite-plugin-image-optimizer": "^2.0.3",
-    "vite-plugin-minify": "^3.0.0"
+    "svgo": "^4.1.0"
   },
   "engines": {
     "node": "^24"

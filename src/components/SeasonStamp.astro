@@ -1,0 +1,21 @@
+---
+// Which season the resort's official policy covers: confirmed for the guide's
+// current season, "Last confirmed <season>" for older data, nothing if undated
+import Icon from "./Icon.astro";
+import { CURRENT_SEASON } from "../shared.js";
+
+/**
+ * @typedef {{
+ *   season?: string;
+ * }} Props
+ */
+const { season } = Astro.props;
+const label = season?.replace("-", "–");
+const isCurrent = season === CURRENT_SEASON;
+const text = isCurrent ? `${label} policy` : `Last confirmed ${label}`;
+---
+
+{
+  // prettier-ignore
+  season && <p class={`season ${isCurrent ? "is-current" : "is-stale"}`}><Icon name={isCurrent ? "check" : "info"} />{text}</p>
+}

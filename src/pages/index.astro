@@ -1,0 +1,437 @@
+---
+import Base from "../layouts/Base.astro";
+import ResortTicket from "../components/ResortTicket.astro";
+import JsonLd from "../components/JsonLd.astro";
+import "../styles/home.css";
+import resorts from "../../resorts.json";
+import { trailMaps } from "../trailmaps-data.js";
+import { Image } from "astro:assets";
+import { generateRidge } from "../shared.js";
+import { getMapImage, THUMB } from "../data/trailmap-images.js";
+import peakTexture from "../assets/images/peak-texture.png";
+import { SITE } from "../data/pages.js";
+
+const resortCount = resorts.length;
+const passCount = (pass) => resorts.filter((r) => r.pass === pass).length;
+const accessCount = (value) =>
+  resorts.filter((r) => r.uphillPolicy?.operationalHoursAccess === value)
+    .length;
+const mapResortCount = new Set(trailMaps.map((m) => m.resort)).size;
+
+const ridge = generateRidge(resorts, { textureHref: peakTexture.src });
+
+// Structured data. Lists and counts come from resorts.json; the FAQ answers
+// are editorial copy and stay hand-written.
+const topResorts = resorts
+  .filter((r) => r.uphillPolicy?.rank)
+  .sort((a, b) => a.uphillPolicy.rank - b.uphillPolicy.rank)
+  .slice(0, 3);
+
+const websiteLd = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "Uphill Ski Colorado",
+  description:
+    "Complete guide to uphill skiing policies at Colorado ski resorts",
+  url: `${SITE}/`,
+};
+
+const itemListLd = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  name: "Top Colorado Ski Resorts for Uphill Access",
+  description: "Colorado ski resorts with the best uphill skiing policies",
+  numberOfItems: topResorts.length,
+  itemListElement: topResorts.map((resort, i) => ({
+    "@type": "ListItem",
+    position: i + 1,
+    item: {
+      "@type": "SkiResort",
+      name: resort.name,
+      address: {
+        "@type": "PostalAddress",
+        addressRegion: "CO",
+        addressCountry: "US",
+      },
+      url: resort.website,
+    },
+  })),
+};
+
+const faqLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "Which Colorado ski resorts allow uphill skiing during operating hours?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Several Colorado resorts allow uphill access during operating hours, including Arapahoe Basin, Copper Mountain, Eldora, Winter Park, Aspen Snowmass, Telluride, Wolf Creek, Monarch Mountain, Powderhorn, Sunlight Mountain, Echo Mountain, Granby Ranch, Ski Cooper, and Howelsen Hill. Each has specific designated routes and requirements.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "How much does an uphill skiing pass cost in Colorado?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Uphill pass costs vary by resort. Vail, Beaver Creek, Breckenridge, Keystone, Crested Butte and Kendall Mountain list no uphill fee, and Howelsen Hill requires no pass. Elsewhere, posted prices range from a $20 day pass to a $99 season pass, and several resorts include uphill access with their own season passes. Some resorts have not posted 2026-27 uphill prices yet.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "What are the typical uphill skiing hours at Colorado ski resorts?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Most resorts allow uphill access before lifts open (typically 5-8am) and after they close (usually 4-4:30pm until 8-10pm). Some resorts like Aspen Snowmass offer extended hours from 5am-10:30pm. Always check specific resort policies as schedules vary.",
+      },
+    },
+  ],
+};
+
+const title =
+  "Colorado Ski Resorts Uphill Policy Guide 2026-2027 | Uphill/Skinning Access";
+const shareTitle = "Colorado Ski Resorts Uphill Policy Guide 2026-2027";
+const imageAlt =
+  "Uphill Ski Colorado - Guide to uphill skiing policies at Colorado ski resorts";
+---
+
+<Base
+  path="/"
+  title={title}
+  description={`Complete guide to uphill skiing policies at ${resortCount} Colorado ski resorts. Find schedules, costs, and access rules for skinning at Vail, Breckenridge, Aspen, Copper Mountain, Arapahoe Basin, and more.`}
+  keywords="uphill skiing Colorado, skinning policy, ski touring, backcountry skiing, Vail uphill, Breckenridge skinning, Aspen uphill access, Colorado ski resorts, earn your turns, dawn patrol skiing"
+  ogTitle={shareTitle}
+  ogDescription={`Complete guide to uphill skiing policies at ${resortCount} Colorado ski resorts. Find schedules, costs, and access rules for uphill skiing and skinning.`}
+  imageAlt={imageAlt}
+  appTitle="Uphill Ski CO"
+  heroClass="hero"
+  isHome
+>
+  <Fragment slot="head">
+    <meta name="title" content={title} />
+    <meta name="twitter:url" content={`${SITE}/`} />
+    <meta name="geo.region" content="US-CO" />
+    <meta name="geo.placename" content="Colorado" />
+    <meta name="application-name" content="Uphill Ski Colorado" />
+    <JsonLd data={websiteLd} />
+    <JsonLd data={itemListLd} />
+    <JsonLd data={faqLd} />
+  </Fragment>
+
+  {/* prettier-ignore: prettier-plugin-astro ignores inline whitespace
+       sensitivity, and reformatting these sections would add visible
+       spaces (e.g. between the hero letters). Keep their formatting. */}
+  {/* prettier-ignore */}
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="sky" aria-hidden="true">
+      <span class="stars"></span>
+      <span class="sun"></span>
+      <span class="moon"></span>
+    </div>
+    <svg
+      class="range-far"
+      viewBox="0 0 1000 240"
+      preserveAspectRatio="none"
+      aria-hidden="true"
+    >
+      <path
+        class="far-1"
+        d="M0 42L46 117L77 49L111 99L186 136L208 101L231 133L288 161L306 149L326 169L376 148L393 118L412 139L463 161L482 120L502 140L553 173L570 172L589 171L647 137L670 84L695 112L762 185L785 177L811 185L880 196L904 185L931 193L990 108L1007 46L1025 95L1000 240L0 240Z"
+      />
+      <path
+        class="far-2"
+        d="M0 151L25 178L42 153L60 177L99 178L109 154L120 174L157 177L173 145L189 164L237 180L254 169L274 176L320 159L334 125L349 155L394 153L410 109L429 141L481 200L500 188L521 191L566 175L578 164L592 182L629 198L641 203L656 207L698 167L714 133L731 164L783 158L803 111L825 142L868 151L878 98L889 135L922 176L935 153L948 175L992 143L1009 105L1028 139L1000 240L0 240Z"
+      />
+    </svg>
+    <canvas class="snow" id="snow" aria-hidden="true"></canvas>
+    <span class="headlamp" aria-hidden="true"></span>
+
+    <div class="hero-copy">
+      <h1 class="hero-title" id="hero-title">
+        <span class="hero-word">
+          <span class="visually-hidden">Uphill</span>
+          <span class="letters" aria-hidden="true"
+            ><span class="w"
+              ><span style="--i: 0">U</span
+              ><span style="--i: 1">P</span></span
+            ><span class="w"
+              ><span style="--i: 2">H</span><span style="--i: 3">I</span
+              ><span style="--i: 4">L</span
+              ><span style="--i: 5">L</span></span
+            ></span
+          >
+        </span>
+        <span class="hero-kicker">Ski Colorado</span>
+      </h1>
+      <p class="hero-season">
+        <span>2026–27</span>
+        <span>uphill access guide</span>
+      </p>
+    </div>
+
+    <div
+      class="ridge"
+      id="ridge"
+      tabindex="0"
+      role="slider"
+      aria-label="Explore resorts on the range"
+      aria-describedby="ridge-hint"
+      aria-valuemin="1"
+      aria-valuemax={resorts.length}
+      aria-orientation="horizontal"
+    >
+      <Fragment set:html={ridge} />
+      <canvas class="skier" id="skier" aria-hidden="true"></canvas>
+      <div class="ridge-flag" id="ridgeFlag" hidden>
+        <a class="flag-card" id="ridgeFlagLink" href="#resorts" tabindex="-1">
+          <span class="rank-chip t1" id="ridgeFlagRank">1</span>
+          <span class="flag-text">
+            <span class="flag-name" id="ridgeFlagName"></span>
+            <span class="flag-meta" id="ridgeFlagMeta"></span>
+          </span>
+          <svg class="i" aria-hidden="true"><use href="#i-arrow-down" /></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  {/* prettier-ignore */}
+  <section class="intro" aria-label="About this guide">
+    <p class="intro-lead">
+      Where, when and what it costs to skin up Colorado’s ski resorts this
+      season.
+    </p>
+    <div class="intro-side">
+      <p>
+        Before first chair, after last chair, or right alongside the lifts:
+        every resort’s uphill rules in one place, ranked by how easy they make
+        it to earn your turns.
+      </p>
+      <p class="ridge-hint" id="ridge-hint">
+        <svg class="i" aria-hidden="true"><use href="#i-swipe" /></svg>
+        <span
+          >Each peak above is a resort. Taller means better uphill access,
+          west to east. Hover, drag or use arrow keys to explore.</span
+        >
+      </p>
+    </div>
+  </section>
+
+  {/* prettier-ignore */}
+  <main id="main-content">
+    <section class="lineup" id="resorts" aria-labelledby="lineup-title">
+      <div class="lineup-head">
+        <h2 id="lineup-title">The uphill lineup</h2>
+        <p class="rank-note">
+          Ranked by ease of uphill access, access hours, uphill pass cost,
+          resort popularity and size.
+        </p>
+      </div>
+
+      <div class="controls" role="search" aria-label="Filter resorts">
+        <div class="search">
+          <svg class="i" aria-hidden="true"><use href="#i-search" /></svg>
+          <label class="visually-hidden" for="searchInput"
+            >Search for a ski resort by name</label
+          >
+          <input
+            type="search"
+            id="searchInput"
+            placeholder="Find a resort"
+            autocomplete="off"
+            role="combobox"
+            aria-expanded="false"
+            aria-controls="autocomplete-list"
+            aria-autocomplete="list"
+          />
+          <ul
+            id="autocomplete-list"
+            class="ac-list"
+            role="listbox"
+            aria-label="Resort suggestions"
+          ></ul>
+        </div>
+
+        <fieldset class="seg" id="passFilter">
+          <legend>Pass</legend>
+          <div class="seg-track">
+            <input
+              type="radio"
+              name="pass"
+              id="pass-all"
+              value="all"
+              checked
+            />
+            <label for="pass-all"
+              >All <span class="seg-count" data-count="pass:">{resorts.length}</span></label
+            >
+            <input type="radio" name="pass" id="pass-epic" value="Epic" />
+            <label for="pass-epic"
+              >Epic
+              <span class="seg-count" data-count="pass:Epic">{passCount("Epic")}</span></label
+            >
+            <input type="radio" name="pass" id="pass-ikon" value="Ikon" />
+            <label for="pass-ikon"
+              >Ikon
+              <span class="seg-count" data-count="pass:Ikon">{passCount("Ikon")}</span></label
+            >
+            <input
+              type="radio"
+              name="pass"
+              id="pass-indie"
+              value="independent"
+            />
+            <label for="pass-indie"
+              >Indie
+              <span class="seg-count" data-count="pass:independent"
+                >{passCount("independent")}</span
+              ></label
+            >
+            <span class="seg-thumb" aria-hidden="true"></span>
+          </div>
+        </fieldset>
+
+        <fieldset class="seg" id="accessFilter">
+          <legend>Uphill during lift ops</legend>
+          <div class="seg-track">
+            <input
+              type="radio"
+              name="access"
+              id="access-all"
+              value="all"
+              checked
+            />
+            <label for="access-all"
+              >Any
+              <span class="seg-count" data-count="access:">{resorts.length}</span></label
+            >
+            <input type="radio" name="access" id="access-yes" value="true" />
+            <label for="access-yes"
+              ><svg class="i" aria-hidden="true"><use href="#i-sun" /></svg
+              >Allowed
+              <span class="seg-count" data-count="access:true"
+                >{accessCount(true)}</span
+              ></label
+            >
+            <input type="radio" name="access" id="access-no" value="false" />
+            <label for="access-no"
+              ><svg class="i" aria-hidden="true"><use href="#i-moon" /></svg
+              >Not allowed
+              <span class="seg-count" data-count="access:false"
+                >{accessCount(false)}</span
+              ></label
+            >
+            <span class="seg-thumb" aria-hidden="true"></span>
+          </div>
+        </fieldset>
+
+        <p class="count" id="resortCount" role="status" aria-live="polite">
+          {resorts.length} of {resorts.length} resorts
+        </p>
+      </div>
+
+      <ol class="tickets" id="resortList">
+        {resorts.map((resort) => <ResortTicket resort={resort} />)}
+      </ol>
+
+      <div class="empty" id="emptyState" hidden>
+        <p class="empty-title">No resorts on this skin track.</p>
+        <p>Try a different name or loosen the filters.</p>
+        <button class="btn btn-line" type="button" id="resetFilters">
+          Reset filters
+        </button>
+      </div>
+    </section>
+
+    <section class="maps-promo" aria-labelledby="maps-title">
+      <div class="maps-copy">
+        <h2 id="maps-title">Scout the skin track</h2>
+        <p>
+          {trailMaps.length} trail maps across {mapResortCount} resorts. Zoom right
+          in on uphill routes before you head out.
+        </p>
+        <a class="btn btn-solid btn-lg" href="/trailmaps.html"
+          ><svg class="i" aria-hidden="true"><use href="#i-map" /></svg
+          >Explore trail maps</a
+        >
+      </div>
+      <a
+        class="maps-fan"
+        href="/trailmaps.html"
+        aria-label="Explore trail maps"
+        tabindex="-1"
+      >
+        <Image
+          src={getMapImage("Telluride.webp")}
+          {...THUMB}
+          alt=""
+          loading="lazy"
+          decoding="async"
+          style="--n: -2"
+        />
+        <Image
+          src={getMapImage("AspenHighlands.webp")}
+          {...THUMB}
+          alt=""
+          loading="lazy"
+          decoding="async"
+          style="--n: -1"
+        />
+        <Image
+          src={getMapImage("Copper.webp")}
+          {...THUMB}
+          alt=""
+          loading="lazy"
+          decoding="async"
+          style="--n: 1"
+        />
+        <Image
+          src={getMapImage("A-Basin.webp")}
+          {...THUMB}
+          alt=""
+          loading="lazy"
+          decoding="async"
+          style="--n: 2"
+        />
+        <Image
+          src={getMapImage("WinterPark.webp")}
+          {...THUMB}
+          alt=""
+          loading="lazy"
+          decoding="async"
+          style="--n: 0"
+        />
+      </a>
+    </section>
+  </main>
+  <Fragment slot="footer">
+    <p class="footer-lead">
+      Checked against each resort’s official website on November 1, 2026 for the
+      2026-2027 ski season. Many resorts post uphill details late in the fall:
+      tickets stamped “2026–27 policy” are confirmed for this season, “Last
+      confirmed” means the resort’s 2026–27 details could not be confirmed yet
+      (see the ticket’s note), and unstamped tickets follow the resort’s
+      current, undated policy. Always verify current policies directly with
+      resorts before your uphill adventure.
+    </p>
+    <p class="footer-secondary">
+      Covering uphill skiing policies for Vail, Beaver Creek, Breckenridge,
+      Keystone, Crested Butte, Telluride, Arapahoe Basin, Copper Mountain,
+      Eldora, Steamboat, Winter Park, Aspen Snowmass, and more Colorado ski
+      resorts.
+    </p>
+  </Fragment>
+
+  <noscript slot="end">
+    <div class="noscript-note" role="alert">
+      <strong>JavaScript Required:</strong> Search and filters need JavaScript.
+      All resorts are still listed above, or visit the individual resort
+      websites directly for their uphill policies.
+    </div>
+  </noscript>
+</Base>
+
+<script>
+  import "../home.js";
+</script>

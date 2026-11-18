@@ -1,0 +1,13 @@
+---
+// Inline icon referencing the page's SVG sprite (see Sprite.astro)
+/**
+ * @typedef {{
+ *   name: string;
+ * }} Props
+ */
+const { name } = Astro.props;
+---
+
+<svg class="i" aria-hidden="true">
+  <use href={`#i-${name}`}></use>
+</svg>

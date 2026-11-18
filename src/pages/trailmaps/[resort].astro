@@ -1,0 +1,40 @@
+---
+// Trail map pages for resorts with several maps: /trailmaps/<resort>.html
+import Maps from "../../layouts/Maps.astro";
+import { getMapsByResort } from "../../trailmaps-data.js";
+import { RESORT_MAP_PAGES as PAGES } from "../../data/resort-map-pages.js";
+
+export function getStaticPaths() {
+  return Object.keys(PAGES).map((resort) => {
+    const maps = getMapsByResort(resort);
+    if (!maps.length) {
+      throw new Error(`No trail maps for "${resort}" in src/trailmaps-data.js`);
+    }
+    return { params: { resort }, props: { page: PAGES[resort], maps } };
+  });
+}
+
+const { resort } = Astro.params;
+const { page, maps } = Astro.props;
+---
+
+<Maps
+  path={`/trailmaps/${resort}.html`}
+  title={`${page.name} Trail Maps | Uphill Ski Colorado`}
+  description={page.description}
+  keywords={page.keywords}
+  ogDescription={page.ogDescription}
+  imageAlt={`${page.name} Trail Maps - Uphill Ski Colorado`}
+  appTitle={page.appTitle}
+  resort={resort}
+  heading={page.heading}
+  longHeading={page.longHeading}
+  subheading={page.subheading}
+  crumb={{ href: "/trailmaps.html", text: "All trail maps" }}
+  maps={maps}
+  owner={page.name}
+/>
+
+<script>
+  import "../../resort-trailmaps.js";
+</script>
