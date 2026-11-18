@@ -44,6 +44,26 @@ npm run texture
 Trail map thumbnails are generated during the build, so there is no separate
 thumbnail step any more.
 
+### Lighthouse audit
+
+```bash
+# Audit every page in src/data/pages.js, mobile and desktop, 3 runs each
+npm run lighthouse -- https://uphillskico.com
+
+# Options: --runs N, --form mobile|desktop, --json-dir .lighthouse
+npm run lighthouse -- https://deploy-preview-2--uphillskico.netlify.app --form mobile
+```
+
+It needs a local Chrome or Chromium and isn't part of `npm run build`. It
+prints the median run per page and form factor, and exits 1 if a page misses a
+budget (mobile performance ≥ 95, mobile LCP ≤ 2.5 s, CLS ≤ 0.1, and
+accessibility, best practices and SEO all 100, with no failing accessibility
+audits). The budgets are in `scripts/lighthouse.js`.
+
+Judge budgets against a Netlify deploy preview or production. `npm run preview`
+serves no compression and no `_headers`, so local results are only a quick
+check.
+
 ### Where things live
 
 - `src/pages/`: one file per public URL. `index.astro` is `/`, `trailmaps.astro`

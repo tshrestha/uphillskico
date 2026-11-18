@@ -9,7 +9,8 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "fmt": "prettier --write \".\"",
-    "texture": "node scripts/generate-texture.js"
+    "texture": "node scripts/generate-texture.js",
+    "lighthouse": "node scripts/lighthouse.js"
   },
   "keywords": [
     "uphill skiing",
@@ -25,8 +26,10 @@
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "astro": "^7.4.12",
+    "chrome-launcher": "1.2.3",
     "eslint": "^10.12.0",
     "eslint-plugin-astro": "^3.2.1",
+    "lighthouse": "13.6.0",
     "node-html-parser": "^9.0.7",
     "prettier": "^3.9.10",
     "prettier-plugin-astro": "^1.1.2",
