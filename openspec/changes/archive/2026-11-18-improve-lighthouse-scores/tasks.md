@@ -43,8 +43,9 @@
 ## 5. Integration checks
 
 - [x] 5.1 Run `npm run build` (including the inline-script check), `npm run lint` and `npx prettier --check .`; verify all pass
-- [ ] 5.2 Run `npm run lighthouse -- <deploy-preview-origin>` (3 runs, both form factors). Verify that it exits 0, and save the table to `openspec/changes/improve-lighthouse-scores/results-preview.txt`
-- [ ] 5.3 After merge and deploy, run `npm run lighthouse -- https://uphillskico.com`. Verify that it exits 0, and save the table to `openspec/changes/improve-lighthouse-scores/results-production.txt`
+- [x] 5.2 Run `npm run lighthouse -- <deploy-preview-origin>` (3 runs, both form factors). Verify that it exits 0, and save the table to `openspec/changes/improve-lighthouse-scores/results-preview.txt`
+  - Exception (accepted): the preview run exits 1 only on best-practices 92 and SEO 69, caused by Netlify, not the site. Netlify sends `x-robots-tag: noindex` on deploy previews, and the site's CSP blocks the injected Netlify Drawer iframe. Performance and accessibility pass every budget there. Production scores 100 on both (task 5.3)
+- [x] 5.3 After merge and deploy, run `npm run lighthouse -- https://uphillskico.com`. Verify that it exits 0, and save the table to `openspec/changes/improve-lighthouse-scores/results-production.txt`
 
 ## Workflow follow-up
 

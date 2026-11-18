@@ -1,0 +1,17 @@
+# Production after merge of PR #2 (merge commit 3b46ba9), 2026-11-18
+# npm run lighthouse -- https://uphillskico.com (exit 0)
+
+Lighthouse 13.6.0 · https://uphillskico.com · median of 3 run(s)
+page                     form     perf  a11y   bp  seo    LCP   TBT    CLS  img savings
+/                        mobile    100   100  100  100  1.7 s  3 ms  0.007        0 KiB
+/                        desktop   100   100  100  100  0.4 s  0 ms  0.042        0 KiB
+/trailmaps.html          mobile    100   100  100  100  1.5 s  0 ms  0.000       79 KiB
+/trailmaps.html          desktop   100   100  100  100  0.4 s  0 ms  0.000       97 KiB
+/trailmaps/aspen.html    mobile    100   100  100  100  1.7 s  0 ms  0.001        0 KiB
+/trailmaps/aspen.html    desktop   100   100  100  100  0.4 s  0 ms  0.000       26 KiB
+/trailmaps/monarch.html  mobile    100   100  100  100  1.5 s  0 ms  0.031        0 KiB
+/trailmaps/monarch.html  desktop   100   100  100  100  0.4 s  0 ms  0.048        5 KiB
+/trailmaps/cooper.html   mobile    100   100  100  100  1.4 s  0 ms  0.000        0 KiB
+/trailmaps/cooper.html   desktop   100   100  100  100  0.4 s  0 ms  0.000       12 KiB
+
+All pages within budget.
