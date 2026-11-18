@@ -1,0 +1,43 @@
+# Deploy preview (PR #2, commit aa6dd7e), 2026-11-18
+# npm run lighthouse -- https://deploy-preview-2--uphillskico.netlify.app (exit 1)
+#
+# Every bp/seo miss is preview-only, caused by Netlify rather than the site:
+#   seo is-crawlable: Netlify sends x-robots-tag: noindex on deploy previews
+#   bp errors-in-console / inspector-issues: the injected Netlify Drawer
+#     iframe (https://app.netlify.com) is blocked by the site's CSP
+# Production sends neither; task 5.3 checks bp/seo there.
+
+Lighthouse 13.6.0 · https://deploy-preview-2--uphillskico.netlify.app · median of 3 run(s)
+page                     form     perf  a11y  bp  seo    LCP    TBT    CLS  img savings
+/                        mobile    100   100  92   69  1.7 s   0 ms  0.007        0 KiB
+/                        desktop   100   100  92   69  0.4 s   0 ms  0.042        0 KiB
+/trailmaps.html          mobile    100   100  92   69  1.7 s   0 ms  0.000       79 KiB
+/trailmaps.html          desktop   100   100  92   69  0.4 s   0 ms  0.000       97 KiB
+/trailmaps/aspen.html    mobile    100   100  92   69  1.7 s   7 ms  0.000        0 KiB
+/trailmaps/aspen.html    desktop   100   100  92   69  0.4 s   0 ms  0.000       26 KiB
+/trailmaps/monarch.html  mobile    100   100  92   69  1.5 s  15 ms  0.031        0 KiB
+/trailmaps/monarch.html  desktop   100   100  92   69  0.4 s   0 ms  0.046        5 KiB
+/trailmaps/cooper.html   mobile    100   100  92   69  1.5 s  82 ms  0.000        0 KiB
+/trailmaps/cooper.html   desktop   100   100  92   69  0.4 s   0 ms  0.000       12 KiB
+
+Budget misses (20):
+  / mobile: bp 92 < 100
+  / mobile: seo 69 < 100
+  / desktop: bp 92 < 100
+  / desktop: seo 69 < 100
+  /trailmaps.html mobile: bp 92 < 100
+  /trailmaps.html mobile: seo 69 < 100
+  /trailmaps.html desktop: bp 92 < 100
+  /trailmaps.html desktop: seo 69 < 100
+  /trailmaps/aspen.html mobile: bp 92 < 100
+  /trailmaps/aspen.html mobile: seo 69 < 100
+  /trailmaps/aspen.html desktop: bp 92 < 100
+  /trailmaps/aspen.html desktop: seo 69 < 100
+  /trailmaps/monarch.html mobile: bp 92 < 100
+  /trailmaps/monarch.html mobile: seo 69 < 100
+  /trailmaps/monarch.html desktop: bp 92 < 100
+  /trailmaps/monarch.html desktop: seo 69 < 100
+  /trailmaps/cooper.html mobile: bp 92 < 100
+  /trailmaps/cooper.html mobile: seo 69 < 100
+  /trailmaps/cooper.html desktop: bp 92 < 100
+  /trailmaps/cooper.html desktop: seo 69 < 100

@@ -14,8 +14,38 @@ const images = import.meta.glob("../assets/trailmaps/*.{webp,avif}", {
   import: "default",
 });
 
-/** Card/preview thumbnail settings (match the old generate-thumbs.js output) */
-export const THUMB = { width: 600, quality: 58, format: "webp" };
+/**
+ * Card/preview thumbnail settings. Quality 36 keeps every map under
+ * Lighthouse's image-compression target (about 0.17 bytes per pixel), so
+ * `image-delivery-insight` stays under 100 KiB on /trailmaps.html; at card
+ * size it looks the same as the earlier quality 58.
+ */
+export const THUMB = { width: 600, quality: 36, format: "webp" };
+
+/**
+ * Widths offered in a card thumbnail's srcset. The largest is THUMB.width, so
+ * the card `src` (and the viewer placeholder read from it) is the 600px file.
+ */
+export const THUMB_WIDTHS = [320, 480, 600];
+
+/**
+ * Card thumbnail `sizes`, matching .map-grid in src/styles/maps.css (each
+ * value slightly over the measured image width, so the browser never picks a
+ * file that is too small):
+ *   ≤ 560px    2 columns (mobile rule)          118–239px
+ *   561–608px  1 column                         499–542px
+ *   609–927px  2 columns of minmax(17rem, 1fr)  255–400px
+ *   928–1247px 3 columns                        255–353px
+ *   ≥ 1248px   4 columns inside --wrap          ≤ 258px
+ * Re-measure if the grid, gutters or card padding change.
+ */
+export const THUMB_SIZES = [
+  "(max-width: 560px) calc(50vw - 2rem)",
+  "(max-width: 608px) calc(100vw - 3.5rem)",
+  "(max-width: 927px) calc(46vw - 17px)",
+  "(max-width: 1247px) calc(30vw - 17px)",
+  "258px",
+].join(", ");
 
 /**
  * Image metadata for a trail map file

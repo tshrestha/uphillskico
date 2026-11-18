@@ -1,0 +1,38 @@
+# Baseline: production, 2026-11-18, before this change
+# npm run lighthouse -- https://uphillskico.com (exit 1)
+
+Lighthouse 13.6.0 · https://uphillskico.com · median of 3 run(s)
+page                     form     perf  a11y   bp  seo    LCP    TBT    CLS  img savings
+/                        mobile    100   100  100  100  1.7 s  17 ms  0.007        0 KiB
+/                        desktop   100   100  100  100  0.4 s   0 ms  0.042        0 KiB
+/trailmaps.html          mobile     94    96  100  100  3.0 s   0 ms  0.000     1226 KiB
+/trailmaps.html          desktop   100    96  100  100  0.7 s   0 ms  0.000     1436 KiB
+/trailmaps/aspen.html    mobile     96    96  100  100  2.7 s   0 ms  0.000       67 KiB
+/trailmaps/aspen.html    desktop   100    96  100  100  0.5 s   0 ms  0.000      224 KiB
+/trailmaps/monarch.html  mobile     99    96  100  100  2.1 s  41 ms  0.031        0 KiB
+/trailmaps/monarch.html  desktop   100    96  100  100  0.5 s   0 ms  0.046      134 KiB
+/trailmaps/cooper.html   mobile    100    96  100  100  1.8 s   2 ms  0.001        0 KiB
+/trailmaps/cooper.html   desktop   100    96  100  100  0.4 s   0 ms  0.002       75 KiB
+
+Budget misses (21):
+  / mobile: a11y audits failing: label-content-name-mismatch
+  / desktop: a11y audits failing: label-content-name-mismatch
+  /trailmaps.html mobile: perf 94 < 95
+  /trailmaps.html mobile: a11y 96 < 100
+  /trailmaps.html mobile: LCP 3.0 s > 2.5 s (Time to first byte 44 ms · Resource load delay 23 ms · Resource load duration 159 ms · Element render delay 649 ms)
+  /trailmaps.html mobile: a11y audits failing: color-contrast, label-content-name-mismatch
+  /trailmaps.html desktop: a11y 96 < 100
+  /trailmaps.html desktop: a11y audits failing: color-contrast, label-content-name-mismatch
+  /trailmaps/aspen.html mobile: a11y 96 < 100
+  /trailmaps/aspen.html mobile: LCP 2.7 s > 2.5 s (Time to first byte 46 ms · Resource load delay 31 ms · Resource load duration 202 ms · Element render delay 42 ms)
+  /trailmaps/aspen.html mobile: a11y audits failing: color-contrast, label-content-name-mismatch
+  /trailmaps/aspen.html desktop: a11y 96 < 100
+  /trailmaps/aspen.html desktop: a11y audits failing: color-contrast, label-content-name-mismatch
+  /trailmaps/monarch.html mobile: a11y 96 < 100
+  /trailmaps/monarch.html mobile: a11y audits failing: color-contrast, label-content-name-mismatch
+  /trailmaps/monarch.html desktop: a11y 96 < 100
+  /trailmaps/monarch.html desktop: a11y audits failing: color-contrast, label-content-name-mismatch
+  /trailmaps/cooper.html mobile: a11y 96 < 100
+  /trailmaps/cooper.html mobile: a11y audits failing: color-contrast, label-content-name-mismatch
+  /trailmaps/cooper.html desktop: a11y 96 < 100
+  /trailmaps/cooper.html desktop: a11y audits failing: color-contrast, label-content-name-mismatch

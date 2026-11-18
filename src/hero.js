@@ -235,7 +235,6 @@ function createRange(ridge, svg, { onJump, onActivate }) {
     const access = accessInfo(p.access);
     metaEl.innerHTML = `${getPassLabel(p.pass)} · ${icon(access.icon)}${access.text}`;
     card.href = `#resort-${p.slug}`;
-    card.setAttribute("aria-label", `Jump to ${p.name}`);
 
     // The #1 summit hosts the skier, so its flag flies a little higher
     flag.classList.toggle("is-tall", p === trailPeak);

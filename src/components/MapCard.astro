@@ -6,7 +6,13 @@ import { Image } from "astro:assets";
 import Icon from "./Icon.astro";
 import RankBadge from "./RankBadge.astro";
 import { getRankTier } from "../shared.js";
-import { getMapImage, getFullSrc, THUMB } from "../data/trailmap-images.js";
+import {
+  getMapImage,
+  getFullSrc,
+  THUMB,
+  THUMB_WIDTHS,
+  THUMB_SIZES,
+} from "../data/trailmap-images.js";
 
 /**
  * @typedef {object} Props
@@ -22,15 +28,17 @@ const { map, index } = /** @type {Props} */ (Astro.props);
   data-index={index}
   data-rank={map.rank}
   style={`--n:${index}`}
-  aria-label={`View ${map.name} trail map`}
 >
   <span class="map-thumb">
     <Image
       src={getMapImage(map.file)}
       {...THUMB}
+      widths={THUMB_WIDTHS}
+      sizes={THUMB_SIZES}
       alt=""
-      loading={index < 8 ? "eager" : "lazy"}
-      decoding="async"
+      {...(index === 0
+        ? { priority: true }
+        : { loading: index < 8 ? "eager" : "lazy", decoding: "async" })}
     />
     <span class="map-zoom">
       <Icon name="plus" />
@@ -39,6 +47,7 @@ const { map, index } = /** @type {Props} */ (Astro.props);
   <span class="map-info">
     <RankBadge rank={map.rank} />
     <span class="map-name">{map.name}</span>
+    <span class="visually-hidden"> trail map</span>
     <Icon name="arrow-up-right" />
   </span>
 </a>
