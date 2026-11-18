@@ -93,10 +93,10 @@
   - `og-image` now resolves
   - asset URLs under `/_astro/`
   - trail map grids now in the HTML
-- [ ] 8.2 Deploy a Netlify deploy preview. Run `scripts/url-matrix.js` against it and diff the result with `.baseline/url-matrix.txt`. Verify the only difference is `/og-image.png` going from 404 to 200.
-- [ ] 8.3 On the deploy preview, check response headers for `/`, `/trailmaps/aspen.html`, an `/_astro/` asset and `/sitemap.xml`. Verify the CSP header is unchanged, the HTML pages and the sitemap must revalidate, and the assets are immutable.
-- [ ] 8.4 On the deploy preview, load every page in a browser and use all the interactive features. Verify no CSP violations or console errors.
-- [ ] 8.5 Compare screenshots of the preview and production in light and dark themes, at about 400px and desktop widths. Verify there's no unintended visual drift.
+- [x] 8.2 Deploy a Netlify deploy preview. Run `scripts/url-matrix.js` against it and diff the result with `.baseline/url-matrix.txt`. Verify the only difference is `/og-image.png` going from 404 to 200.
+- [x] 8.3 On the deploy preview, check response headers for `/`, `/trailmaps/aspen.html`, an `/_astro/` asset and `/sitemap.xml`. Verify the CSP header is unchanged, the HTML pages and the sitemap must revalidate, and the assets are immutable.
+- [x] 8.4 On the deploy preview, load every page in a browser and use all the interactive features. Verify no CSP violations or console errors.
+- [x] 8.5 Compare screenshots of the preview and production in light and dark themes, at about 400px and desktop widths. Verify there's no unintended visual drift.
 
 ## Workflow follow-up
 

@@ -52,7 +52,11 @@ function relative(location) {
 for (const [label, url] of rows) {
   let line;
   try {
-    const res = await fetch(url, { method: "GET", redirect: "manual" });
+    const res = await fetch(url, {
+      method: "GET",
+      redirect: "manual",
+      signal: AbortSignal.timeout(15000),
+    });
     line = `${label}\t${res.status}\t${relative(res.headers.get("location"))}`;
   } catch (err) {
     line = `${label}\tERR\t${err.cause?.code ?? err.message}`;
