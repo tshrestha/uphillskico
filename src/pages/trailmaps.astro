@@ -1,0 +1,29 @@
+---
+import Maps from "../layouts/Maps.astro";
+import { trailMaps } from "../trailmaps-data.js";
+
+// Counts come from the trail map data; the rest is editorial copy
+const mapCount = trailMaps.length;
+const resortCount = new Set(trailMaps.map((m) => m.resort)).size;
+---
+
+<Maps
+  path="/trailmaps.html"
+  title="Trail Maps | Uphill Ski Colorado"
+  description={`Browse ${mapCount} trail maps for ${resortCount} Colorado ski resorts with uphill access. View maps for Winter Park, Aspen, Vail, Breckenridge, Copper Mountain, and more.`}
+  keywords="trail maps Colorado, ski resort maps, uphill skiing routes, Winter Park trail map, Aspen trail map, Vail trail map, Colorado ski maps"
+  ogDescription={`Browse ${mapCount} trail maps for ${resortCount} Colorado ski resorts with uphill access policies.`}
+  imageAlt="Trail Maps - Uphill Ski Colorado"
+  appTitle="Trail Maps"
+  current="trailmaps"
+  heading="Trail Maps"
+  subheading="Browse trail maps for Colorado ski resorts. Open any map to zoom in on uphill routes before you go."
+  crumb={{ href: "/", text: "Back to uphill policies" }}
+  maps={trailMaps}
+  searchable
+  owner="their respective ski resorts"
+/>
+
+<script>
+  import "../trailmaps.js";
+</script>

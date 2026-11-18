@@ -1,17 +1,6 @@
-import { getMapsByResort } from "./trailmaps-data.js";
-import { initMapPage, renderMapCards, bindMapGrid } from "./maps-grid.js";
+// Resort trail map pages (/trailmaps/<resort>.html): the cards and count are
+// prerendered, so this only adds the shared page behaviour and the viewer.
+import { initMapPage, bindMapGrid } from "./maps-grid.js";
 
 initMapPage();
-
-// Get resort ID from data attribute
-const resortId = document.body.dataset.resort;
-const resortMaps = getMapsByResort(resortId);
-
-// DOM elements
-const grid = document.getElementById("trailMapsGrid");
-const resultsCount = document.getElementById("resultsCount");
-
-renderMapCards(grid, resortMaps);
-bindMapGrid(grid, () => resortMaps);
-
-resultsCount.textContent = `${resortMaps.length} trail map${resortMaps.length !== 1 ? "s" : ""}`;
+bindMapGrid(document.getElementById("trailMapsGrid"));

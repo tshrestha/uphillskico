@@ -1,7 +1,9 @@
 import js from "@eslint/js";
+import astro from "eslint-plugin-astro";
 
 export default [
   js.configs.recommended,
+  ...astro.configs.recommended,
   {
     languageOptions: {
       ecmaVersion: 2024,
@@ -22,6 +24,7 @@ export default [
         CustomEvent: "readonly",
         Image: "readonly",
         performance: "readonly",
+        Response: "readonly",
         // Node.js globals (for build scripts)
         process: "readonly",
       },
@@ -45,17 +48,25 @@ export default [
   },
   {
     // Node.js scripts configuration
-    files: ["scripts/**/*.js", "vite.config.js", "eslint.config.js"],
+    files: ["scripts/**/*.js", "astro.config.mjs", "eslint.config.js"],
     languageOptions: {
       globals: {
         process: "readonly",
         __dirname: "readonly",
         __filename: "readonly",
+        fetch: "readonly",
+        AbortSignal: "readonly",
       },
     },
   },
   {
     // Ignore patterns
-    ignores: ["dist/**", "node_modules/**", "*.min.js"],
+    ignores: [
+      "dist/**",
+      "node_modules/**",
+      ".astro/**",
+      ".baseline/**",
+      "*.min.js",
+    ],
   },
 ];

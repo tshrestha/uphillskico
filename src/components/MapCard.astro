@@ -1,0 +1,44 @@
+---
+// Prerendered trail map card. Links to the full-size map; with scripts it
+// opens the zoomable viewer instead (src/maps-grid.js reads the viewer's
+// data from the card: href, thumbnail src, name and data-rank).
+import { Image } from "astro:assets";
+import Icon from "./Icon.astro";
+import RankBadge from "./RankBadge.astro";
+import { getRankTier } from "../shared.js";
+import { getMapImage, getFullSrc, THUMB } from "../data/trailmap-images.js";
+
+/**
+ * @typedef {object} Props
+ * @property {{ name: string, file: string, rank?: number }} map - Entry from src/trailmaps-data.js
+ * @property {number} index - Position in the grid
+ */
+const { map, index } = /** @type {Props} */ (Astro.props);
+---
+
+<a
+  class={`map-card t${getRankTier(map.rank)}`}
+  href={getFullSrc(map.file)}
+  data-index={index}
+  data-rank={map.rank}
+  style={`--n:${index}`}
+  aria-label={`View ${map.name} trail map`}
+>
+  <span class="map-thumb">
+    <Image
+      src={getMapImage(map.file)}
+      {...THUMB}
+      alt=""
+      loading={index < 8 ? "eager" : "lazy"}
+      decoding="async"
+    />
+    <span class="map-zoom">
+      <Icon name="plus" />
+    </span>
+  </span>
+  <span class="map-info">
+    <RankBadge rank={map.rank} />
+    <span class="map-name">{map.name}</span>
+    <Icon name="arrow-up-right" />
+  </span>
+</a>

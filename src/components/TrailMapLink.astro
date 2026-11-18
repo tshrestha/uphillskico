@@ -1,0 +1,25 @@
+---
+// "Trail map" button. Links to the full-size map (or the resort's map page);
+// with scripts it opens the in-page viewer, which pages through the resort's
+// maps listed in data-maps (URLs resolved at build time).
+import Icon from "./Icon.astro";
+import {
+  resolveTrailMapHref,
+  getViewerGallery,
+} from "../data/trailmap-images.js";
+
+/**
+ * @typedef {object} Props
+ * @property {string} name - Resort name
+ * @property {string} [path] - resorts.json `trailMap` path
+ */
+const { name, path } = /** @type {Props} */ (Astro.props);
+const href = resolveTrailMapHref(path);
+const gallery = await getViewerGallery(path);
+const maps = gallery ? JSON.stringify(gallery.maps) : undefined;
+---
+
+{
+  // prettier-ignore
+  href && <a class="btn btn-line" href={href} target="_blank" rel="noopener noreferrer" data-trailmap data-maps={maps} data-map-index={gallery?.index} aria-label={`${name} trail map`}><Icon name="map" />Trail map</a>
+}

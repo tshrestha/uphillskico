@@ -12,3 +12,9 @@ lighthouse-report.json
 
 # Unused TypeScript definitions
 resort.d.ts
+
+# Migration parity baseline
+.baseline
+
+# Astro generated types
+.astro

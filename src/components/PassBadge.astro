@@ -1,0 +1,16 @@
+---
+import { getPassKey, getPassLabel } from "../shared.js";
+
+/**
+ * @typedef {{
+ *   pass: string;
+ * }} Props
+ */
+const { pass } = Astro.props;
+---
+
+<span
+  class={`pass pass-${getPassKey(pass)}`}
+  title={getPassLabel(pass, true)}
+  set:text={getPassLabel(pass)}
+/>

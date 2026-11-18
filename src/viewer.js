@@ -1,14 +1,24 @@
 // Trail map viewer: a zoomable, pannable lightbox for trail maps.
 // Loaded on demand the first time someone opens a map.
 
-import "./styles/viewer.css";
-import {
-  trailMaps,
-  getMapsByResort,
-  getMapSrc,
-  getThumbSrc,
-} from "./trailmaps-data.js";
+import viewerCssUrl from "./styles/viewer.css?url";
 import { getRankBadge, icon } from "./shared.js";
+
+// A map entry is { name, rank, src, thumb }: src is the full-size image and
+// thumb a small preview, both resolved at build time and read from the page
+// (data-maps on ticket links, the cards on trail map pages).
+
+// Load the viewer's stylesheet with the viewer itself, not with the page:
+// the module only finishes importing once its styles are ready, so the
+// dialog never opens unstyled. (A plain CSS import would make Astro add a
+// render-blocking <link> to every page that can open the viewer.)
+await new Promise((resolve) => {
+  const link = document.createElement("link");
+  link.rel = "stylesheet";
+  link.href = viewerCssUrl;
+  link.onload = link.onerror = resolve;
+  document.head.append(link);
+});
 
 const MIN_SCALE = 1;
 const MAX_SCALE = 6;
@@ -107,7 +117,7 @@ function createViewer() {
     $(".viewer-rank").innerHTML = getRankBadge(map.rank);
     $(".viewer-index").textContent =
       count > 1 ? `${state.index + 1} / ${count}` : "";
-    $(".viewer-full").href = getMapSrc(map);
+    $(".viewer-full").href = map.src;
     $(".viewer-full").setAttribute(
       "aria-label",
       `Open full size ${map.name} trail map in a new tab`,
@@ -115,7 +125,7 @@ function createViewer() {
     dialog.classList.toggle("is-gallery", count > 1);
 
     img.alt = `${map.name} trail map`;
-    img.src = getThumbSrc(map);
+    img.src = map.thumb;
     reset();
 
     loading.textContent = "Loading full-resolution map…";
@@ -130,12 +140,12 @@ function createViewer() {
     full.onerror = () => {
       if (token === state.token) loading.hidden = true;
     };
-    full.src = getMapSrc(map);
+    full.src = map.src;
 
     // Warm up neighbouring thumbnails for quick paging
     if (count > 1) {
       [state.index + 1, state.index - 1].forEach((i) => {
-        new Image().src = getThumbSrc(state.maps[(i + count) % count]);
+        new Image().src = state.maps[(i + count) % count].thumb;
       });
     }
   }
@@ -258,7 +268,7 @@ function createViewer() {
 
 /**
  * Open the viewer with a list of maps
- * @param {object[]} maps - Trail map entries from trailmaps-data.js
+ * @param {{ name: string, rank?: number, src: string, thumb: string }[]} maps
  * @param {number} index - Map to show first
  * @param {HTMLElement} [opener] - Element to return focus to on close
  */
@@ -269,25 +279,20 @@ export function openViewer(maps, index = 0, opener = null) {
 }
 
 /**
- * Open the viewer for a resort's trail map link (an image or a resort page)
- * @param {string} href - The link's href, e.g. /trailmaps/Vail.avif or /trailmaps/aspen.html
- * @param {HTMLElement} [opener] - Element to return focus to on close
+ * Open the viewer for a resort's trail map link. The link lists the resort's
+ * maps in data-maps (JSON) and the one it points at in data-map-index.
+ * @param {HTMLAnchorElement} link - A ticket's a[data-trailmap]
  */
-export function openTrailMap(href, opener = null) {
-  const file = href.split("/").pop();
-  let maps = [];
-  let index = 0;
-
-  if (file.endsWith(".html")) {
-    maps = getMapsByResort(file.replace(".html", ""));
-  } else {
-    const match = trailMaps.find((m) => m.file === file);
-    if (match) {
-      maps = getMapsByResort(match.resort);
-      index = Math.max(0, maps.indexOf(match));
-    }
+export function openTrailMap(link) {
+  let maps;
+  try {
+    maps = JSON.parse(link.dataset.maps ?? "[]");
+  } catch {
+    maps = [];
   }
-
-  if (maps.length) openViewer(maps, index, opener);
-  else window.open(href, "_blank", "noopener");
+  if (maps.length) {
+    openViewer(maps, Number(link.dataset.mapIndex) || 0, link);
+  } else {
+    window.open(link.href, "_blank", "noopener");
+  }
 }

@@ -1,0 +1,17 @@
+---
+// "Uphill policy" button linking to the resort's official policy page
+import Icon from "./Icon.astro";
+
+/**
+ * @typedef {{
+ *   name: string;
+ *   href?: string;
+ * }} Props
+ */
+const { name, href } = Astro.props;
+---
+
+{
+  // prettier-ignore
+  href && <a class="btn btn-solid" href={href} target="_blank" rel="noopener noreferrer" aria-label={`${name} uphill policy (opens in a new tab)`}>Uphill policy<Icon name="arrow-up-right" /></a>
+}
