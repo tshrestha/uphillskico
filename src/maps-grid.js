@@ -15,6 +15,7 @@ export function initMapPage() {
   const hero = document.querySelector(".maps-hero");
   if (hero && window.matchMedia("(pointer: fine)").matches) {
     let frame = null;
+    hero.addEventListener("pointerenter", () => hero.classList.add("is-lit"));
     hero.addEventListener("pointermove", (e) => {
       if (frame) return;
       frame = requestAnimationFrame(() => {
@@ -25,6 +26,7 @@ export function initMapPage() {
       });
     });
     hero.addEventListener("pointerleave", () => {
+      hero.classList.remove("is-lit");
       hero.style.removeProperty("--mx");
       hero.style.removeProperty("--my");
     });

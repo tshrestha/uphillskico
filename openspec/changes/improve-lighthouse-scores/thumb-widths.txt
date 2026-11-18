@@ -1,0 +1,18 @@
+# Task 4.2: first card thumbnail chosen by the browser (local preview, Chrome
+# headless, fresh context per case), THUMB_WIDTHS = [320, 480, 600]
+# sizes = (max-width: 560px) calc(50vw - 2rem), (max-width: 608px) calc(100vw - 3.5rem),
+#         (max-width: 927px) calc(46vw - 17px), (max-width: 1247px) calc(30vw - 17px), 258px
+
+viewport  dpr   displayed  needed  chosen  smallest covering
+412       1      171 px      171    320    320
+412       1.75   171 px      299    320    320
+412       2      171 px      342    480    480
+600       1      534 px      534    600    600
+600       2      534 px     1069    600    600 (largest)
+900       1      387 px      387    480    480
+900       2      387 px      775    600    600 (largest)
+1350      1      257 px      257    320    320
+1350      2      257 px      515    600    600
+
+# Measured grid bands (image width): <=560 2 cols 118-239; 561-608 1 col 499-542;
+# 609-927 2 cols 255-400; 928-1247 3 cols 255-353; >=1248 4 cols 257

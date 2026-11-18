@@ -49,6 +49,18 @@
       transparent 75%
     );
   mask-composite: intersect;
+  /* Not rendered until the pointer is over the hero (.is-lit, set by
+     initMapPage), so contrast checks see the real sky behind the text */
+  visibility: hidden;
+  opacity: 0;
+  transition:
+    opacity 0.2s ease,
+    visibility 0.2s;
+}
+
+.maps-hero.is-lit .topo-lit {
+  visibility: visible;
+  opacity: 1;
 }
 
 .topo-edge {
@@ -233,6 +245,12 @@
 
 .map-card:nth-child(n) {
   animation-delay: calc(min(var(--n, 0), 12) * 40ms);
+}
+
+/* The first row (two rows on mobile) paints at once: the LCP thumbnail is
+   among them and must not wait behind an opacity entrance */
+.map-card:nth-child(-n + 4) {
+  animation: none;
 }
 
 @keyframes card-in {
