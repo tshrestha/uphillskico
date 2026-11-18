@@ -34,7 +34,7 @@
   - each map page's built HTML has exactly one `fetchpriority="high"` image, on the first card
   - cards 5 and later still animate in
   - with reduced motion emulated, no card is offset or faded
-- [ ] 4.4 Run `npm run lighthouse -- <origin> --form mobile` against a Netlify deploy preview. Verify:
+- [x] 4.4 Run `npm run lighthouse -- <origin> --form mobile` against a Netlify deploy preview. Verify:
   - `/trailmaps.html` and the resort map pages have median mobile LCP ≤ 2.5 s and performance ≥ 95
   - the `image-delivery-insight` estimate on `/trailmaps.html` is under 100 KiB
 
@@ -42,7 +42,7 @@
 
 ## 5. Integration checks
 
-- [ ] 5.1 Run `npm run build` (including the inline-script check), `npm run lint` and `npx prettier --check .`; verify all pass
+- [x] 5.1 Run `npm run build` (including the inline-script check), `npm run lint` and `npx prettier --check .`; verify all pass
 - [ ] 5.2 Run `npm run lighthouse -- <deploy-preview-origin>` (3 runs, both form factors). Verify that it exits 0, and save the table to `openspec/changes/improve-lighthouse-scores/results-preview.txt`
 - [ ] 5.3 After merge and deploy, run `npm run lighthouse -- https://uphillskico.com`. Verify that it exits 0, and save the table to `openspec/changes/improve-lighthouse-scores/results-production.txt`
 
