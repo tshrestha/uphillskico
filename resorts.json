@@ -8,10 +8,10 @@
       "season": "2026-27",
       "link": "https://www.winterparkresort.com/the-mountain/uphill-policy",
       "trailMap": "/trailmaps/WinterPark.webp",
-      "note": "2026–27 uphill start date and armband sale not announced yet. Uphill usually opens in early to mid-December",
+      "note": "Armbands are on sale now, but the 2026–27 uphill start date has not been set. Uphill usually opens in early to mid-December",
       "operationalHoursAccess": true,
       "schedule": "4am-8pm daily. No access 8pm-4am",
-      "cost": "Armband required. 2026–27 price not posted yet"
+      "cost": "Current-season armband required, sold in Winter Park's online store. 2026–27 price not listed on the uphill page"
     }
   },
   {
@@ -44,11 +44,26 @@
     }
   },
   {
+    "name": "Arapahoe Basin",
+    "pass": "Ikon",
+    "website": "https://www.arapahoebasin.com",
+    "uphillPolicy": {
+      "rank": 4,
+      "season": "2026-27",
+      "link": "https://www.arapahoebasin.com/uphill/",
+      "trailMap": "/trailmaps/A-Basin.webp",
+      "note": "As of Nov 24, 2026, uphill is open outside operating hours only. Access can close at any time, so check the Mountain Report first. The uphill pass does not include lift access",
+      "operationalHoursAccess": false,
+      "schedule": "Outside operating hours only at this time. Open terrain only: East Wall, Beavers and Steep Gullies are always closed outside operating hours",
+      "cost": "$139/season, or a $49 add-on to a 2026–27 A-Basin full-season pass (Ikon add-on price not stated). Online sales only. $10 per pass goes to the National Forest Foundation"
+    }
+  },
+  {
     "name": "Monarch Mountain",
     "pass": "independent",
     "website": "https://www.skimonarch.com",
     "uphillPolicy": {
-      "rank": 4,
+      "rank": 5,
       "season": "2026-27",
       "link": "https://skimonarch.com/uphill-travel/",
       "trailMap": "/trailmaps/monarch.html",
@@ -62,28 +77,13 @@
     "pass": "Epic",
     "website": "https://www.tellurideskiresort.com",
     "uphillPolicy": {
-      "rank": 5,
+      "rank": 6,
       "link": "https://tellurideskiresort.com/safety/",
       "trailMap": "/trailmaps/Telluride.webp",
       "note": "Uphill policy included on general safety page",
       "operationalHoursAccess": true,
       "schedule": "8am-10pm daily, Sunshine (Lift 10) Pod only, except Sundance Trail",
       "cost": "No uphill fee listed"
-    }
-  },
-  {
-    "name": "Arapahoe Basin",
-    "pass": "Ikon",
-    "website": "https://www.arapahoebasin.com",
-    "uphillPolicy": {
-      "rank": 6,
-      "season": "2026-27",
-      "link": "https://www.arapahoebasin.com/uphill/",
-      "trailMap": "/trailmaps/A-Basin.webp",
-      "note": "2026–27 uphill pass coming soon. The uphill pass does not include lift access",
-      "operationalHoursAccess": true,
-      "schedule": "During lift ops: east edge of High Noon to Black Mountain Lodge only. Outside lift ops: open front-side terrain",
-      "cost": "$49 add-on with any A-Basin or Ikon pass. Non-passholder price not posted yet"
     }
   },
   {
@@ -207,7 +207,7 @@
       "season": "2025-26",
       "link": "https://skiloveland.com/the-mountain/uphill-access/",
       "trailMap": "/trailmaps/Loveland.webp",
-      "note": "Loveland expects uphill to reopen for 2026–27 in mid to late December, after snowmaking. 2026–27 pricing not posted yet",
+      "note": "Loveland expects uphill to reopen for 2026–27 in mid to late December, after snowmaking. Uphill passes go on sale in December. 2026–27 pricing not posted yet",
       "operationalHoursAccess": false,
       "schedule": "Before 8am or after 4:30pm only. Route A to top of Ptarmigan Lift",
       "cost": "$50/season in 2025–26, included with Loveland season pass. 50% donated to Alpine Rescue Team and National Forest Foundation"
@@ -219,10 +219,11 @@
     "website": "https://www.granbyranch.com",
     "uphillPolicy": {
       "rank": 16,
-      "link": "https://granbyranch.com/uphill/",
+      "link": "https://granbyranch.com/safety-policies/",
       "trailMap": "/trailmaps/GranbyRanch.webp",
+      "note": "Granby Ranch took its full uphill policy page offline. Hours and discounts are from the last version we could read (Nov 1, 2026). Signed waiver and armband required",
       "operationalHoursAccess": true,
-      "schedule": "6am-9pm on designated East Mountain trails, off by 9:40pm. No uphill on night-ski nights (Saturdays and select holiday Sundays)",
+      "schedule": "6am-9pm on designated uphill trails, off by 9:40pm. On night-ski nights, uphill is allowed on West Mountain only",
       "cost": "$40 uphill pass (ticket window only). 50% off for homeowners and season passholders. 10% donated to Grand Fire"
     }
   },
@@ -245,13 +246,13 @@
     "website": "https://www.wolfcreekski.com",
     "uphillPolicy": {
       "rank": 18,
-      "season": "2025-26",
-      "link": null,
+      "season": "2026-27",
+      "link": "https://wolfcreekski.com/wcs-snow-report/",
       "trailMap": "/trailmaps/WolfCreek.webp",
-      "note": "No dedicated uphill policy page. Details are from Wolf Creek's 2025–26 snow reports",
+      "note": "No dedicated uphill policy page. Details are from Wolf Creek's Nov 24, 2026 snow report",
       "operationalHoursAccess": true,
-      "schedule": "Kelly Boyce to Divide Trail during lift operating hours (normally 8:30am-4pm)",
-      "cost": "Uphill pass required, purchase at Ticket Office"
+      "schedule": "Kelly Boyce to Divide Trail during lift operating hours (currently 9am-4pm)",
+      "cost": "Uphill pass required. Buy at shop.wolfcreekski.com or the Ticket Office"
     }
   },
   {
