@@ -1,0 +1,188 @@
+/* ==========================================================================
+   About page: compact sky hero with the portrait, then one reading column
+   ========================================================================== */
+
+.about-hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding: 6.5rem var(--gutter) clamp(4.5rem, 8vw, 6.5rem);
+  color: var(--on-sky);
+  background: linear-gradient(
+    170deg,
+    var(--sky-1) 0%,
+    var(--sky-2) 55%,
+    var(--sky-3) 100%
+  );
+}
+
+.about-hero-inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: clamp(1.25rem, 4vw, 2.5rem);
+  max-width: var(--wrap);
+  margin-inline: auto;
+}
+
+.about-id {
+  flex: 1 1 18rem;
+  min-width: 0;
+}
+
+.about-name {
+  margin: 0;
+  color: var(--title);
+  font-size: clamp(2.6rem, 8vw, 5.5rem);
+  font-weight: 900;
+  font-stretch: 125%;
+  letter-spacing: -0.03em;
+  line-height: 0.9;
+  text-transform: uppercase;
+}
+
+.about-intro {
+  max-width: 44ch;
+  margin: 1rem 0 0;
+  font-size: clamp(1rem, 1.6vw, 1.2rem);
+  opacity: 0.92;
+}
+
+.about-edge {
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  z-index: -1;
+  width: 100%;
+  height: clamp(30px, 5vw, 64px);
+  fill: var(--bg);
+}
+
+.about-main {
+  display: grid;
+  gap: clamp(2.5rem, 6vw, 4rem);
+  max-width: 62rem;
+  margin-inline: auto;
+  padding: clamp(2rem, 5vw, 3.5rem) var(--gutter) clamp(3rem, 7vw, 5rem);
+}
+
+/* Prose in one readable column; a section's list card sits beside it on wide
+   screens and stacks under it on narrow ones */
+.about-section {
+  display: grid;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+@media (min-width: 900px) {
+  .about-section {
+    grid-template-columns: minmax(0, 65ch) minmax(13rem, 1fr);
+    gap: 2.5rem;
+  }
+}
+
+.about-prose {
+  max-width: 65ch;
+  min-width: 0;
+  font-size: 1.05rem;
+  line-height: 1.65;
+}
+
+.about-prose h2 {
+  font-size: clamp(1.7rem, 4.2vw, 2.6rem);
+  font-weight: 900;
+  font-stretch: 125%;
+  letter-spacing: -0.03em;
+  line-height: 0.95;
+  text-transform: uppercase;
+}
+
+.about-prose h2 + p,
+.about-prose .season + p {
+  margin-top: 1rem;
+}
+
+.about-prose .season {
+  margin-top: 0.75rem;
+  padding-left: 0;
+}
+
+.about-prose p {
+  margin-block: 0 1rem;
+}
+
+.about-prose p:last-child {
+  margin-bottom: 0;
+}
+
+/* Small cut-corner card, like the site's chips and tickets */
+.about-card {
+  --cut: 12px;
+  min-width: 0;
+  padding: 1.1rem 1.25rem 1.2rem;
+  background: var(--paper);
+  box-shadow: inset 0 0 0 1px var(--line);
+  clip-path: polygon(
+    var(--cut) 0,
+    100% 0,
+    100% calc(100% - var(--cut)),
+    calc(100% - var(--cut)) 100%,
+    0 100%,
+    0 var(--cut)
+  );
+}
+
+@media (min-width: 900px) {
+  /* Line the card up with the section's first paragraph */
+  .about-card {
+    margin-top: 3.25rem;
+  }
+}
+
+.about-card-label {
+  margin: 0 0 0.6rem;
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 800;
+  font-stretch: 115%;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.about-card ul {
+  display: grid;
+  gap: 0.45rem;
+  margin: 0;
+  padding: 0 0 0 1.1rem;
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+.about-card li::marker {
+  color: var(--brand);
+}
+
+.about-card-key {
+  font-weight: 750;
+}
+
+/* Portrait: fixed round frame so the image can't shift the layout */
+.about-portrait {
+  flex: none;
+  width: 160px;
+  height: 160px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  object-fit: cover;
+  background: var(--sky-2);
+  box-shadow:
+    0 0 0 4px var(--title),
+    0 14px 30px rgba(1, 3, 13, 0.35);
+}
+
+@media (min-width: 700px) {
+  .about-portrait {
+    width: 200px;
+    height: 200px;
+  }
+}

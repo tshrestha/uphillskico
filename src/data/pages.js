@@ -33,6 +33,12 @@ export const pages = [
     changefreq: "monthly",
     priority: "0.7",
   },
+  {
+    path: "/about.html",
+    lastmod: "2026-11-24",
+    changefreq: "yearly",
+    priority: "0.5",
+  },
 ];
 
 /**

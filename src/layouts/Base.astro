@@ -17,9 +17,9 @@ import { SITE, canonicalUrl } from "../data/pages.js";
  * @property {string} [ogDescription] - Share-preview description (defaults to description)
  * @property {string} imageAlt - Alt text for the share image
  * @property {string} appTitle - Short name for home-screen shortcuts
- * @property {"hero" | "maps-hero"} heroClass - Hero element that gets the critical background colour
+ * @property {"hero" | "maps-hero" | "about-hero"} heroClass - Hero element that gets the critical background colour
  * @property {boolean} [isHome] - The home page links to its own sections without a leading "/"
- * @property {"trailmaps"} [current] - Marks the matching primary nav link as the current page
+ * @property {"trailmaps" | "about"} [current] - Marks the matching primary nav link as the current page
  * @property {string} [resort] - Resort id for resort trail map pages (body data-resort)
  */
 
@@ -178,6 +178,12 @@ const criticalCss = `
         >
           Trail maps
         </a>
+        <a
+          href="/about.html"
+          aria-current={current === "about" ? "page" : undefined}
+        >
+          About
+        </a>
       </nav>
       <button
         class="theme-toggle"
@@ -220,6 +226,7 @@ const criticalCss = `
         <nav class="footer-nav" aria-label="Footer">
           <a href={resortsHref}>Resorts</a>
           <a href="/trailmaps.html">Trail maps</a>
+          <a href="/about.html">About</a>
           <a href="#top" class="to-top">
             Back to the summit
             <Icon name="arrow-up" />
