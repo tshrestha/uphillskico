@@ -40,7 +40,7 @@
 
 - [x] 8.1 Run `node scripts/parity-check.js .baseline/dist dist`. Verify the only differences are the added `/about.html` page and its sitemap `<loc>`.
 - [x] 8.2 On the Netlify deploy preview, run `npm run lighthouse -- <preview-url>`. Verify `/about.html` meets every budget (mobile performance ≥ 95, LCP ≤ 2.5 s, CLS ≤ 0.1, accessibility, best practices and SEO 100) and that no existing page regressed. Run `node scripts/url-matrix.js <preview-url> --no-host-variants` and verify `/about.html` returns 200 with no redirect.
-- [ ] 8.3 Ask the owner to read the deployed preview page against the approved copy. Verify they sign off before merging.
+- [x] 8.3 Ask the owner to read the deployed preview page against the approved copy. Verify they sign off before merging.
 
 ## Workflow follow-up
 
