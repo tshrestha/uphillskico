@@ -1,0 +1,65 @@
+# Deploy preview (PR #4, commit e54da27), 2026-11-24
+# npm run lighthouse -- https://deploy-preview-4--uphillskico.netlify.app (exit 1)
+# Every bp/seo miss is preview-only, caused by Netlify rather than the site:
+#   seo is-crawlable: Netlify sends x-robots-tag: noindex on deploy previews
+#   bp errors-in-console / inspector-issues: the injected Netlify script
+#   /.netlify/scripts/cdp, blocked by the site's CSP
+# Same misses as PR #2's preview (improve-lighthouse-scores/results-preview.txt);
+# perf, a11y, LCP and CLS meet every budget, and no existing page regressed.
+Lighthouse 13.6.0 · https://deploy-preview-4--uphillskico.netlify.app · median of 3 run(s)
+page                     form     perf  a11y  bp  seo    LCP    TBT    CLS  img savings
+/                        mobile    100   100  92   69  1.8 s  22 ms  0.007        0 KiB
+/                        desktop   100   100  92   69  0.4 s   0 ms  0.042        0 KiB
+/trailmaps.html          mobile    100   100  92   69  1.7 s   0 ms  0.000       79 KiB
+/trailmaps.html          desktop   100   100  92   69  0.4 s   0 ms  0.000       97 KiB
+/trailmaps/aspen.html    mobile    100   100  92   69  1.7 s  15 ms  0.000        0 KiB
+/trailmaps/aspen.html    desktop   100   100  92   69  0.4 s   0 ms  0.000       26 KiB
+/trailmaps/monarch.html  mobile    100   100  92   69  1.5 s   0 ms  0.031        0 KiB
+/trailmaps/monarch.html  desktop   100   100  92   69  0.4 s   0 ms  0.046        5 KiB
+/trailmaps/cooper.html   mobile    100   100  92   69  1.4 s   0 ms  0.000        0 KiB
+/trailmaps/cooper.html   desktop   100   100  92   69  0.4 s   0 ms  0.000       12 KiB
+/about.html              mobile    100   100  92   69  0.8 s   0 ms  0.000        0 KiB
+/about.html              desktop   100   100  92   69  0.3 s   0 ms  0.000        0 KiB
+
+Budget misses (24):
+  / mobile: bp 92 < 100
+  / mobile: seo 69 < 100
+  / desktop: bp 92 < 100
+  / desktop: seo 69 < 100
+  /trailmaps.html mobile: bp 92 < 100
+  /trailmaps.html mobile: seo 69 < 100
+  /trailmaps.html desktop: bp 92 < 100
+  /trailmaps.html desktop: seo 69 < 100
+  /trailmaps/aspen.html mobile: bp 92 < 100
+  /trailmaps/aspen.html mobile: seo 69 < 100
+  /trailmaps/aspen.html desktop: bp 92 < 100
+  /trailmaps/aspen.html desktop: seo 69 < 100
+  /trailmaps/monarch.html mobile: bp 92 < 100
+  /trailmaps/monarch.html mobile: seo 69 < 100
+  /trailmaps/monarch.html desktop: bp 92 < 100
+  /trailmaps/monarch.html desktop: seo 69 < 100
+  /trailmaps/cooper.html mobile: bp 92 < 100
+  /trailmaps/cooper.html mobile: seo 69 < 100
+  /trailmaps/cooper.html desktop: bp 92 < 100
+  /trailmaps/cooper.html desktop: seo 69 < 100
+  /about.html mobile: bp 92 < 100
+  /about.html mobile: seo 69 < 100
+  /about.html desktop: bp 92 < 100
+  /about.html desktop: seo 69 < 100
+
+# node scripts/url-matrix.js https://deploy-preview-4--uphillskico.netlify.app --no-host-variants
+/	200	-
+/index.html	200	-
+/index	301	/
+/trailmaps	200	-
+/trailmaps/	301	/trailmaps
+/trailmaps.html	200	-
+/trailmaps/aspen	200	-
+/trailmaps/aspen/	301	/trailmaps/aspen
+/trailmaps/aspen.html	200	-
+/about	200	-
+/about.html	200	-
+/sitemap.xml	200	-
+/og-image.png	200	-
+
+# JSON-LD image: /_astro/tejen-shrestha.DbZ6UFwq_18yMot.jpeg -> 200 image/jpeg on the preview

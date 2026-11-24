@@ -25,7 +25,7 @@
 
 ## 5. Structured data
 
-- [ ] 5.1 Add `ProfilePage` JSON-LD through `JsonLd.astro` per design D5, with the `image` URL from `getImage()` on the portrait. Verify the JSON parses, has `@type` `ProfilePage` and `mainEntity.@type` `Person` with `name` and `image`, and has no `email`, `telephone`, `address` or `birthDate`. Verify the `image` URL returns 200 on the deploy preview, and that `npm run build`'s inline-script check still passes.
+- [x] 5.1 Add `ProfilePage` JSON-LD through `JsonLd.astro` per design D5, with the `image` URL from `getImage()` on the portrait. Verify the JSON parses, has `@type` `ProfilePage` and `mainEntity.@type` `Person` with `name` and `image`, and has no `email`, `telephone`, `address` or `birthDate`. Verify the `image` URL returns 200 on the deploy preview, and that `npm run build`'s inline-script check still passes.
 
 ## 6. Links from the rest of the site
 
@@ -39,7 +39,7 @@
 ## 8. Integration checks
 
 - [x] 8.1 Run `node scripts/parity-check.js .baseline/dist dist`. Verify the only differences are the added `/about.html` page and its sitemap `<loc>`.
-- [ ] 8.2 On the Netlify deploy preview, run `npm run lighthouse -- <preview-url>`. Verify `/about.html` meets every budget (mobile performance ≥ 95, LCP ≤ 2.5 s, CLS ≤ 0.1, accessibility, best practices and SEO 100) and that no existing page regressed. Run `node scripts/url-matrix.js <preview-url> --no-host-variants` and verify `/about.html` returns 200 with no redirect.
+- [x] 8.2 On the Netlify deploy preview, run `npm run lighthouse -- <preview-url>`. Verify `/about.html` meets every budget (mobile performance ≥ 95, LCP ≤ 2.5 s, CLS ≤ 0.1, accessibility, best practices and SEO 100) and that no existing page regressed. Run `node scripts/url-matrix.js <preview-url> --no-host-variants` and verify `/about.html` returns 200 with no redirect.
 - [ ] 8.3 Ask the owner to read the deployed preview page against the approved copy. Verify they sign off before merging.
 
 ## Workflow follow-up
