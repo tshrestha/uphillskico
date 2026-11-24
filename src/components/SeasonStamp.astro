@@ -1,18 +1,26 @@
 ---
-// Which season the resort's official policy covers: confirmed for the guide's
-// current season, "Last confirmed <season>" for older data, nothing if undated
+// Which season something covers. kind "policy" (default): the resort's official
+// policy, "<season> policy" when it's the guide's current season, otherwise
+// "Last confirmed <season>". kind "written": personal, time-bound writing,
+// "<season> season" while current, otherwise "Written in <season>". Renders
+// nothing if undated.
 import Icon from "./Icon.astro";
 import { CURRENT_SEASON } from "../shared.js";
 
 /**
  * @typedef {{
  *   season?: string;
+ *   kind?: "policy" | "written";
  * }} Props
  */
-const { season } = Astro.props;
+const { season, kind = "policy" } = Astro.props;
 const label = season?.replace("-", "–");
 const isCurrent = season === CURRENT_SEASON;
-const text = isCurrent ? `${label} policy` : `Last confirmed ${label}`;
+const TEXT = {
+  policy: isCurrent ? `${label} policy` : `Last confirmed ${label}`,
+  written: isCurrent ? `${label} season` : `Written in ${label}`,
+};
+const text = TEXT[kind];
 ---
 
 {

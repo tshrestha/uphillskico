@@ -38,7 +38,7 @@ Every page that shows a resort's policy SHALL label that policy with its season,
 - **THEN** its ticket shows no season label
 
 ### Requirement: Public page URLs are stable
-The site SHALL serve its pages at exactly these URLs, each returning HTTP 200 from a static file: `/`, `/trailmaps.html`, `/trailmaps/aspen.html`, `/trailmaps/monarch.html` and `/trailmaps/cooper.html`. It SHALL NOT add redirects for any of them.
+The site SHALL serve its pages at exactly these URLs, each returning HTTP 200 from a static file: `/`, `/trailmaps.html`, `/trailmaps/aspen.html`, `/trailmaps/monarch.html`, `/trailmaps/cooper.html` and `/about.html`. It SHALL NOT add redirects for any of them.
 
 #### Scenario: Each public page URL resolves directly
 - **WHEN** any of the listed URLs is requested
@@ -46,11 +46,11 @@ The site SHALL serve its pages at exactly these URLs, each returning HTTP 200 fr
 
 #### Scenario: No URL changes across the migration
 - **WHEN** the set of HTML page paths in the new build is compared with the previous build
-- **THEN** the sets are identical
+- **THEN** every previous path is still present and unchanged, and the only new path is `/about.html`
 
 #### Scenario: Host-level URL variants unchanged
 - **WHEN** host-generated variants such as `/trailmaps`, `/trailmaps/` or `/trailmaps/aspen/` are requested
-- **THEN** each returns the same status code and redirect target as before the migration
+- **THEN** each returns the same status code and redirect target as before the change
 
 ### Requirement: Client scripts enhance prerendered content
 Interactive behaviour SHALL work on top of the prerendered content and SHALL NOT be needed to read it. This covers resort search and filters, autocomplete, the mountain-range jump to a ticket, the 3D skier, the trail map viewer, trail map search and the theme toggle.

@@ -21,6 +21,8 @@ const PATHS = [
   "/trailmaps/aspen",
   "/trailmaps/aspen/",
   "/trailmaps/aspen.html",
+  "/about",
+  "/about.html",
   "/sitemap.xml",
   "/og-image.png",
 ];
